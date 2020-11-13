@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper标签要指定namespace属性，不然会报错，可看做包名-->
+<mapper namespace="com.ibm.springboot.dao.StudentDao">
+	<!-- 增	void addStudent(@Param("student") Student student); -->
+	<insert id="insertStudent" useGeneratedKeys="true" keyProperty="id">
+		insert into student(name,stu_no,class_no,major,image) 
+			values(
+				#{student.name},
+				#{student.stuNo},
+				#{student.classNo},
+				#{student.major},
+				#{student.image}
+				)
+	</insert>
+
+<!-- 删	void deleteStudentById(@Param("id") Integer id); -->
+
+	<delete id="deleteStudentById">
+		delete from student
+			where id = #{id}
+	</delete>
+
+<!-- 改	void updateStudent(@Param("student") Student student); -->
+	<update id="updateStudent">
+		update student
+			set
+				name = #{student.name},
+				stu_no = #{student.stuNo},
+				class_no = #{student.classNo},
+				major = #{student.major},
+				image = #{student.image}
+			where id = #{student.id}
+	</update>
+	
+
+    <select id="findStudentById" parameterType="int" resultType="com.ibm.springboot.entity.Student">
+        select 
+        	id,name,stu_no,class_no,major,image
+         	from student where id = #{id}
+    </select>
+    
+    <select id="getAll" resultType="com.ibm.springboot.entity.Student">
+        select 
+        	id,name,stu_no,class_no,major,image
+         	from student
+    </select>
+    
+    
+    <select id="countStudent" resultType="java.lang.Integer">
+    	select count(id)
+    		from student
+    </select>
+    
+    
+     <select id="getAllByCondition" resultType="com.ibm.springboot.entity.Student">
+    	select 
+    		id,name,stu_no,class_no,major,image
+    		from student
+    		where ${condition} = #{val}
+    </select>
+    
+    <select id="page" resultType="com.ibm.springboot.entity.Student">
+    	select 
+    		id,name,stu_no,class_no,major,image
+    		from student
+    		limit #{pageIndex},#{pageNum}
+    </select>
+</mapper>
