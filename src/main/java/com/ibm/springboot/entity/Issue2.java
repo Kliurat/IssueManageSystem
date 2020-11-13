@@ -1,6 +1,6 @@
 package com.ibm.springboot.entity;
 
-public class Issue {
+public class Issue2 {
 	
 
 }
