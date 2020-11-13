@@ -4,14 +4,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ibm.springboot.entity.CommonResult;
 
 @RestController
 
 public class LoginController {
 
 	@PostMapping("/login")
-	public CommonResult<String> login(@RequestParam("username") String username,
+	public String login(@RequestParam("username") String username,
 			@RequestParam("password") String password) {
 		int status = 200;
 		String msg = null;
@@ -46,6 +45,6 @@ public class LoginController {
 
 //		return msg;
 
-		return new CommonResult<String>(status, msg, null);
+		return msg;
 	}
 }
