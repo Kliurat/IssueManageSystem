@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<!-- saved from url=(0147)http://192.168.3.82:8080/HTML%E7%A4%BA%E4%BE%8B/GBA%E8%AF%BE%E5%A0%82%E4%BD%9C%E4%B8%9A-%E5%8C%BB%E7%96%97%E9%9D%99%E6%80%81%E9%A1%B5%E9%9D%A2.html -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>学生列表页面</title>
+    <!-- <style>
+        .background1 {
+            background-color: black;
+        }
+        
+        .background2 {
+            height: 4px;
+            background-color: rgb(26, 137, 228);
+        }
+        
+        .background3 {
+            background-color: rgba(172, 167, 169, 0.849);
+        }
+        
+        .font1 {
+            margin-left: 20px;
+            font-size: 30px;
+            color: white;
+        }
+        
+        .font2 {
+            font-size: 12px;
+            color: white;
+            vertical-align: middle;
+        }
+        
+        .font3 {
+            padding-left: 25px;
+            padding-right: 25px;
+            height: 22px;
+        }
+        
+        .input_length1 {
+            width: 100px;
+            height: 22px;
+        }
+        
+        .input_length2 {
+            width: 130px;
+            height: 22px;
+        }
+        
+        .input_length3 {
+            width: 118px;
+            height: 22px;
+        }
+        
+        .input_length4 {
+            width: 300px;
+            height: 22px;
+        }
+        
+        .input_length5 {
+            width: 120px;
+            height: 22px;
+        }
+        
+        .weight1 {
+            width: 210px;
+        }
+        
+        .weight2 {
+            width: 440px;
+        }
+        
+        .border1 {
+            border-color: blue;
+        }
+        
+        .paddingLeft1 {
+            padding-left: 20px;
+        }
+        
+        .marginLeftRight1 {
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+        
+        .btn1 {
+            height: 25px;
+            width: 15px;
+            border: none;
+            vertical-align: middle;
+        }
+    </style> -->
+
+
+</head>
+
+<body>
+
+    <table border="0" align="center">
+        <thead class="background3">
+            <tr style="height:10px">
+                <th>
+                    <p style="padding-top:5px;padding-left:10px;" class="font2">学生列表</p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span>查询条件：</span>
+                                    <select id="condition" class="input_length3"
+                                    		>
+                                    	<option th:selected="${condition} eq 'all' or ${condition} == null" value="all">全部</option>
+                                        <option th:selected="${condition} eq 'stu_no'" value="stu_no">学号</option>
+                                        <option th:selected="${condition} eq 'name'" value="name" >姓名</option>
+                                        <option th:selected="${condition} eq 'class_no'" value="class_no" >班级</option>
+                                        <option th:selected="${condition} eq 'major'" value="major">专业</option>
+                                    </select>
+                                </td>
+                                <td colspan="2">
+                                    <span>条件取值：</span>
+                                    <input id="con_val" type="text" class="input_length1" name="username " autofocus="autofocus" placeholder="输入学号/姓名/班级/专业"
+                                    	th:value="${conVal}"/>
+                                    <input type="button" value="查询" onclick="queryStudent()"/>
+                                </td>
+                                
+                                <td colspan="2">
+		                			<input type="button" value="新建" onclick="toAddPage()">
+		                			<form id="fileForm" action="students/import" method="post" enctype="multipart/form-data" style="display:none">
+		                				<input id="chooseFile" type="file" name="file" value="选择文件" onchange="fileChange()">
+		                			</form>
+		                			<input type="button" value="导入" onclick="chooseFile()">
+		                			<input type="button" value="导出" onclick="exportStudents()">
+		                		</td>
+		                		
+		                		<td>
+		                			
+		                		</td>
+		                		
+		                		<td>
+		                			
+		                		</td>
+                                
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table border="1" cellspacing="0" width="640px">
+                        <thead>
+                            <tr>
+                                <td align="center" width="20%">姓名</td>
+                                <td align="center" width="20%">学号</td>
+                                <td align="center" width="20%">班级</td>
+				                <td align="center" width="20%">专业</td>
+				                <td align="center" width="20%">操作</td>
+			                </tr>
+		                </thead>
+		                
+		                <tbody>
+		                
+		                    <tr th:each="student : ${page.list}">
+		                        <td align="center" th:text="${student.name}">-</td>
+		                        <td align="center" th:text="${student.stuNo}">-</td>
+		                        <td align="center" th:text="${student.classNo}">-</td>
+		                        <td align="center" th:text="${student.major}">-</td>
+		                        <td align="center">
+		                            <input type="button" th:onclick="modify([[${student.id}]])"  value="修改 " name="modify"> 
+		                            <button onclick="delStu(this)" th:attr="del_uri=@{/student/}+${student.id}">删除</button>
+		                        </td>
+		                            
+		                    </tr>
+		                </tbody>
+	                </table>
+	                
+	                <form id="deleteForm" method="post">
+	                	<input type="hidden" name="_method" value="delete"/>
+	                </form>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                	<a href="#" onclick="prePage()" style="color:slateblue ">|&lt;上一页</a>
+                	 当前页码：<label id="currentPageLabel" th:value="${page.pageNum}">[[${page.pageNum}]]</label> / <label id="pages" th:value="${page.pages}">[[${page.pages}]]</label>
+                    <a href="#" onclick="nextPage()" style="color:slateblue ">下一页&gt;|</a>
+                   </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+<script>
+
+	function toAddPage(){
+		location.href="/student/-1?oper=add";
+	}
+	
+	function exportStudents(){
+		var selector = document.getElementById('condition');
+	 	var selectedIndex = selector.selectedIndex;
+		var con = selector.options[selectedIndex].value;
+		var val = document.getElementById('con_val').value.trim();
+		
+		location.href = "students/export?condition=" +  con + "&value=" + val;
+	}
+	
+	function chooseFile(){
+		document.getElementById('chooseFile').click();
+	}
+	
+	function fileChange(){
+		
+		var delForm = document.getElementById('fileForm');
+		delForm.submit();
+	}
+
+	function queryStudent(){
+		var selector = document.getElementById('condition');
+	 	var selectedIndex = selector.selectedIndex;
+		
+		var con = selector.options[selectedIndex].value;
+		
+		var val = document.getElementById('con_val').value.trim();
+		location.href="/students?condition=" + con + "&value=" + val;
+	}
+	
+	function prePage(){
+		var currentPage = document.getElementById('currentPageLabel').innerHTML.trim();
+		var pages = document.getElementById('pages').innerHTML.trim();
+		if(parseInt(currentPage) == 1){
+			alert("当前已是第一页");
+			return ;
+		}
+		
+		var selector = document.getElementById('condition');
+	 	var selectedIndex = selector.selectedIndex;
+		var con = selector.options[selectedIndex].value;
+		var val = document.getElementById('con_val').value.trim();
+		
+		currentPage = parseInt(currentPage) - 1;
+		location.href="/students?currentPage=" + currentPage + "&condition=" + con + "&value=" + val;
+	}
+	
+	function nextPage(){
+		var currentPage = document.getElementById('currentPageLabel').innerHTML;
+		var pages = document.getElementById('pages').innerHTML.trim();
+		if(parseInt(currentPage) == parseInt(pages)){
+			alert("当前已是最后一页");
+			return ;
+		}
+		
+		var selector = document.getElementById('condition');
+	 	var selectedIndex = selector.selectedIndex;
+		var con = selector.options[selectedIndex].value;
+		var val = document.getElementById('con_val').value.trim();
+		
+		currentPage = parseInt(currentPage) + 1;
+		location.href="/students?currentPage=" + currentPage + "&condition=" + con + "&value=" + val;
+	}
+	
+	function delStu(obj){
+		
+		var uri = obj.attributes["del_uri"].value;
+		var delForm = document.getElementById('deleteForm');
+		delForm.action=uri;
+		delForm.submit();
+			
+	}
+	
+	function modify(id){
+		alert("待修改id:" + id);
+		location.href="/student/" + id + "?oper=update";
+	}
+	
+</script>
+</html>
