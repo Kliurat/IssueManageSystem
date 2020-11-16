@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommonResult<T> {
 
+	public CommonResult(int status2, String msg2, Object object) {
+		// TODO Auto-generated constructor stub
+	}
+
 	// 状态码，200：响应成功，404：资源找不到
 	private Integer status;
 
