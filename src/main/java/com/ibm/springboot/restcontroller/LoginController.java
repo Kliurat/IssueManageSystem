@@ -4,14 +4,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
 import com.ibm.springboot.entity.CommonResult;
+=======
+>>>>>>> 43a553f589c35a9f6f5f0256a6c0f29479de9901
 
 @RestController
 
 public class LoginController {
 
 	@PostMapping("/login")
+<<<<<<< HEAD
 	public CommonResult<String> login(@RequestParam("username") String username,
+=======
+	public String login(@RequestParam("username") String username,
+>>>>>>> 43a553f589c35a9f6f5f0256a6c0f29479de9901
 			@RequestParam("password") String password) {
 		int status = 200;
 		String msg = null;
@@ -46,6 +53,10 @@ public class LoginController {
 
 //		return msg;
 
+<<<<<<< HEAD
 		return new CommonResult<String>(status, msg, null);
+=======
+		return msg;
+>>>>>>> 43a553f589c35a9f6f5f0256a6c0f29479de9901
 	}
 }
