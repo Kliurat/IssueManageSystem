@@ -12,6 +12,6 @@ public interface IssueDao {
 
 	List<Issue> findAll();
 
-	void insertIssue(@Param("issue") Issue issue);
+	int insertIssue(@Param("issue") Issue issue);
 
 }

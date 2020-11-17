@@ -1,5 +1,8 @@
 package com.ibm.springboot.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -25,6 +28,19 @@ public class IssueServiceImpl implements IssueService {
 
 	@Override
 	public CommonResult insertIssue(Issue issue) {
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+
+		try {
+			issue.setCreateDate(df.parse(df.format(new Date())));
+			issue.setActualComplteTime(df.parse(df.format(new Date())));
+			issue.setPlanModifyTime(df.parse(df.format(new Date())));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println("构造函数时间：" + issue);
 
 		issueDao.insertIssue(issue);
 		return new CommonResult<String>(200, "Issue创建成功", null);
