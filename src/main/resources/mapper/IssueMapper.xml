@@ -3,6 +3,12 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- mapper标签要指定namespace属性，不然会报错，可看做包名-->
 <mapper namespace="com.ibm.springboot.dao.IssueDao">
+
+	<select id="findAll" resultType="com.ibm.springboot.entity.Issue">
+		select 
+			id,issue_no,issue_type,create_date,plan_modify_time
+			from issue
+	</select>
 	
 	<insert	id="insertIssue">
 		insert into issue(

@@ -1,9 +1,14 @@
 package com.ibm.springboot.service;
 
+import java.util.List;
+
+import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
 
 public interface IssueService {
 
-	void insertIssue(Issue issue);
+	List<Issue> findAll();
+
+	CommonResult insertIssue(Issue issue);
 
 }
