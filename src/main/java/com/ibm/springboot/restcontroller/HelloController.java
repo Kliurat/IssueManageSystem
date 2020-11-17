@@ -1,11 +1,7 @@
 package com.ibm.springboot.restcontroller;
 
-import javax.annotation.Resource;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ibm.springboot.dao.StudentDao;
 
 /*
  * PS：@RestController既可返回数据，也可返回页面
@@ -15,9 +11,6 @@ import com.ibm.springboot.dao.StudentDao;
 
 @RestController
 public class HelloController {
-
-	@Resource
-	StudentDao studentDao;
 
 	@GetMapping("/hello")
 	public String test() {
