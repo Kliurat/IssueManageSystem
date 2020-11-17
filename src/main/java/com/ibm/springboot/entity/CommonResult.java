@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class CommonResult<T> {
 
 	// 状态码，200：响应成功，201:登陆失败，404：资源找不到
+
 	private Integer status;
 
 	// 消息：如："修改成功"
