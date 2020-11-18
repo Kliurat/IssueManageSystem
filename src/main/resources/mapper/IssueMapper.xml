@@ -4,16 +4,21 @@
 <!-- mapper标签要指定namespace属性，不然会报错，可看做包名-->
 <mapper namespace="com.ibm.springboot.dao.IssueDao">
 
+	<sql id="columnsAll">
+		id,issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,
+		priority,influent_version,re_step,create_person_ID,
+		modify_person_ID,title,status
+	</sql>
+
 	<select id="findAll" resultType="com.ibm.springboot.entity.Issue">
 		select 
-			id,issue_no,issue_type,create_date,plan_modify_time
+			<include refid="columnsAll"/>
 			from issue
 	</select>
 	
 	<insert	id="insertIssue">
 		insert into issue(
-		issue_no,issue_type,create_date,plan_modify_time,
-		actual_complte_time,priority,influent_version,
+		issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,priority,influent_version,
 		re_step,create_person_ID,modify_person_ID,title,status) values (
 			#{issue.issueNo},
 			#{issue.issueType},
@@ -30,4 +35,40 @@
 		)
 		
 	</insert>
+	
+	<select id="queryByCondition" parameterType="com.ibm.springboot.entity.VO.IssueVo" resultType="com.ibm.springboot.entity.Issue">
+		select
+			<include refid="columnsAll"/>
+				from issue
+			<where>
+                <if test="issue.issueNo != null">
+                    issue_no = #{issue.issueNo} 
+                </if>
+                
+                <if test="issue.status != null">
+             		and status = #{issue.status}
+                </if>
+                
+               	<if test="issue.createStartDate != null">
+                    and create_date between #{issue.createStartDate}
+                    and #{issue.createEndDate}
+                </if>
+                
+                
+                <if test="issue.createPersonID != null">
+                    and create_person_ID = #{issue.createPersonID}
+                </if>
+                
+                <if test="issue.modifyPersonID != null">
+                    and issue.modify_person_ID = #{issue.modifyPersonID}
+                </if>
+                
+                <if test="issue.modifyStartDate != null">
+                    and plan_modify_time between #{issue.modifyStartDate}
+                    and #{issue.modifyEndDate}
+                    
+                </if>
+                
+            </where> 
+	</select>
 </mapper>

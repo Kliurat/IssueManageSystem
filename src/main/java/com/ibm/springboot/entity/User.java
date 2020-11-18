@@ -1,49 +1,40 @@
 package com.ibm.springboot.entity;
 
-
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.print.attribute.standard.MediaSize.Other;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class User implements Serializable {
-	
-	//序号
+
+	// 序号
 	private int sortID;
 
-	//用户登陆ID
+	// 用户登陆ID
 	private int loginID;
-	
-	//用户姓名
+
+	// 用户姓名
 	private String username;
-	
-	//用户邮箱
+
+	// 用户邮箱
 	private String email;
-	
-	//用户登陆密码
+
+	// 用户登陆密码
 	private String password;
-	
-	//注册日期
+
+	// 注册日期
 	private Date registerDate;
-	
-	//用户状态
-	//1：激活；-1：注销
+
+	// 用户状态
+	// 1：激活；-1：注销
 	private int status;
-	
-	//用户角色
-	//0：普通用户；1：经理
+
+	// 用户角色
+	// 0：普通用户；1：经理
 	private int role;
 
 	public User() {
-		
+
 	}
-	
+
 	public User(int loginID, String username, String email, String password, int status, int role) {
 		super();
 		this.loginID = loginID;
@@ -54,8 +45,6 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	
-
 	public User(int loginID, String username, String email, String password) {
 		super();
 		this.loginID = loginID;
@@ -63,8 +52,6 @@ public class User implements Serializable {
 		this.email = email;
 		this.password = password;
 	}
-
-
 
 	public User(int sortID, int loginID, String username, String email, String password, Date registerDate, int status,
 			int role) {
@@ -123,8 +110,6 @@ public class User implements Serializable {
 		return registerDate;
 	}
 
-		
-
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
 	}
@@ -155,8 +140,5 @@ public class User implements Serializable {
 				+ ", password=" + password + ", registerDate=" + registerDate + ", status=" + status + ", role=" + role
 				+ "]";
 	}
-	
-	
 
-	
 }

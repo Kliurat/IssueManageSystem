@@ -5,6 +5,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Issue implements Serializable {
 
 	// 数据库中的id
@@ -16,15 +20,24 @@ public class Issue implements Serializable {
 	// Issue类型
 	private String issueType;
 
+	/*
+	 * @DateTimeFormat(pattern = "yyyy/MM/dd") 作用是指定前端向后端传时间参数应用什么格式
+	 * 
+	 * @JsonFormat(pattern = "yyyy/MM-dd") 指定后端向前端传递的格式
+	 */
+
 	// 创建时间
-//	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy/MM/dd")
 	private Date createDate;
 
 	// 计划修改时间
-//	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy/MM/dd")
 	private Date planModifyTime;
 
-//	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy/MM/dd")
 	private Date actualComplteTime;
 
 	// Issue等级
