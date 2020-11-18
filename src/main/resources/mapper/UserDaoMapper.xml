@@ -73,5 +73,12 @@
 	   where loginID = #{loginID} 
 	</update>
 	
+	<select id="getUsersByPreLoginID">
+		select loginID,username from user where role = 0 and status = 1
+		<if test="loginID != null">
+			and loginID like concat('%',#{loginID})
+		</if>
+	</select>
+	
 	
 </mapper>
