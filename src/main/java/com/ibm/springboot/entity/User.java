@@ -3,6 +3,10 @@ package com.ibm.springboot.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class User implements Serializable {
 
 	// 序号
@@ -21,6 +25,8 @@ public class User implements Serializable {
 	private String password;
 
 	// 注册日期
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy/MM/dd")
 	private Date registeDate;
 
 	// 用户状态

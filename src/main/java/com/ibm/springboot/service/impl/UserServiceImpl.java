@@ -3,12 +3,14 @@ package com.ibm.springboot.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ibm.springboot.dao.UserDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.User;
 import com.ibm.springboot.service.UserService;
 
+@Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired

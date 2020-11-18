@@ -30,6 +30,10 @@ public class IssueController {
 	// 创建Issue
 	@PostMapping("")
 	public CommonResult insertIssue(Issue issue) {
+		
+		System.out.println("进入.......................................................");
+		System.out.println(issue);
+		
 		System.out.println("待插入Issue:" + issue.toString());
 		CommonResult result = issueService.insertIssue(issue);
 
