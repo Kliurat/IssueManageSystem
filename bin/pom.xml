@@ -20,6 +20,16 @@
 
 	<dependencies>
 	
+<<<<<<< HEAD
+	<!--@Data等注解的依赖，通过该注解，无需编写setter和getter -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+	
+=======
+>>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
 		<!--分页插件 -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId> 
@@ -91,6 +101,16 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+<<<<<<< HEAD
+
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		</dependency>
+		
+=======
+>>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
 	</dependencies>
 
 	<build>

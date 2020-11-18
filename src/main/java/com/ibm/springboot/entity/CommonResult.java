@@ -47,4 +47,5 @@ public class CommonResult<T> {
 		this.data = data;
 	}
 
+
 }

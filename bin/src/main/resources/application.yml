@@ -3,7 +3,11 @@ server:
  
     
 spring:
+<<<<<<< HEAD
+  datasource:    url: jdbc:mysql://localhost:3306/issue_mana_sys?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+=======
   datasource:    url: jdbc:mysql://localhost:3306/mybatis?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+>>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
