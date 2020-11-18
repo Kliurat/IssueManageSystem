@@ -32,7 +32,7 @@ public class User implements Serializable {
 	private int role;
 
 	public User() {
-		super();
+
 	}
 
 	public User(int loginID, String username, String email, String password, int status, int role) {

@@ -28,4 +28,9 @@ public interface UserDao {
 	// 登陆：根据用户名查询用户
 	User findByUserName(@Param("username") String username);
 
+	// Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
+//	int updateStatus(@Param("loginID") int loginID);
+
+	int updateStatusAndRole(User user);
+
 }

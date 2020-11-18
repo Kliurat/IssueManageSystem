@@ -51,6 +51,13 @@ public class UserService {
 		List<User> list = userDao.selectUser(user);
 		return list;
 	}
+	
+	//Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
+	public int updateStatusAndRole(User user)
+	{
+		int updateStatus = userDao.updateStatusAndRole(user);
+		return updateStatus;
+	}
 
 	public CommonResult login(String username, String password) {
 
