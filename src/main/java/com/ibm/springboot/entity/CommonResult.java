@@ -1,12 +1,5 @@
 package com.ibm.springboot.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CommonResult<T> {
 
 	// 状态码，200：响应成功，201:登陆失败，404：资源找不到
@@ -21,7 +14,10 @@ public class CommonResult<T> {
 
 	public CommonResult() {
 		super();
+<<<<<<< HEAD
 		// TODO Auto-generated constructor stub
+=======
+>>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
 	}
 
 	public CommonResult(Integer status, String msg, T data) {
@@ -30,7 +26,34 @@ public class CommonResult<T> {
 		this.msg = msg;
 		this.data = data;
 	}
+<<<<<<< HEAD
 	
 	
+=======
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public T getData() {
+		return data;
+	}
+
+	public void setData(T data) {
+		this.data = data;
+	}
+>>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
 
 }

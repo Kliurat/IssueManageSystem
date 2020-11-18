@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class SysUser {
 
 	private Integer userId;
@@ -19,6 +16,22 @@ public class SysUser {
 
 	private Integer age;
 
+<<<<<<< HEAD
+=======
+	public SysUser() {
+		super();
+	}
+
+	public SysUser(Integer userId, String username, String password, String name, Integer age) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.age = age;
+	}
+
+>>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
 	public Integer getUserId() {
 		return userId;
 	}
@@ -60,5 +73,10 @@ public class SysUser {
 	}
 	
 	
+<<<<<<< HEAD
+=======
+	
+	
+>>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
 
 }
