@@ -1,5 +1,8 @@
 package com.ibm.springboot.restcontroller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,6 +42,17 @@ public class UserController {
 				System.out.println("注册失败，用户ID已经被使用过了");
 				return -1;
 			}
+		}
+		
+		//需要获取当前日期为用户的注册时间
+		// 当 serverTimezone=UTC 时插入的时间不正确，需要改成 serverTimezone=Asia/Shanghai
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");//设置日期格式
+		System.out.println("当前日期："+df.format(new Date()));// new Date()为获取当前系统时间
+		
+		try {
+			user.setRegisteDate(df.parse(df.format(new Date())));;
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 		
 		int insert = userService.insert(user);

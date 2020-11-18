@@ -21,7 +21,7 @@ public class User implements Serializable {
 	private String password;
 
 	// 注册日期
-	private Date registerDate;
+	private Date registeDate;
 
 	// 用户状态
 	// 1：激活；-1：注销
@@ -53,7 +53,9 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public User(int sortID, int loginID, String username, String email, String password, Date registerDate, int status,
+	
+
+	public User(int sortID, int loginID, String username, String email, String password, Date registeDate, int status,
 			int role) {
 		super();
 		this.sortID = sortID;
@@ -61,7 +63,7 @@ public class User implements Serializable {
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.registerDate = registerDate;
+		this.registeDate = registeDate;
 		this.status = status;
 		this.role = role;
 	}
@@ -106,14 +108,6 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public Date getRegisterDate() {
-		return registerDate;
-	}
-
-	public void setRegisterDate(Date registerDate) {
-		this.registerDate = registerDate;
-	}
-
 	public int getStatus() {
 		return status;
 	}
@@ -133,8 +127,18 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [sortID=" + sortID + ", loginID=" + loginID + ", username=" + username + ", email=" + email
-				+ ", password=" + password + ", registerDate=" + registerDate + ", status=" + status + ", role=" + role
+				+ ", password=" + password + ", registeDate=" + registeDate + ", status=" + status + ", role=" + role
 				+ "]";
 	}
+
+	public Date getRegisteDate() {
+		return registeDate;
+	}
+
+	public void setRegisteDate(Date registeDate) {
+		this.registeDate = registeDate;
+	}
+	
+	
 
 }
