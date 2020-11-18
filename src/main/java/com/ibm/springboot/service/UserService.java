@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ibm.springboot.dao.UserDao;
+import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.User;
 
-@Service
 public interface UserService {
 	
 	public int insert(User user);
@@ -24,12 +24,14 @@ public interface UserService {
 		
 	//根据用户ID或者用户姓名查询用户信息
 	public List<User> selectUser(User user);
-	
-	//Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
+
 	public int updateStatusAndRole(User user);
 	
 	//在指派修改人的时候，传入loginID的前缀，
 	public List<User> getUsersByPreLoginID(int loginID);
-	
-	
+
+	//用户登录
+	public CommonResult login(String username, String password);
+
+
 }
