@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
 import com.ibm.springboot.entity.VO.IssueVo;
 import com.ibm.springboot.service.IssueService;
 import com.ibm.springboot.util.ConstantUtil;
+import com.ibm.springboot.util.MyPageInfo;
 
 @RestController
 @RequestMapping("/issue")
@@ -32,9 +34,7 @@ public class IssueController {
 	public CommonResult insertIssue(Issue issue) {
 		System.out.println("待插入Issue:" + issue.toString());
 		CommonResult result = issueService.insertIssue(issue);
-
 		return result;
-
 	}
 
 	// 删除Issue
@@ -75,6 +75,7 @@ public class IssueController {
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum) {
 
 		System.out.println("待查询条件：" + issue);
+
 		int status = 200;
 		String msg = "查询成功";
 
@@ -84,7 +85,11 @@ public class IssueController {
 		if (list == null) {
 			list = new ArrayList<Issue>();
 		}
-		return new CommonResult<List<Issue>>(status, msg, list);
+		PageInfo<Issue> page = new PageInfo<Issue>(list);
+		MyPageInfo<Issue> dataPage = new MyPageInfo<Issue>(page.getNavigateFirstPage(), page.getPageNum(),
+				page.getNavigateLastPage(), page.getPageSize(), page.getTotal(), list);
+
+		return new CommonResult<MyPageInfo<Issue>>(status, msg, dataPage);
 	}
 
 	@PutMapping
