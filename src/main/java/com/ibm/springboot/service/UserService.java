@@ -68,6 +68,7 @@ public class UserService {
 		if (username != null && password != null && !"".equals(username.trim()) && !"".equals(password.trim())) {
 
 			User user = userDao.findByUserName(username);
+			
 			if (user != null) {
 
 				if (password.equals(user.getPassword())) {
