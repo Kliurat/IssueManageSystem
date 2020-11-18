@@ -1,5 +1,6 @@
 package com.ibm.springboot.restcontroller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
+import com.ibm.springboot.entity.VO.IssueVo;
 import com.ibm.springboot.service.IssueService;
 
 @RestController
@@ -24,22 +26,30 @@ public class IssueController {
 	@PostMapping("")
 	public CommonResult insertIssue(Issue issue) {
 		System.out.println("待插入Issue:" + issue.toString());
-		CommonResult resutl = issueService.insertIssue(issue);
+		CommonResult result = issueService.insertIssue(issue);
 
-		return resutl;
+		return result;
 
 	}
 
 	// 查询全部Issue
 	@GetMapping("/all")
 	public CommonResult<List<Issue>> getAllIssues() {
-//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		List<Issue> list = issueService.findAll();
-//		for (Issue issue : list) {
-//			System.out.println("时间：" + df.format(issue.getCreateDate()));
-//		}
 		return new CommonResult<List<Issue>>(200, "全部数据查询成功", list);
+	}
+
+	@PostMapping("/query")
+	public CommonResult query(IssueVo issue) {
+		System.out.println("待查询条件：" + issue);
+		int status = 200;
+		String msg = "查询成功";
+		List<Issue> list = issueService.queryByCondition(issue);
+		if (list == null) {
+			list = new ArrayList<Issue>();
+		}
+		return new CommonResult<List<Issue>>(status, msg, list);
 	}
 
 }
