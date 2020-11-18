@@ -20,11 +20,7 @@ public interface IssueDao {
 	//查询与登陆用户有关的Issue
 	public List<Issue> getIssuesByUser(User user);
 	
-	
-	
-	
 	//经理的
 	public List<Issue> findAll();
-
 
 }

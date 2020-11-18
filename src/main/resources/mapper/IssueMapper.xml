@@ -26,7 +26,7 @@
 			#{issue.createPersonID},
 			#{issue.modifyPersonID},
 			#{issue.title},
-			#{issue.status},
+			#{issue.status}
 		)
 		
 	</insert>

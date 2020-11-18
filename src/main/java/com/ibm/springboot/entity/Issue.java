@@ -1,67 +1,76 @@
 package com.ibm.springboot.entity;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 public class Issue implements Serializable {
-	
-	//数据库中的id
+
+	// 数据库中的id
 	private int id;
-	
-	//IssueNo
+
+	// IssueNo
 	private String issueNo;
-	
-	//Issue类型
+
+	// Issue类型
 	private String issueType;
-	
-	//创建时间
+
+	// 创建时间
+//	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date createDate;
-	
-	//计划修改时间
+
+	// 计划修改时间
+//	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date planModifyTime;
-	
-	//实际完成时间
-	private String actualComplteTime;
-	
-	//Issue等级
-	//1：最高；2：较高；3：一般；4：低
+
+//	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private Date actualComplteTime;
+
+	// Issue等级
+	// 1：最高；2：较高；3：一般；4：低
 	private int priority;
-	
-	//影响版本
+
+	// 影响版本
 	private String influentVersion;
-	
-	//重现步骤
+
+	// 重现步骤
 	private String reStep;
-	
-	//Issue创建人
+
+	// Issue创建人
 	private int createPersonID;
-	
-	//Issue指定修改人
+
+	// Issue指定修改人
 	private int modifyPersonID;
-	
-	//Issue标题
+
+	// Issue标题
 	private String title;
-	
-	//Issue状态
-	//-1：已关闭；0：待解决；1：待验证
+
+	// Issue状态
+	// -1：已关闭；0：待解决；1：待验证
 	private int status;
 
 	public Issue() {
 		super();
 	}
 
-	public Issue(int id, String issueNo, String issueType, Date createDate, Date planModifyTime,
-			String actualComplteTime, int priority, String influentVersion, String reStep, int createPersonID,
-			int modifyPersonID, String title, int status) {
+	public Issue(int id, String issueNo, String issueType, Date planModifyTime, Date actualComplteTime, int priority,
+			String influentVersion, String reStep, int createPersonID, int modifyPersonID, String title, int status)
+			throws ParseException {
 		super();
 		this.id = id;
 		this.issueNo = issueNo;
 		this.issueType = issueType;
-		this.createDate = createDate;
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+
+//		this.createDate = df.format(new Date(createDate));
+//		this.createDate = df.format(new Date(createDate));
+//		this.createDate = df.format(new Date(createDate));
+
+		this.createDate = df.parse(df.format(new Date()));
+		System.out.println("构造函数时间：" + this.createDate);
+
 		this.planModifyTime = planModifyTime;
 		this.actualComplteTime = actualComplteTime;
 		this.priority = priority;
@@ -113,11 +122,11 @@ public class Issue implements Serializable {
 		this.planModifyTime = planModifyTime;
 	}
 
-	public String getActualComplteTime() {
+	public Date getActualComplteTime() {
 		return actualComplteTime;
 	}
 
-	public void setActualComplteTime(String actualComplteTime) {
+	public void setActualComplteTime(Date actualComplteTime) {
 		this.actualComplteTime = actualComplteTime;
 	}
 
@@ -176,9 +185,14 @@ public class Issue implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Issue [id=" + id + ", issueNo=" + issueNo + ", issueType=" + issueType + ", createDate=" + createDate
+				+ ", planModifyTime=" + planModifyTime + ", actualComplteTime=" + actualComplteTime + ", priority="
+				+ priority + ", influentVersion=" + influentVersion + ", reStep=" + reStep + ", createPersonID="
+				+ createPersonID + ", modifyPersonID=" + modifyPersonID + ", title=" + title + ", status=" + status
+				+ "]";
+	}
+
 }
