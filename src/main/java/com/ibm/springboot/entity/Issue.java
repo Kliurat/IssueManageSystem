@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Issue implements Serializable {
 
 	// 数据库中的id
-	private int id;
+	private Integer id;
 
 	// IssueNo
 	private String issueNo;
@@ -42,7 +42,7 @@ public class Issue implements Serializable {
 
 	// Issue等级
 	// 1：最高；2：较高；3：一般；4：低
-	private int priority;
+	private Integer priority;
 
 	// 影响版本
 	private String influentVersion;
@@ -51,17 +51,19 @@ public class Issue implements Serializable {
 	private String reStep;
 
 	// Issue创建人
-	private int createPersonID;
+	private Integer createPersonID;
 
 	// Issue指定修改人
-	private int modifyPersonID;
+	private Integer modifyPersonID;
 
 	// Issue标题
 	private String title;
 
 	// Issue状态
 	// -1：已关闭；0：待解决；1：待验证
-	private int status;
+	private Integer status;
+
+	private String solution;
 
 	public Issue() {
 		super();
@@ -76,10 +78,6 @@ public class Issue implements Serializable {
 		this.issueType = issueType;
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-
-//		this.createDate = df.format(new Date(createDate));
-//		this.createDate = df.format(new Date(createDate));
-//		this.createDate = df.format(new Date(createDate));
 
 		this.createDate = df.parse(df.format(new Date()));
 		System.out.println("构造函数时间：" + this.createDate);
@@ -199,13 +197,21 @@ public class Issue implements Serializable {
 		this.status = status;
 	}
 
+	public String getSolution() {
+		return solution;
+	}
+
+	public void setSolution(String solution) {
+		this.solution = solution;
+	}
+
 	@Override
 	public String toString() {
 		return "Issue [id=" + id + ", issueNo=" + issueNo + ", issueType=" + issueType + ", createDate=" + createDate
 				+ ", planModifyTime=" + planModifyTime + ", actualComplteTime=" + actualComplteTime + ", priority="
 				+ priority + ", influentVersion=" + influentVersion + ", reStep=" + reStep + ", createPersonID="
 				+ createPersonID + ", modifyPersonID=" + modifyPersonID + ", title=" + title + ", status=" + status
-				+ "]";
+				+ ", solution=" + solution + "]";
 	}
 
 }

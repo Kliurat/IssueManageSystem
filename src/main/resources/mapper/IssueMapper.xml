@@ -7,7 +7,7 @@
 	<sql id="columnsAll">
 		id,issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,
 		priority,influent_version,re_step,create_person_ID,
-		modify_person_ID,title,status
+		modify_person_ID,title,status,solution
 	</sql>
 
 	<select id="findAll" resultType="com.ibm.springboot.entity.Issue">
@@ -15,6 +15,11 @@
 			<include refid="columnsAll"/>
 			from issue
 	</select>
+	
+	<delete id="delete">
+		delete from issue
+		where id = #{id}
+	</delete>
 	
 	<insert	id="insertIssue">
 		insert into issue(
@@ -71,4 +76,64 @@
                 
             </where> 
 	</select>
+	
+	<update id="updateIssue">
+		update issue
+			<set>
+				<if test="issueNo != null">
+					issue_no = #{issueNo},
+				</if>
+				
+				<if test="issueType != null">
+					issue_type = #{issueType},
+				</if>
+				
+				<if test="createDate != null">
+					create_date = #{createDate},
+				</if>
+				
+				<if test="planModifyTime != null">
+					plan_modify_time = #{planModifyTime},
+				</if>
+				
+				<if test="actualComplteTime != null">
+					actual_complte_time = #{actualComplteTime},
+				</if>
+				
+				<if test="priority != null">
+					priority = #{priority},
+				</if>
+				
+				<if test="influentVersion != null">
+					influent_version = #{influentVersion},
+				</if>
+				
+				<if test="reStep != null">
+					re_step = #{reStep},
+				</if>
+				
+				<if test="createPersonID != null">
+					create_person_ID = #{createPersonID},
+				</if>
+				
+				<if test="modifyPersonID != null">
+					modify_person_ID = #{modifyPersonID},
+				</if>
+				
+				<if test="title != null">
+					title = #{title},
+				</if>
+				
+				<if test="status != null">
+					status = #{status},
+				</if>
+				
+				<if test="solution != null">
+					status = #{solution}
+				</if>
+				
+			</set>
+			
+			where id = #{id}
+	</update>
 </mapper>

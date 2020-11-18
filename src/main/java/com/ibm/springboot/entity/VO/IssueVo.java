@@ -12,7 +12,7 @@ public class IssueVo {
 	private String issueNo;
 
 	// -1：已关闭；0：待解决；1：待验证
-	private int status;
+	private Integer status;
 
 	// 创建日期
 	// 起始日期
@@ -26,10 +26,10 @@ public class IssueVo {
 	private Date createEndDate;
 
 	// Issue创建人ID
-	private int createPersonID;
+	private Integer createPersonID;
 
 	// Issue指定修改人ID
-	private int modifyPersonID;
+	private Integer modifyPersonID;
 
 	// 修改日期
 	// 起始日期
@@ -46,8 +46,8 @@ public class IssueVo {
 		super();
 	}
 
-	public IssueVo(String issueNo, int status, Date createStartDate, Date createEndDate, int createPersonID,
-			int modifyPersonID, Date modifyStartDate, Date modifyEndDate) {
+	public IssueVo(String issueNo, Integer status, Date createStartDate, Date createEndDate, Integer createPersonID,
+			Integer modifyPersonID, Date modifyStartDate, Date modifyEndDate) {
 		super();
 		this.issueNo = issueNo;
 		this.status = status;
@@ -67,11 +67,11 @@ public class IssueVo {
 		this.issueNo = issueNo;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -91,19 +91,19 @@ public class IssueVo {
 		this.createEndDate = createEndDate;
 	}
 
-	public int getCreatePersonID() {
+	public Integer getCreatePersonID() {
 		return createPersonID;
 	}
 
-	public void setCreatePersonID(int createPersonID) {
+	public void setCreatePersonID(Integer createPersonID) {
 		this.createPersonID = createPersonID;
 	}
 
-	public int getModifyPersonID() {
+	public Integer getModifyPersonID() {
 		return modifyPersonID;
 	}
 
-	public void setModifyPersonID(int modifyPersonID) {
+	public void setModifyPersonID(Integer modifyPersonID) {
 		this.modifyPersonID = modifyPersonID;
 	}
 

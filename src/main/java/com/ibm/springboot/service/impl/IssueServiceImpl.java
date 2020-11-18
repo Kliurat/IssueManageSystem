@@ -25,6 +25,12 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	@Override
+	public int deleteById(Integer id) throws Exception {
+		// TODO Auto-generated method stub
+		return issueDao.delete(id);
+	}
+
+	@Override
 	public CommonResult insertIssue(Issue issue) {
 
 //		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
@@ -38,15 +44,16 @@ public class IssueServiceImpl implements IssueService {
 //			e.printStackTrace();
 //		}
 
-		System.out.println("构造函数时间：" + issue);
-
 		int i;
 		try {
-			i = issueDao.insertIssue(issue);
+			i = issueDao.insert(issue);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return new CommonResult<String>(201, "Issue编号已存在或插入数据异常", null);
+		}
+		if (i != 1) {
+			return new CommonResult<String>(500, "Issue创建失败", null);
 		}
 		System.out.println("Issue插入结果：" + i);
 		return new CommonResult<String>(200, "Issue创建成功", null);
@@ -56,6 +63,13 @@ public class IssueServiceImpl implements IssueService {
 	public List<Issue> queryByCondition(IssueVo issue) {
 
 		return issueDao.queryByCondition(issue);
+
+	}
+
+	@Override
+	public int updateIssue(Issue issue) {
+
+		return issueDao.updateIssue(issue);
 
 	}
 
