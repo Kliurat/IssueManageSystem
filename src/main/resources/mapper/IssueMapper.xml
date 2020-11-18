@@ -21,7 +21,7 @@
 		where id = #{id}
 	</delete>
 	
-	<insert	id="insertIssue">
+	<insert	id="insert">
 		insert into issue(
 		issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,priority,influent_version,
 		re_step,create_person_ID,modify_person_ID,title,status) values (

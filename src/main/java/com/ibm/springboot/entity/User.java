@@ -59,8 +59,6 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	
-
 	public User(int sortID, int loginID, String username, String email, String password, Date registeDate, int status,
 			int role) {
 		super();
@@ -144,7 +142,5 @@ public class User implements Serializable {
 	public void setRegisteDate(Date registeDate) {
 		this.registeDate = registeDate;
 	}
-	
-	
 
 }
