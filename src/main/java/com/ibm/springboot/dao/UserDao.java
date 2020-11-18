@@ -1,6 +1,5 @@
 package com.ibm.springboot.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -25,5 +24,11 @@ public interface UserDao {
 	
 	//根据用户ID或者用户姓名查询用户信息
 	List<User> selectUser(User user);
+	
+	//Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
+//	int updateStatus(@Param("loginID") int loginID);
+	
+	int updateStatusAndRole(User user);
+	
 	
 }

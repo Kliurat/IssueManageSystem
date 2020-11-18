@@ -1,9 +1,7 @@
 package com.ibm.springboot.service;
 
-import java.util.HashMap;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +52,13 @@ public class UserService {
 	{
 		List<User> list = userDao.selectUser(user);
 		return list;
+	}
+	
+	//Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
+	public int updateStatusAndRole(User user)
+	{
+		int updateStatus = userDao.updateStatusAndRole(user);
+		return updateStatus;
 	}
 
 }

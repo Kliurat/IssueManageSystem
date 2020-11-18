@@ -39,4 +39,30 @@
 	  </where>
 	</select>
 	
+	<!-- int updateStatus(); -->
+	<update id="updateStatus">
+	   update user set status = 0 WHERE loginID = #{loginID}
+	</update>
+	
+	<!-- int updateRole(@Param("role") int role); -->
+	<update id="updateRole">
+	   update user set role = 1 WHERE loginID = #{loginID}
+	</update>
+	
+	<update id="updateStatusAndRole">
+	   update user 
+	   <set>
+	      <choose>
+           <when test="status != 0">  <!-- 注销 status = 0，传入 status = 1 -->
+              status = 0,
+           </when>
+           <when test="role != 1">    <!-- 经理 role = 1,传入 role != 1 -->
+              role = 1
+           </when>
+        </choose>
+	   </set> 
+	   where loginID = #{loginID} 
+	</update>
+	
+	
 </mapper>

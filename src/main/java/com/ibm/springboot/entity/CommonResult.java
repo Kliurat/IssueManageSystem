@@ -14,10 +14,6 @@ public class CommonResult<T> {
 
 	public CommonResult() {
 		super();
-<<<<<<< HEAD
-		// TODO Auto-generated constructor stub
-=======
->>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
 	}
 
 	public CommonResult(Integer status, String msg, T data) {
@@ -26,10 +22,6 @@ public class CommonResult<T> {
 		this.msg = msg;
 		this.data = data;
 	}
-<<<<<<< HEAD
-	
-	
-=======
 
 	public Integer getStatus() {
 		return status;
@@ -54,6 +46,5 @@ public class CommonResult<T> {
 	public void setData(T data) {
 		this.data = data;
 	}
->>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
 
 }

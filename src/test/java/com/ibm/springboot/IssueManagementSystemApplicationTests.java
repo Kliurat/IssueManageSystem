@@ -20,7 +20,7 @@ class IssueManagementSystemApplicationTests {
 	@Test
 	public void testInsert() {
 		
-		User user = new User(4,"李云龙","2657001890@qq.com","123456");
+		User user = new User(4,"李云龙","2657001890@qq.com","123456", 0, 0);
 		
 		userService.insert(user);	
 		

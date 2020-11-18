@@ -84,4 +84,12 @@ public class UserController {
 		return list;
 	}
 	
+	//Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
+	@PutMapping("/update/statusAndrole")
+	public int updateStatusAndRole(User user)
+	{
+		int updateStatus = userService.updateStatusAndRole(user);
+		return updateStatus;
+	}
+	
 }
