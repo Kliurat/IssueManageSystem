@@ -1,6 +1,7 @@
 package com.ibm.springboot.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.print.attribute.standard.MediaSize.Other;
 
@@ -10,6 +11,10 @@ import lombok.NoArgsConstructor;
 
 public class User implements Serializable {
 	
+	
+	//序号
+	private int sortID;
+
 	//用户登陆ID
 	private int loginID;
 	
@@ -21,6 +26,9 @@ public class User implements Serializable {
 	
 	//用户登陆密码
 	private String password;
+	
+	//注册日期
+	private Date registerDate;
 	
 	//用户状态
 	//1：激活；-1：注销
