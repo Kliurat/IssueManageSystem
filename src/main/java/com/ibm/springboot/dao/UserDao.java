@@ -32,5 +32,8 @@ public interface UserDao {
 //	int updateStatus(@Param("loginID") int loginID);
 
 	int updateStatusAndRole(User user);
+	
+	//在指派修改人的时候，传入loginID的前缀，判断该修改人是否存在
+	public List<User> getUsersByPreLoginID(int loginID);
 
 }

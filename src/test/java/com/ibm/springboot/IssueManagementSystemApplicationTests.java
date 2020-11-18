@@ -20,9 +20,13 @@ class IssueManagementSystemApplicationTests {
 	@Test
 	public void testInsert() {
 		
-		User user = new User(4,"李云龙","2657001890@qq.com","123456", 0, 0);
+//		User user = new User(4,"李云龙","2657001890@qq.com","123456", 0, 0);
+//		userService.insert(user);	
 		
-		userService.insert(user);	
+		//设置日期格式
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		// new Date()为获取当前系统时间
+		System.out.println(df.format(new Date()));
 		
 	}
 
@@ -32,5 +36,8 @@ class IssueManagementSystemApplicationTests {
 		Date date = new Date();
 		System.out.println("date:" + format.format(date));
 	}
+	
+	
+	
 
 }
