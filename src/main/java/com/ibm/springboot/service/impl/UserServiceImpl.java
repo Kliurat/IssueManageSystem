@@ -63,8 +63,8 @@ public class UserServiceImpl implements UserService {
 	
 	//在指派修改人的时候，传入loginID的前缀，判断该修改人是否存在
 	public List<User> getUsersByPreLoginID(int loginID) {
-		
-		return null;
+		List<User> users = userDao.getUsersByPreLoginID(loginID);
+		return users;
 	}
 	
 	public CommonResult login(String username, String password) {
