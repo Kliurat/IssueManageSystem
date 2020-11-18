@@ -19,4 +19,18 @@ public class CommonResult<T> {
 	// Response数据
 	private T data;
 
+	public CommonResult() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public CommonResult(Integer status, String msg, T data) {
+		super();
+		this.status = status;
+		this.msg = msg;
+		this.data = data;
+	}
+	
+	
+
 }

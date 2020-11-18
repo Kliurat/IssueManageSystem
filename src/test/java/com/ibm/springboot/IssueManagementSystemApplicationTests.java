@@ -6,10 +6,27 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections4.map.HashedMap;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.ibm.springboot.entity.User;
+import com.ibm.springboot.service.UserService;
 
 @SpringBootTest
 class IssueManagementSystemApplicationTests {
+	
+	@Autowired
+	private UserService userService;
+	
+	// 测试插入方法
+	@Test
+	public void testInsert() {
+		
+		User user = new User(4,"李云龙","2657001890@qq.com","123456");
+		
+		userService.insert(user);	
+		
+	}
 
 	@Test
 	void contextLoads() {
