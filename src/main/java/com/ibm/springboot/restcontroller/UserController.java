@@ -128,15 +128,25 @@ public class UserController {
 //	}
 	
 	//Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
-	@PutMapping("/update/statusAndrole")
-	public List<User> updateStatusAndRole(User user)
+	@RequestMapping("/update/statusAndrole")
+	public List<User> updateStatusAndRole(@RequestParam(value = "loginID",required = false) String loginID,@RequestParam(value = "role",required = false) Integer role,@RequestParam(value = "status",required = false) Integer status)
 	{
-		System.out.println("注销方法.................................");
-		System.out.println(user);
-		int updateStatus = userService.updateStatusAndRole(user);
+		User user = new User(loginID,role,status);
+		System.out.println("loginID：" + loginID);
+		System.out.println("role：" + role);
+		System.out.println("status：" + status);
 		
-		List<User> list = userService.selectAll();
-		return list;
+		System.out.println("====================");
+		System.out.println("user为：" + user);
+		
+		if(role == null && status != null) {
+			userService.updateStatus(user);
+		}else if (role != null && status == null) {
+			userService.updateRole(user);
+		}
+		
+		//返回全用户列表给前端
+		return userService.selectAll();
 	}
 	
 }

@@ -61,14 +61,12 @@
 	<update id="updateStatusAndRole">
 	   update user 
 	   <set>
-	      <choose>
-           <when test="status != 0">  <!-- 注销 status = 0，传入 status = 1 -->
+           <if test="status != null and role == null">  <!-- 注销 status = 0，传入 status = 1 -->
               status = 0,
-           </when>
-           <when test="role != 1">    <!-- 经理 role = 1,传入 role != 1 -->
+           </if>
+           <if test="role != null and status == null">    <!-- 经理 role = 1,传入 role != 1 -->
               role = 1
-           </when>
-        </choose>
+           </if>
 	   </set> 
 	   where loginID = #{loginID} 
 	</update>
