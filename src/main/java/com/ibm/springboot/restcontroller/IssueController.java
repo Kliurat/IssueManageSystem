@@ -1,7 +1,11 @@
 package com.ibm.springboot.restcontroller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -57,6 +61,24 @@ public class IssueController {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
 		}
+
+		String issueNo = UUID.randomUUID().toString().replaceAll("-", "");
+		issue.setIssueNo(issueNo);
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");// 设置日期格式
+		System.out.println("当前日期：" + df.format(new Date()));// new Date()为获取当前系统时间
+		try {
+			issue.setCreateDate(df.parse(df.format(new Date())));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		Date planModifyTime = issue.getPlanModifyTime();
+
+		issue.setStatus(0);
+
+		System.out.println(issue);
+		System.out.println("待插入Issue:" + issue.toString());
 
 		// 3.插入issue
 		CommonResult result = issueService.insertIssue(issue);

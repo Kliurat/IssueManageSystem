@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -88,11 +89,24 @@ public class UserController {
 	}
 	
 	//根据用户ID或者用户姓名查询用户信息
-	@GetMapping("/selectUser")
-	List<User> selectUser(User user)
+//	@RequestMapping("/selectUser")
+//	List<User> selectUser(@RequestParam(required = false) User user)
+//	{
+//		//把传入的参数封装为一个map	
+//		List<User> list = userService.selectUser(user);
+//		for (User user2 : list) {
+//			System.out.println(user2);
+//		}
+//		
+//		return list;
+//	}
+	@RequestMapping("/selectUser")
+	List<User> selectUser(@RequestParam(required = false) String stringUser)
 	{
-		//把传入的参数封装为一个map	
-		List<User> list = userService.selectUser(user);
+		System.out.println(stringUser+"    21111111111111111111111111111111111111");
+		
+		List<User> list = userService.selectAll();
+		
 		for (User user2 : list) {
 			System.out.println(user2);
 		}
