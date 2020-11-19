@@ -16,8 +16,7 @@ public class LoginController {
 	UserService userService;
 
 	@PostMapping("/login")
-	public CommonResult login(@RequestParam("username") String username,
-							  @RequestParam("password") String password) {
+	public CommonResult login(@RequestParam("username") String username, @RequestParam("password") String password) {
 
 		return userService.login(username, password);
 

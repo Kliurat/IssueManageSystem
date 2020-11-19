@@ -7,6 +7,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.ibm.springboot.interceptor.LoginInterceptor;
+
 @Configuration
 public class MyMvcConfigurer implements WebMvcConfigurer {
 
@@ -19,8 +21,13 @@ public class MyMvcConfigurer implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 由于使用了Security的登录认证功能，这里去除了手动拦截器校验
-//		System.out.println("addInterceptors");
-//		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login");
+		System.out.println("addInterceptors");
+		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login",
+				"/index", "/index.html");
+
+//		// 开启jwt Token认证校验
+//		registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login",
+//				"/static/**", "/assets/**", "/common/**");
 
 	}
 
