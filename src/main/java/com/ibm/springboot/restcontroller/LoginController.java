@@ -17,7 +17,7 @@ public class LoginController {
 	UserService userService;
 
 	@PostMapping("/login")
-	public CommonResult login(@RequestParam("loginId") Integer loginId, @RequestParam("password") String password,
+	public CommonResult login(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
 			HttpSession session) {
 
 //		session.setAttribute("loginUser", username);  放到login方法里去存user对象了

@@ -1,7 +1,5 @@
 package com.ibm.springboot.utils;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,12 +33,12 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 //			response.getWriter().write("您尚未登录，请先登录");
 
-			response.setContentType("application/json;charset=UTF-8");
-
-			PrintWriter out = response.getWriter();
-			out.print("您尚未登录，请先登录");
-			out.flush();
-			out.close();
+//			response.setContentType("application/json;charset=UTF-8");
+//
+//			PrintWriter out = response.getWriter();
+//			out.print("您尚未登录，请先登录");
+//			out.flush();
+//			out.close();
 
 //			request.getRequestDispatcher("/login.html").forward(request, response);
 

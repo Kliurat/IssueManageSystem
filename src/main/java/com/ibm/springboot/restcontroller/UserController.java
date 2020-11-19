@@ -8,10 +8,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ibm.springboot.entity.User;
 import com.ibm.springboot.service.UserService;
 
@@ -89,24 +93,17 @@ public class UserController {
 	}
 	
 	//根据用户ID或者用户姓名查询用户信息
-//	@RequestMapping("/selectUser")
-//	List<User> selectUser(@RequestParam(required = false) User user)
-//	{
-//		//把传入的参数封装为一个map	
-//		List<User> list = userService.selectUser(user);
-//		for (User user2 : list) {
-//			System.out.println(user2);
-//		}
-//		
-//		return list;
-//	}
 	@RequestMapping("/selectUser")
-	List<User> selectUser(@RequestParam(required = false) String stringUser)
+	List<User> selectUser(@RequestParam(value = "loginID",required = false) String loginID,@RequestParam(value = "username",required = false) String username)
 	{
-		System.out.println(stringUser+"    21111111111111111111111111111111111111");
 		
-		List<User> list = userService.selectAll();
+		System.out.println("login的值为：" + loginID);
+		System.out.println("username的值为：" + username);
 		
+		User user = new User(loginID,username);
+		
+		List<User> list = userService.selectUser(user);
+
 		for (User user2 : list) {
 			System.out.println(user2);
 		}

@@ -22,7 +22,7 @@ public class IssueReportController {
 	IssueReportService iService;
 
 	@GetMapping("")
-	public CommonResult getAll(@RequestParam(value = "loginId", required = false) Integer loginId,
+	public CommonResult getAll(@RequestParam(value = "loginId", required = false) String loginId,
 			@RequestParam(value = "username", required = false) String username
 //			@RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum
 	) {

@@ -9,9 +9,9 @@ import com.ibm.springboot.entity.IssueReport;
 @Mapper
 public interface IssueReportDao {
 
-	List<IssueReport> findAll(Integer userId, String username);
+	List<IssueReport> findAll(String userId, String username);
 
-	IssueReport selectByUserId(Integer userId);
+	IssueReport selectByUserId(String userId);
 
 	int insert(IssueReport report);
 

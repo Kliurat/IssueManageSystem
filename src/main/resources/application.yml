@@ -7,16 +7,18 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-    
-  thymeleaf:    cache: false
-    enabled: true
-    encoding: utf-8
-    prefix: classpath:/templates/
-    suffix: .html
-    mode: HTML
+#    
+#  thymeleaf:#    cache: false
+#    enabled: true
+#    encoding: utf-8
+#    prefix: classpath:/templates/
+#    suffix: .html
+#    mode: HTML
     
   mvc:
     hiddenmethod:      filter:        enabled: true
+        
+  devtools:    restart:      enabled: true
 
     
 mybatis:

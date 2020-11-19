@@ -45,7 +45,21 @@ public class IssueController {
 	public CommonResult insertIssue(Issue issue, HttpSession session) {
 
 		System.out.println("进入.......................................................");
-		System.out.println(issue);
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");// 设置日期格式
+		System.out.println("当前日期：" + df.format(new Date()));// new Date()为获取当前系统时间
+
+		// 给每一个Issue创建一个唯一的uuid
+		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+
+		issue.setIssueNo(uuid);
+		issue.setStatus(0);
+
+		try {
+			issue.setCreateDate(df.parse(df.format(new Date())));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
 		System.out.println("待插入Issue:" + issue.toString());
 
@@ -53,7 +67,16 @@ public class IssueController {
 		System.out.println("查看session存储的user:" + user);
 
 		// 1.查看是否有自己的报表行记录
-		IssueReport report = iRepService.getReportByLoginID(user.getLoginID());
+
+		IssueReport report = null;
+		try {
+			report = iRepService.getReportByLoginID(user.getLoginID());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			if (e instanceof NullPointerException) {
+				return new CommonResult<String>(201, "您尚未登陆，请先登陆", null);
+			}
+		}
 		if (report == null) {
 			// 2.若无，则插入一条，创建数为1
 			iRepService.insertReport(new IssueReport(user.getLoginID(), user.getUsername(), 1, 0, 0, 0, 0));
@@ -61,24 +84,6 @@ public class IssueController {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
 		}
-
-		String issueNo = UUID.randomUUID().toString().replaceAll("-", "");
-		issue.setIssueNo(issueNo);
-
-		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");// 设置日期格式
-		System.out.println("当前日期：" + df.format(new Date()));// new Date()为获取当前系统时间
-		try {
-			issue.setCreateDate(df.parse(df.format(new Date())));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		Date planModifyTime = issue.getPlanModifyTime();
-
-		issue.setStatus(0);
-
-		System.out.println(issue);
-		System.out.println("待插入Issue:" + issue.toString());
 
 		// 3.插入issue
 		CommonResult result = issueService.insertIssue(issue);

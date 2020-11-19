@@ -4,7 +4,7 @@ public class IssueReport {
 
 	private Integer id; // 序号
 
-	private Integer userId; // 登陆ID
+	private String userId; // 登陆ID
 
 	private String username; // 用户姓名
 
@@ -22,7 +22,7 @@ public class IssueReport {
 		super();
 	}
 
-	public IssueReport(Integer userId, String username, int createCount, int receiveCount, int modifyCount,
+	public IssueReport(String userId, String username, int createCount, int receiveCount, int modifyCount,
 
 			int finishCount, float finishedPer) {
 		super();
@@ -43,11 +43,11 @@ public class IssueReport {
 		this.id = id;
 	}
 
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

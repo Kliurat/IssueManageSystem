@@ -68,12 +68,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// 在指派修改人的时候，传入loginID的前缀，判断该修改人是否存在
-	public List<User> getUsersByPreLoginID(int loginID) {
+	public List<User> getUsersByPreLoginID(String loginID) {
 		List<User> users = userDao.getUsersByPreLoginID(loginID);
 		return users;
 	}
 
-	public CommonResult login(Integer loginId, String password, HttpSession session) {
+	public CommonResult login(String loginId, String password, HttpSession session) {
 
 		int status = 200;
 		String msg;
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 		// 用户名、密码不为空
 		if (loginId != null && password != null && !"".equals(password.trim())) {
 
-			User user = userDao.findByLoginId(loginId);
+			User user = userDao.findByLoginId(loginId.trim());
 			if (user != null) {
 
 				if (password.equals(user.getPassword())) {

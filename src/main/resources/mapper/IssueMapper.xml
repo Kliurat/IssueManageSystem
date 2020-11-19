@@ -4,10 +4,11 @@
 <!-- mapper标签要指定namespace属性，不然会报错，可看做包名-->
 <mapper namespace="com.ibm.springboot.dao.IssueDao">
 
-	<resultMap type="com.ibm.springboot.entity.Issue" id="insertMap">
-	   <id property="id" column="id"/>
-	   <result property="modifyPersonID" column="modify_person_ID"/>
-	   <result property="createPersonID" column="create_person_ID"/>
+
+	<resultMap id="IssueMap" type="com.ibm.springboot.entity.Issue">
+		<result property="modifyPersonID" column="modify_person_ID"/>
+    	<result property="createPersonID" column="create_person_ID"/>
+    	<result property="actualComplteTime" column="actual_complte_time"/>
 	</resultMap>
 
 	<sql id="columnsAll">
@@ -16,7 +17,7 @@
 		modify_person_ID,title,status,solution
 	</sql>
 
-	<select id="findAll" resultMap="insertMap">
+	<select id="findAll" resultMap="IssueMap">
 		select 
 			<include refid="columnsAll"/>
 			from issue
@@ -26,8 +27,8 @@
 		delete from issue
 		where id = #{id}
 	</delete>
-	
-	<insert	id="insert">
+
+	<insert	id="insert" parameterType="com.ibm.springboot.entity.Issue">
 	    insert into issue(
 		issue_no,issue_type,create_date,plan_modify_time,priority,influent_version,
 		re_step,modify_person_ID,title,status) values(
@@ -41,21 +42,6 @@
 			#{issue.modifyPersonID},
 			#{issue.title},
 			#{issue.status}
-		<!-- insert into issue(
-		issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,priority,influent_version,
-		re_step,create_person_ID,modify_person_ID,title,status) values(
-			#{issue.issueNo},
-			#{issue.issueType},
-			#{issue.createDate},
-			#{issue.planModifyTime},
-			#{issue.actualComplteTime},
-			#{issue.priority},
-			#{issue.influentVersion},
-			#{issue.reStep},
-			#{issue.createPersonID},
-			#{issue.modifyPersonID},
-			#{issue.title},
-			#{issue.status} -->
 		)
 		
 	</insert>
