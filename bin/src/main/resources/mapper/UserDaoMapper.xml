@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibm.springboot.dao.UserDao">
+
+   <!-- void insert(User user); -->
+   <insert id="insert" parameterType="com.ibm.springboot.entity.User">
+   		insert into user(loginID,username,email,password,registeDate) 
+   		VALUES(#{loginID},#{username},#{email},#{password},#{registeDate})
+   </insert>
+   
+	<!-- List<User> selectAll(); -->
+	<select id="selectAll" resultType="com.ibm.springboot.entity.User">
+	    select * from user
+	</select>
+	
+	<!-- int update(User user); -->
+	<update id="update" parameterType="com.ibm.springboot.entity.User">
+	   update user 
+	   set username = #{username},email = #{email},password = #{password} 
+	   where loginID = #{loginID}
+	</update>
+	
+	<!--List<User> selectByName(String name) -->
+	<select id="selectByName" resultType="com.ibm.springboot.entity.User">
+	  select * from user where username = #{name}
+	</select>
+	
+	<!-- List<User> selectUser(HashMap<String, Object> map); -->
+	<select id="selectUser" resultType="com.ibm.springboot.entity.User" parameterType="com.ibm.springboot.entity.User">
+	  select * from user 
+	  <where>
+	     <if test="loginID != null">
+	         loginID like CONCAT('%',#{loginID},'%') 
+	        <!-- loginID = #{loginID} -->
+	     </if>
+	     <if test="username != null">
+	        and username like CONCAT('%',#{username},'%')
+	        <!-- and username = #{username} -->
+	     </if>
+	  </where>
+	</select>
+	
+	<select id="findByUserName" resultType="com.ibm.springboot.entity.User">
+		select 
+			sortID,loginID,username,email,password,registeDate,status,role
+			from user
+			where loginID = #{username}
+	</select>
+
+	<!-- int updateStatus(); -->
+	<update id="updateStatus">
+	   update user set status = 0 WHERE loginID = #{loginID}
+	</update>
+	
+	<!-- int updateRole(@Param("role") int role); -->
+	<update id="updateRole">
+	   update user set role = 1 WHERE loginID = #{loginID}
+	</update>
+	
+	<update id="updateStatusAndRole">
+	   update user 
+	   <set>
+	      <choose>
+           <when test="status != 0">  <!-- 注销 status = 0，传入 status = 1 -->
+              status = 0,
+           </when>
+           <when test="role != 1">    <!-- 经理 role = 1,传入 role != 1 -->
+              role = 1
+           </when>
+        </choose>
+	   </set> 
+	   where loginID = #{loginID} 
+	</update>
+	
+	<select id="getUsersByPreLoginID">
+		select loginID,username from user where role = 0 and status = 1
+		<if test="loginID != null">
+			and loginID like concat('%',#{loginID})
+		</if>
+	</select>
+	
+	
+</mapper>
