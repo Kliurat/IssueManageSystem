@@ -51,10 +51,10 @@ public class Issue implements Serializable {
 	private String reStep;
 
 	// Issue创建人
-	private Integer createPersonID;
+	private String createPersonID;
 
 	// Issue指定修改人
-	private Integer modifyPersonID;
+	private String modifyPersonID;
 
 	// Issue标题
 	private String title;
@@ -63,6 +63,7 @@ public class Issue implements Serializable {
 	// -1：已关闭；0：待解决；1：待验证
 	private Integer status;
 
+	//解决方案
 	private String solution;
 
 	public Issue() {
@@ -70,7 +71,7 @@ public class Issue implements Serializable {
 	}
 
 	public Issue(int id, String issueNo, String issueType, Date planModifyTime, Date actualComplteTime, int priority,
-			String influentVersion, String reStep, int createPersonID, int modifyPersonID, String title, int status)
+			String influentVersion, String reStep, String createPersonID, String modifyPersonID, String title, int status)
 			throws ParseException {
 		super();
 		this.id = id;
@@ -91,6 +92,21 @@ public class Issue implements Serializable {
 		this.modifyPersonID = modifyPersonID;
 		this.title = title;
 		this.status = status;
+	}
+	
+	
+
+	public Issue(String issueType, Date createDate, Date planModifyTime, Integer priority, String influentVersion,
+			String reStep, String modifyPersonID, String title) {
+		super();
+		this.issueType = issueType;
+		this.createDate = createDate;
+		this.planModifyTime = planModifyTime;
+		this.priority = priority;
+		this.influentVersion = influentVersion;
+		this.reStep = reStep;
+		this.modifyPersonID = modifyPersonID;
+		this.title = title;
 	}
 
 	public int getId() {
@@ -165,19 +181,19 @@ public class Issue implements Serializable {
 		this.reStep = reStep;
 	}
 
-	public int getCreatePersonID() {
+	public String getCreatePersonID() {
 		return createPersonID;
 	}
 
-	public void setCreatePersonID(int createPersonID) {
+	public void setCreatePersonID(String createPersonID) {
 		this.createPersonID = createPersonID;
 	}
 
-	public int getModifyPersonID() {
+	public String getModifyPersonID() {
 		return modifyPersonID;
 	}
 
-	public void setModifyPersonID(int modifyPersonID) {
+	public void setModifyPersonID(String modifyPersonID) {
 		this.modifyPersonID = modifyPersonID;
 	}
 

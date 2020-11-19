@@ -8,19 +8,24 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ibm.springboot.entity.User;
 import com.ibm.springboot.service.UserService;
 
@@ -88,9 +93,23 @@ public class UserController {
 	}
 	
 	//根据用户ID或者用户姓名查询用户信息
-	@GetMapping("/selectUser")
-	List<User> selectUser(User user)
+	@RequestMapping("/selectUser")
+	List<User> selectUser(@RequestParam(required = false) String userStr)
 	{
+		System.out.println("进来了！！！！！！！！！！！！！！！！！！！！！！1");
+		System.out.println(userStr);
+		JSONObject jsonObjec = JSON.parseObject(userStr);
+		
+		System.out.println(userStr);
+		
+		
+//		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+//		hashMap.put(jsonObjec, value)
+		
+		User user = new User();
+		
+		user = (User) jsonObjec.get("userObj");
+		
 		//把传入的参数封装为一个map	
 		List<User> list = userService.selectUser(user);
 		for (User user2 : list) {

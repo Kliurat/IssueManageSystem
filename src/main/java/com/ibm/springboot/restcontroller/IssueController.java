@@ -1,7 +1,11 @@
 package com.ibm.springboot.restcontroller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -33,8 +37,23 @@ public class IssueController {
 	@PostMapping("")
 	public CommonResult insertIssue(Issue issue) {
 		
+		//给每一个Issue创建一个唯一的uuid
+		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		issue.setIssueNo(uuid);
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
 		System.out.println("进入.......................................................");
 		System.out.println(issue);
+		
+		try {
+			issue.setCreateDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		issue.setStatus(0);
+		
 		
 		System.out.println("待插入Issue:" + issue.toString());
 		CommonResult result = issueService.insertIssue(issue);

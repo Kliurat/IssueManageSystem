@@ -17,6 +17,8 @@ spring:
     
   mvc:
     hiddenmethod:      filter:        enabled: true
+        
+  devtools:    restart:      enabled: true
 
     
 mybatis:

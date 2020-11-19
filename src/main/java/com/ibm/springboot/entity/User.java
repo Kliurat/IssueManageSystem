@@ -30,7 +30,7 @@ public class User implements Serializable {
 	private Date registeDate;
 
 	// 用户状态
-	// 1：激活；-1：注销
+	// 1：激活；0：注销
 	private int status;
 
 	// 用户角色
