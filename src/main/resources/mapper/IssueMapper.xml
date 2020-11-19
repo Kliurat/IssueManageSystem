@@ -31,17 +31,18 @@
 	<insert	id="insert" parameterType="com.ibm.springboot.entity.Issue">
 	    insert into issue(
 		issue_no,issue_type,create_date,plan_modify_time,priority,influent_version,
-		re_step,modify_person_ID,title,status) values(
-			#{issue.issueNo},
-			#{issue.issueType},
-			#{issue.createDate},
-			#{issue.planModifyTime},
-			#{issue.priority},
-			#{issue.influentVersion},
-			#{issue.reStep},
-			#{issue.modifyPersonID},
-			#{issue.title},
-			#{issue.status}
+		re_step,create_person_ID,modify_person_ID,title,status) values(
+			#{issueNo},
+			#{issueType},
+			#{createDate},
+			#{planModifyTime},
+			#{priority},
+			#{influentVersion},
+			#{reStep},
+			#{createPersonID},
+			#{modifyPersonID},
+			#{title},
+			#{status}
 		)
 		
 	</insert>
@@ -51,31 +52,31 @@
 			<include refid="columnsAll"/>
 				from issue
 			<where>
-                <if test="issue.issueNo != null">
-                    issue_no = #{issue.issueNo} 
+                <if test="issueNo != null">
+                    issue_no = #{issueNo} 
                 </if>
                 
-                <if test="issue.status != null">
-             		and status = #{issue.status}
+                <if test="status != null">
+             		and status = #{status}
                 </if>
                 
-               	<if test="issue.createStartDate != null">
-                    and create_date between #{issue.createStartDate}
-                    and #{issue.createEndDate}
+               	<if test="createStartDate != null">
+                    and create_date between #{createStartDate}
+                    and #{createEndDate}
                 </if>
                 
                 
-                <if test="issue.createPersonID != null">
-                    and create_person_ID = #{issue.createPersonID}
+                <if test="createPersonID != null">
+                    and create_person_ID = #{createPersonID}
                 </if>
                 
-                <if test="issue.modifyPersonID != null">
-                    and issue.modify_person_ID = #{issue.modifyPersonID}
+                <if test="modifyPersonID != null">
+                    and modify_person_ID = #{modifyPersonID}
                 </if>
                 
-                <if test="issue.modifyStartDate != null">
-                    and plan_modify_time between #{issue.modifyStartDate}
-                    and #{issue.modifyEndDate}
+                <if test="modifyStartDate != null">
+                    and plan_modify_time between #{modifyStartDate}
+                    and #{modifyEndDate}
                     
                 </if>
                 
@@ -85,49 +86,49 @@
 	<update id="updateIssue">
 		update issue
 			<set>
-				<if test="issueNo != null">
-					issue_no = #{issueNo},
-				</if>
+<!-- 				<if test="issueNo != null"> -->
+<!-- 					issue_no = #{issueNo}, -->
+<!-- 				</if> -->
 				
-				<if test="issueType != null">
-					issue_type = #{issueType},
-				</if>
+<!-- 				<if test="issueType != null"> -->
+<!-- 					issue_type = #{issueType}, -->
+<!-- 				</if> -->
 				
-				<if test="createDate != null">
-					create_date = #{createDate},
-				</if>
+<!-- 				<if test="createDate != null"> -->
+<!-- 					create_date = #{createDate}, -->
+<!-- 				</if> -->
 				
-				<if test="planModifyTime != null">
-					plan_modify_time = #{planModifyTime},
-				</if>
+<!-- 				<if test="planModifyTime != null"> -->
+<!-- 					plan_modify_time = #{planModifyTime}, -->
+<!-- 				</if> -->
 				
-				<if test="actualComplteTime != null">
-					actual_complte_time = #{actualComplteTime},
-				</if>
+<!-- 				<if test="actualComplteTime != null"> -->
+<!-- 					actual_complte_time = #{actualComplteTime}, -->
+<!-- 				</if> -->
 				
-				<if test="priority != null">
-					priority = #{priority},
-				</if>
+<!-- 				<if test="priority != null"> -->
+<!-- 					priority = #{priority}, -->
+<!-- 				</if> -->
 				
-				<if test="influentVersion != null">
-					influent_version = #{influentVersion},
-				</if>
+<!-- 				<if test="influentVersion != null"> -->
+<!-- 					influent_version = #{influentVersion}, -->
+<!-- 				</if> -->
 				
-				<if test="reStep != null">
-					re_step = #{reStep},
-				</if>
+<!-- 				<if test="reStep != null"> -->
+<!-- 					re_step = #{reStep}, -->
+<!-- 				</if> -->
 				
-				<if test="createPersonID != null">
-					create_person_ID = #{createPersonID},
-				</if>
+<!-- 				<if test="createPersonID != null"> -->
+<!-- 					create_person_ID = #{createPersonID}, -->
+<!-- 				</if> -->
 				
-				<if test="modifyPersonID != null">
-					modify_person_ID = #{modifyPersonID},
-				</if>
+<!-- 				<if test="modifyPersonID != null"> -->
+<!-- 					modify_person_ID = #{modifyPersonID}, -->
+<!-- 				</if> -->
 				
-				<if test="title != null">
-					title = #{title},
-				</if>
+<!-- 				<if test="title != null"> -->
+<!-- 					title = #{title}, -->
+<!-- 				</if> -->
 				
 				<if test="status != null">
 					status = #{status},

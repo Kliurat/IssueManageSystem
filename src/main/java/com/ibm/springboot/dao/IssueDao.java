@@ -18,7 +18,7 @@ public interface IssueDao {
 
 	// 创建一个新的Issue
 	// 0：创建失败；1：创建成功
-	int insert(@Param("issue") Issue issue);
+	int insert(Issue issue);
 
 	int delete(@Param("id") Integer id);
 
@@ -28,7 +28,7 @@ public interface IssueDao {
 	// 经理的
 	public List<Issue> findAll();
 
-	List<Issue> queryByCondition(@Param("issue") IssueVo issue);
+	List<Issue> queryByCondition(IssueVo issue);
 
 	int updateIssue(Issue issue);
 

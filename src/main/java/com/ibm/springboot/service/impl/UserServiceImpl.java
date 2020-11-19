@@ -2,19 +2,27 @@ package com.ibm.springboot.service.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ibm.springboot.dao.UserDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.User;
+import com.ibm.springboot.entity.jwt.Audience;
 import com.ibm.springboot.service.UserService;
+import com.ibm.springboot.util.JwtTokenUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Resource
+	Audience audience;
 
 	public int insert(User user) {
 
@@ -60,25 +68,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// 在指派修改人的时候，传入loginID的前缀，判断该修改人是否存在
-	public List<User> getUsersByPreLoginID(int loginID) {
+	public List<User> getUsersByPreLoginID(String loginID) {
 		List<User> users = userDao.getUsersByPreLoginID(loginID);
 		return users;
 	}
 
-	public CommonResult login(String username, String password) {
+	public CommonResult login(String loginId, String password, HttpSession session) {
 
 		int status = 200;
 		String msg;
+		String token = null;
 
 		// 用户名、密码不为空
-		if (username != null && password != null && !"".equals(username.trim()) && !"".equals(password.trim())) {
+		if (loginId != null && password != null && !"".equals(password.trim())) {
 
-			User user = userDao.findByUserName(username);
+			User user = userDao.findByLoginId(loginId.trim());
 			if (user != null) {
 
 				if (password.equals(user.getPassword())) {
 					status = 200;
+					session.setAttribute("user", user);
 					msg = "登陆成功";
+					token = JwtTokenUtil.createJWT(String.valueOf(user.getSortID()), String.valueOf(user.getLoginID()),
+							String.valueOf(user.getRole()), audience);
+					System.out.println("#####  登陆成功 ##### ，生成token:" + token);
 				} else {
 					status = 201;
 					msg = "用户名或密码错误";
@@ -96,7 +109,7 @@ public class UserServiceImpl implements UserService {
 			msg = "用户名或密码不能为空";
 		}
 
-		return new CommonResult<String>(status, msg, null);
+		return new CommonResult<String>(status, msg, token);
 	}
 
 }

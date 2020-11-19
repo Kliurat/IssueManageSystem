@@ -1,4 +1,4 @@
-package com.ibm.springboot.config;
+package com.ibm.springboot.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -6,7 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+/*
+ * 2020年11月18日
+ * 作者：柯炜杰
+ * 作用：解决跨域拦截问题
+ * */
 
 @Component
 public class InitInterceptor implements HandlerInterceptor {
@@ -32,7 +37,5 @@ public class InitInterceptor implements HandlerInterceptor {
 		// TODO Auto-generated method stub
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}
-	
-	
 
 }
