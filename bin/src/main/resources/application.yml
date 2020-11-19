@@ -1,16 +1,12 @@
 server:
-  port: 8080
+  port: 8888
  
     
 spring:
-<<<<<<< HEAD
-  datasource:    url: jdbc:mysql://localhost:3306/issue_mana_sys?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-=======
-  datasource:    url: jdbc:mysql://localhost:3306/mybatis?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false
->>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
+  datasource:    url: jdbc:mysql://localhost:3306/issue_mana_sys?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: root
+    password: 123456
     
   thymeleaf:    cache: false
     enabled: true
@@ -21,6 +17,8 @@ spring:
     
   mvc:
     hiddenmethod:      filter:        enabled: true
+        
+  devtools:    restart:      enabled: true
 
     
 mybatis:
@@ -30,5 +28,9 @@ mybatis:
     map-underscore-to-camel-case: true 
     
 pagehelper:  helper-dialect: mysql
+  
+logging:
+  level:
+     com.ibm.springboot.dao: debug
   
   

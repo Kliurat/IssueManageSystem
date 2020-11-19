@@ -94,10 +94,11 @@ public class UserController {
 	
 	//根据用户ID或者用户姓名查询用户信息
 	@RequestMapping("/selectUser")
-	List<User> selectUser(@RequestParam(value = "loginID",required = false) String loginID,@RequestParam(value = "username",required = false) String username)
+	List<User> selectUser(@RequestParam(value = "loginID",required = false) String loginID,
+						  @RequestParam(value = "username",required = false) String username)
 	{
 		
-		System.out.println("login的值为：" + loginID);
+		System.out.println("loginID的值为：" + loginID);
 		System.out.println("username的值为：" + username);
 		
 		User user = new User(loginID,username);
@@ -111,12 +112,31 @@ public class UserController {
 		return list;
 	}
 	
+//	@RequestMapping("/selectUser")
+//	List<User> selectUser(User user)
+//	{
+//		
+//		System.out.println("前端传入的对象："+user);
+//		
+//		List<User> list = userService.selectUser(user);
+//
+//		for (User user2 : list) {
+//			System.out.println(user2);
+//		}
+//		
+//		return list;
+//	}
+	
 	//Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
 	@PutMapping("/update/statusAndrole")
-	public int updateStatusAndRole(User user)
+	public List<User> updateStatusAndRole(User user)
 	{
+		System.out.println("注销方法.................................");
+		System.out.println(user);
 		int updateStatus = userService.updateStatusAndRole(user);
-		return updateStatus;
+		
+		List<User> list = userService.selectAll();
+		return list;
 	}
 	
 }

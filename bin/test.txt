@@ -5,7 +5,6 @@
 =======
 测试上传  我是老蔡大哥
 >>>>>>> 0ddbc4f830e6a8477dabb856b628832ca8933ee1
-<<<<<<< HEAD
 
 
 dhsdhhsdfdszsdjjjjd
@@ -38,5 +37,3 @@ error
 =======
 >>>>>>> 5f78a299f536e73f3d3680af532532147aa8e10b
 >>>>>>> 226cfb68c946f6739b6e2668d35ba11069963a3f
-=======
->>>>>>> 55ce1b775d7eae7d2a696c92dcaea24c24be5636
