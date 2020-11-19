@@ -4,6 +4,7 @@
 <!-- mapper标签要指定namespace属性，不然会报错，可看做包名-->
 <mapper namespace="com.ibm.springboot.dao.IssueDao">
 
+
 	<resultMap id="IssueMap" type="com.ibm.springboot.entity.Issue">
 		<result property="modifyPersonID" column="modify_person_ID"/>
     	<result property="createPersonID" column="create_person_ID"/>
@@ -26,9 +27,11 @@
 		delete from issue
 		where id = #{id}
 	</delete>
-	
+
 	<insert	id="insert" parameterType="com.ibm.springboot.entity.Issue">
-		insert into issue(issue_no,issue_type,create_date,plan_modify_time,priority,influent_version,re_step,modify_person_ID,title,status) values (
+	    insert into issue(
+		issue_no,issue_type,create_date,plan_modify_time,priority,influent_version,
+		re_step,modify_person_ID,title,status) values(
 			#{issue.issueNo},
 			#{issue.issueType},
 			#{issue.createDate},

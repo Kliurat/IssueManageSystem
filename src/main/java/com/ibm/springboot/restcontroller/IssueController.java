@@ -36,26 +36,30 @@ public class IssueController {
 	// 创建Issue
 	@PostMapping("")
 	public CommonResult insertIssue(Issue issue) {
+
+		System.out.println("进入.......................................................");
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");//设置日期格式
 		
 		//给每一个Issue创建一个唯一的uuid
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		
 		issue.setIssueNo(uuid);
-		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		
-		System.out.println("进入.......................................................");
-		System.out.println(issue);
-		
+		issue.setStatus(0);
+
 		try {
-			issue.setCreateDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
+			issue.setCreateDate(df.parse(df.format(new Date())));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		issue.setStatus(0);
 		
+		Date planModifyTime = issue.getPlanModifyTime();
 		
+		System.out.println("planModifyTime为：" + planModifyTime);
+		
+		System.out.println(issue);	
 		System.out.println("待插入Issue:" + issue.toString());
+		
 		CommonResult result = issueService.insertIssue(issue);
 		return result;
 	}

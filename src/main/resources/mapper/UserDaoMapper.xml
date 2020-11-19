@@ -30,7 +30,7 @@
 	<select id="selectUser" resultType="com.ibm.springboot.entity.User" parameterType="com.ibm.springboot.entity.User">
 	  select * from user 
 	  <where>
-	     <if test="loginID != 0">
+	     <if test="loginID != null">
 	         loginID like CONCAT('%',#{loginID},'%') 
 	        <!-- loginID = #{loginID} -->
 	     </if>

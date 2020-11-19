@@ -94,24 +94,16 @@ public class UserController {
 	
 	//根据用户ID或者用户姓名查询用户信息
 	@RequestMapping("/selectUser")
-	List<User> selectUser(@RequestParam(required = false) String userStr)
+	List<User> selectUser(@RequestParam(value = "loginID",required = false) String loginID,@RequestParam(value = "username",required = false) String username)
 	{
-		System.out.println("进来了！！！！！！！！！！！！！！！！！！！！！！1");
-		System.out.println(userStr);
-		JSONObject jsonObjec = JSON.parseObject(userStr);
 		
-		System.out.println(userStr);
+		System.out.println("login的值为：" + loginID);
+		System.out.println("username的值为：" + username);
 		
+		User user = new User(loginID,username);
 		
-//		HashMap<String, Object> hashMap = new HashMap<String, Object>();
-//		hashMap.put(jsonObjec, value)
-		
-		User user = new User();
-		
-		user = (User) jsonObjec.get("userObj");
-		
-		//把传入的参数封装为一个map	
 		List<User> list = userService.selectUser(user);
+
 		for (User user2 : list) {
 			System.out.println(user2);
 		}

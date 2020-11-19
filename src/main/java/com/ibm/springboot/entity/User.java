@@ -13,7 +13,7 @@ public class User implements Serializable {
 	private int sortID;
 
 	// 用户登陆ID
-	private int loginID;
+	private String loginID;
 
 	// 用户姓名
 	private String username;
@@ -40,8 +40,18 @@ public class User implements Serializable {
 	public User() {
 
 	}
+	
+	
 
-	public User(int loginID, String username, String email, String password, int status, int role) {
+	public User(String loginID, String username) {
+		super();
+		this.loginID = loginID;
+		this.username = username;
+	}
+
+
+
+	public User(String loginID, String username, String email, String password, int status, int role) {
 		super();
 		this.loginID = loginID;
 		this.username = username;
@@ -51,7 +61,7 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	public User(int loginID, String username, String email, String password) {
+	public User(String loginID, String username, String email, String password) {
 		super();
 		this.loginID = loginID;
 		this.username = username;
@@ -59,7 +69,7 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public User(int sortID, int loginID, String username, String email, String password, Date registeDate, int status,
+	public User(int sortID, String loginID, String username, String email, String password, Date registeDate, int status,
 			int role) {
 		super();
 		this.sortID = sortID;
@@ -80,11 +90,11 @@ public class User implements Serializable {
 		this.sortID = sortID;
 	}
 
-	public int getLoginID() {
+	public String getLoginID() {
 		return loginID;
 	}
 
-	public void setLoginID(int loginID) {
+	public void setLoginID(String loginID) {
 		this.loginID = loginID;
 	}
 
