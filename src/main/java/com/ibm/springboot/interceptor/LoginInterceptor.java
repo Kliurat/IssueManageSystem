@@ -12,6 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ibm.springboot.entity.jwt.Audience;
 import com.ibm.springboot.util.JwtTokenUtil;
 
+/*
+ * 作者：蔡海锋
+ * 作用：登陆认证拦截器
+ * */
 public class LoginInterceptor implements HandlerInterceptor {
 
 	@Autowired

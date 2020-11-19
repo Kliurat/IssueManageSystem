@@ -41,11 +41,11 @@
 	  </where>
 	</select>
 	
-	<select id="findByUserName" resultType="com.ibm.springboot.entity.User">
+	<select id="findByLoginId" resultType="com.ibm.springboot.entity.User">
 		select 
 			sortID,loginID,username,email,password,registeDate,status,role
 			from user
-			where loginID = #{username}
+			where loginID = #{loginId}
 	</select>
 
 	<!-- int updateStatus(); -->

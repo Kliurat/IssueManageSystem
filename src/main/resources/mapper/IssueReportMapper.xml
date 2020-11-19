@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper标签要指定namespace属性，不然会报错，可看做包名-->
+<mapper namespace="com.ibm.springboot.dao.IssueReportDao">
+
+	<sql id="columnsAll">
+		id,user_id,username,create_count,receive_count,modify_count,finish_count,finished_per
+	</sql>
+	
+	<!--List<IssueReport> findAll(); -->
+	<select id="findAll" resultType="com.ibm.springboot.entity.IssueReport">
+		select 
+			<include refid="columnsAll"/>
+			from issue_report
+			<where>
+				<if test="userId != null">
+					user_id = #{userId}
+				</if>
+				
+				<if test="username != null">
+					and username = #{username}
+				</if>
+			</where>
+	</select>
+	
+	<!--IssueReport selectByUserId(Integer userId); -->
+	<select id="selectByUserId" resultType="com.ibm.springboot.entity.IssueReport">
+		select 
+			<include refid="columnsAll"/>
+			from issue_report
+			where user_id = #{userId}
+	</select>
+	<!--int insert(IssueReport report); -->
+	
+	<insert id="insert">
+		insert into issue_report(user_id,username,create_count,receive_count,modify_count,finished_per)
+		values (
+			#{userId},
+			#{username},
+			#{createCount},
+			#{receiveCount},
+			#{modifyCount},
+			#{finishCount},
+			#{finishedPer}
+		)
+	</insert>
+	
+	<!-- int update(IssueReport report); -->
+	<update id="update">
+		update issue_report
+		set
+			create_count = #{createCount},
+			receive_count = #{receiveCount},
+			modify_count = #{modifyCount},
+			finish_count = #{finishCount},
+			finished_per = #{finishedPer}
+		where user_id = #{userId}
+		
+	</update>
+	
+	
+	
+</mapper>
