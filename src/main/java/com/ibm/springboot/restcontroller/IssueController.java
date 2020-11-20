@@ -50,10 +50,16 @@ public class IssueController {
 		System.out.println("当前日期：" + df.format(new Date()));// new Date()为获取当前系统时间
 
 		// 给每一个Issue创建一个唯一的uuid
-		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-		uuid.substring(0, 5);
-		
-		
+		String uuid = null;
+		int row = 0;
+		do {
+			uuid = UUID.randomUUID().toString().replaceAll("-", "");
+			uuid = uuid.substring(0, 6);
+			// 判断数据库中是否存在该索引
+			row = issueService.getRowByIssueNo(uuid);
+			System.out.println("生成issueNo冲突，查询row:" + row);
+
+		} while (row != 0);
 
 		issue.setIssueNo(uuid);
 		issue.setStatus(0);
@@ -65,6 +71,7 @@ public class IssueController {
 		}
 
 		System.out.println("待插入Issue:" + issue.toString());
+		
 
 		User user = (User) session.getAttribute("user");
 		System.out.println("查看session存储的user:" + user);
@@ -74,6 +81,7 @@ public class IssueController {
 		IssueReport report = null;
 		try {
 			report = iRepService.getReportByLoginID(/* user.getLoginID() */"7");
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			if (e instanceof NullPointerException) {
@@ -87,6 +95,9 @@ public class IssueController {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
 		}
+		
+		//根据登陆的user，取出loginID
+		issue.setCreatePersonID(user.getLoginID());
 
 		// 3.插入issue
 		CommonResult result = issueService.insertIssue(issue);

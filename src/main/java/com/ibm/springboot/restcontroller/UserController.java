@@ -71,7 +71,7 @@ public class UserController {
 	//查询所有的用户
 	@GetMapping("/selectAll/user")
 	public List<User> selectAll(HttpServletResponse response){
-//		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List<User> list = userService.selectAll();
 		return list;
 	}
