@@ -21,10 +21,25 @@ class IssueManagementSystemApplicationTests {
 	@Test
 	public void testInsert() {
 		
-		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-		String substring = uuid.substring(0, 5);
+//		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+//		String substring = uuid.substring(0, 5);	
+//		System.out.println(substring+" 111");
 		
-		System.out.println(substring+" 111");
+		int t = 0;
+		float finishedPer = (float) 0.56811112;
+		int temp = (int)(finishedPer * 1000);
+		System.out.println("temp: "+temp);
+		int k = temp % 10; //取出第三位
+		if(k >= 5)
+		{
+			t = (int)(finishedPer * 100) + 1;		
+		}
+		else 
+		{
+			t = (int)(finishedPer * 100);
+		}
+		
+		System.out.println(t);
 		
 	}
 

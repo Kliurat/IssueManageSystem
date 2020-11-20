@@ -73,7 +73,7 @@ public class IssueController {
 
 		IssueReport report = null;
 		try {
-			report = iRepService.getReportByLoginID(user.getLoginID());
+			report = iRepService.getReportByLoginID(/* user.getLoginID() */"7");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			if (e instanceof NullPointerException) {
