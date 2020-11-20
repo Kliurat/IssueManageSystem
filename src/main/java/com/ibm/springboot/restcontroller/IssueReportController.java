@@ -30,23 +30,37 @@ public class IssueReportController {
 	 * @param username
 	 * @return
 	 */
-	@GetMapping("")
-	public CommonResult getAll(@RequestParam(value = "loginId", required = false) String loginId,
-							   @RequestParam(value = "username", required = false) String username
-	) {
 
-		System.out.println("loginId:" + loginId);
+	@RequestMapping("")
+	public CommonResult getAll(
+			@RequestParam(value = "loginID", required = false) String userId,
+			@RequestParam(value = "username", required = false) String username)
+	{
+	
+		System.out.println("userId:" + userId);
 		System.out.println("username:" + username);
 
 		int status = 200;
 		String msg = "查询成功";
+		
+		if(username == "") {
+			username = null;
+		}
+		if (userId == "") {
+			userId = null;
+		}
 
-			List<IssueReport> list = iService.findAll(loginId, username);
+		List<IssueReport> list = iService.findAll(userId, username);
 
 		if (list == null) {
 			list = new ArrayList<IssueReport>();
+			System.out.println("list为null");
 		}
 
+	
+		for (IssueReport issueReport : list) {
+			System.out.println(issueReport);
+		}
 
 		return new CommonResult<List<IssueReport>>(status, msg, list);
 	}
