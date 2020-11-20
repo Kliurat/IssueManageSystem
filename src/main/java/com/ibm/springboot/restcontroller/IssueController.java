@@ -51,6 +51,9 @@ public class IssueController {
 
 		// 给每一个Issue创建一个唯一的uuid
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		uuid.substring(0, 5);
+		
+		
 
 		issue.setIssueNo(uuid);
 		issue.setStatus(0);

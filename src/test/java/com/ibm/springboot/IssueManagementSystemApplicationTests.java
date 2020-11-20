@@ -2,6 +2,7 @@ package com.ibm.springboot;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,10 @@ class IssueManagementSystemApplicationTests {
 	@Test
 	public void testInsert() {
 		
-//		User user = new User(4,"李云龙","2657001890@qq.com","123456", 0, 0);
-//		userService.insert(user);	
+		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		String substring = uuid.substring(0, 5);
 		
-		//设置日期格式
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		// new Date()为获取当前系统时间
-		System.out.println(df.format(new Date()));
+		System.out.println(substring+" 111");
 		
 	}
 
