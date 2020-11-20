@@ -18,8 +18,9 @@
 					user_id = #{userId}
 				</if>
 				
-				<if test="username != null">
-					and username = #{username}
+				<if test="username != null and username.trim() != ''">
+					<bind name="_user_name" value="'%' + username + '%'"/>
+					and username = #{_user_name}
 				</if>
 			</where>
 	</select>

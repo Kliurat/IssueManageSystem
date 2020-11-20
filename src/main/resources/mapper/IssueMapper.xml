@@ -52,8 +52,9 @@
 			<include refid="columnsAll"/>
 				from issue
 			<where>
-                <if test="issueNo != null">
-                    issue_no = #{issueNo} 
+                <if test="issueNo != null and issueNo.trim() != ''">
+                	<bind name="_issue_no" value="'%' + issueNo + '%'"/>
+                    issue_no like #{_issue_no} 
                 </if>
                 
                 <if test="status != null">
@@ -67,11 +68,13 @@
                 
                 
                 <if test="createPersonID != null">
-                    and create_person_ID = #{createPersonID}
+                	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
+                    and create_person_ID like #{_create_person_id}
                 </if>
                 
                 <if test="modifyPersonID != null">
-                    and modify_person_ID = #{modifyPersonID}
+                	<bind name="_modify_person_id" value="'%' + modifyPersonID + '%'"/>
+                    and modify_person_ID like #{_modify_person_id}
                 </if>
                 
                 <if test="modifyStartDate != null">
@@ -142,4 +145,11 @@
 			
 			where id = #{id}
 	</update>
+	
+	<select id="getRowByIssueNo" resultType="int">
+		select 
+			count(id) 
+			from issue
+		where issue_no = #{issueNo} 
+	</select>
 </mapper>

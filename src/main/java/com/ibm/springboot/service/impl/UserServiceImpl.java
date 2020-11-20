@@ -1,10 +1,12 @@
 package com.ibm.springboot.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +80,7 @@ public class UserServiceImpl implements UserService {
 		int status = 200;
 		String msg;
 		String token = null;
+		Map<String, Object> map = null;
 
 		// 用户名、密码不为空
 		if (loginId != null && password != null && !"".equals(password.trim())) {
@@ -91,6 +94,10 @@ public class UserServiceImpl implements UserService {
 					msg = "登陆成功";
 					token = JwtTokenUtil.createJWT(String.valueOf(user.getSortID()), String.valueOf(user.getLoginID()),
 							String.valueOf(user.getRole()), audience);
+					map = new HashedMap<String, Object>();
+					map.put("loginID", user.getLoginID());
+					map.put("username", user.getUsername());
+					map.put("token", token);
 					System.out.println("#####  登陆成功 ##### ，生成token:" + token);
 				} else {
 					status = 201;
@@ -109,7 +116,7 @@ public class UserServiceImpl implements UserService {
 			msg = "用户名或密码不能为空";
 		}
 
-		return new CommonResult<String>(status, msg, token);
+		return new CommonResult<Map<String, Object>>(status, msg, map);
 	}
 
 }
