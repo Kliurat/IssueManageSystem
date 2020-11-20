@@ -71,7 +71,7 @@ public class UserController {
 	//查询所有的用户
 	@GetMapping("/selectAll/user")
 	public List<User> selectAll(HttpServletResponse response){
-//		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		List<User> list = userService.selectAll();
 		return list;
 	}
@@ -94,10 +94,11 @@ public class UserController {
 	
 	//根据用户ID或者用户姓名查询用户信息
 	@RequestMapping("/selectUser")
-	List<User> selectUser(@RequestParam(value = "loginID",required = false) String loginID,@RequestParam(value = "username",required = false) String username)
+	List<User> selectUser(@RequestParam(value = "loginID",required = false) String loginID,
+						  @RequestParam(value = "username",required = false) String username)
 	{
 		
-		System.out.println("login的值为：" + loginID);
+		System.out.println("loginID的值为：" + loginID);
 		System.out.println("username的值为：" + username);
 		
 		User user = new User(loginID,username);
@@ -111,12 +112,41 @@ public class UserController {
 		return list;
 	}
 	
+//	@RequestMapping("/selectUser")
+//	List<User> selectUser(User user)
+//	{
+//		
+//		System.out.println("前端传入的对象："+user);
+//		
+//		List<User> list = userService.selectUser(user);
+//
+//		for (User user2 : list) {
+//			System.out.println(user2);
+//		}
+//		
+//		return list;
+//	}
+	
 	//Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
-	@PutMapping("/update/statusAndrole")
-	public int updateStatusAndRole(User user)
+	@RequestMapping("/update/statusAndrole")
+	public List<User> updateStatusAndRole(@RequestParam(value = "loginID",required = false) String loginID,@RequestParam(value = "role",required = false) Integer role,@RequestParam(value = "status",required = false) Integer status)
 	{
-		int updateStatus = userService.updateStatusAndRole(user);
-		return updateStatus;
+		User user = new User(loginID,role,status);
+		System.out.println("loginID：" + loginID);
+		System.out.println("role：" + role);
+		System.out.println("status：" + status);
+		
+		System.out.println("====================");
+		System.out.println("user为：" + user);
+		
+		if(role == null && status != null) {
+			userService.updateStatus(user);
+		}else if (role != null && status == null) {
+			userService.updateRole(user);
+		}
+		
+		//返回全用户列表给前端
+		return userService.selectAll();
 	}
 	
 }

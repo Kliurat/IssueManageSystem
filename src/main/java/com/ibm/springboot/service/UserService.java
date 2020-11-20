@@ -24,7 +24,11 @@ public interface UserService {
 	public List<User> selectUser(User user);
 
 	public int updateStatusAndRole(User user);
-
+	
+	public int updateStatus(User user);
+	
+	public int updateRole(User user);
+	
 	// 在指派修改人的时候，传入loginID的前缀，
 	public List<User> getUsersByPreLoginID(String loginID);
 

@@ -119,4 +119,17 @@ public class UserServiceImpl implements UserService {
 		return new CommonResult<Map<String, Object>>(status, msg, map);
 	}
 
+	@Override
+	public int updateStatus(User user) {
+		// TODO Auto-generated method stub
+		
+		return userDao.updateStatus(user);
+	}
+
+	@Override
+	public int updateRole(User user) {
+		// TODO Auto-generated method stub
+		return userDao.updateRole(user);
+	}
+
 }
