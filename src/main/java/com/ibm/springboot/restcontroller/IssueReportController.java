@@ -41,7 +41,7 @@ public class IssueReportController {
 		int status = 200;
 		String msg = "查询成功";
 
-		List<IssueReport> list = iService.findAll(loginId, username);
+			List<IssueReport> list = iService.findAll(loginId, username);
 
 		if (list == null) {
 			list = new ArrayList<IssueReport>();
