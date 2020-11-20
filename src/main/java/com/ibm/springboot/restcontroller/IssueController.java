@@ -62,6 +62,7 @@ public class IssueController {
 		}
 
 		System.out.println("待插入Issue:" + issue.toString());
+		
 
 		User user = (User) session.getAttribute("user");
 		System.out.println("查看session存储的user:" + user);
@@ -71,6 +72,7 @@ public class IssueController {
 		IssueReport report = null;
 		try {
 			report = iRepService.getReportByLoginID(user.getLoginID());
+//			report = iRepService.getReportByLoginID("7");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			if (e instanceof NullPointerException) {
@@ -84,6 +86,9 @@ public class IssueController {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
 		}
+		
+		//根据登陆的user，取出loginID
+		issue.setCreatePersonID(user.getLoginID());
 
 		// 3.插入issue
 		CommonResult result = issueService.insertIssue(issue);
