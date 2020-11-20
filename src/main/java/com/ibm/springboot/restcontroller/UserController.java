@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,8 +65,8 @@ public class UserController {
 	
 	//查询所有的用户
 	@GetMapping("/selectAll/user")
-	public List<User> selectAll(){
-		
+	public List<User> selectAll(HttpServletResponse response){
+//		response.setHeader("Access-Control-Allow-Origin", "*");
 		List<User> list = userService.selectAll();
 		return list;
 	}

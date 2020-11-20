@@ -26,14 +26,14 @@ public interface UserDao {
 	List<User> selectUser(User user);
 
 	// 登陆：根据用户名查询用户
-	User findByUserName(@Param("username") String username);
+	User findByLoginId(@Param("loginId") Integer loginId);
 
 	// Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
-//	int updateStatus(@Param("loginID") int loginID);
+	// int updateStatus(@Param("loginID") int loginID);
 
 	int updateStatusAndRole(User user);
-	
-	//在指派修改人的时候，传入loginID的前缀，判断该修改人是否存在
+
+	// 在指派修改人的时候，传入loginID的前缀，判断该修改人是否存在
 	public List<User> getUsersByPreLoginID(int loginID);
 
 }

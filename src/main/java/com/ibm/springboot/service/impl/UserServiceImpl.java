@@ -3,6 +3,7 @@ package com.ibm.springboot.service.impl;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,20 +73,21 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
-	public CommonResult login(String username, String password) {
+	public CommonResult login(Integer loginId, String password, HttpSession session) {
 
 		int status = 200;
 		String msg;
 		String token = null;
 
 		// 用户名、密码不为空
-		if (username != null && password != null && !"".equals(username.trim()) && !"".equals(password.trim())) {
+		if (loginId != null && password != null && !"".equals(password.trim())) {
 
-			User user = userDao.findByUserName(username);
+			User user = userDao.findByLoginId(loginId);
 			if (user != null) {
 
 				if (password.equals(user.getPassword())) {
 					status = 200;
+					session.setAttribute("user", user);
 					msg = "登陆成功";
 					token = JwtTokenUtil.createJWT(String.valueOf(user.getSortID()), String.valueOf(user.getLoginID()),
 							String.valueOf(user.getRole()), audience);
