@@ -17,4 +17,6 @@ public interface IssueService {
 	List<Issue> queryByCondition(IssueVo issue);
 
 	int updateIssue(Issue issue);
+
+	int getRowByIssueNo(String issueNo);
 }

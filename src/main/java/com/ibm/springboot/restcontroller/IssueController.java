@@ -50,7 +50,16 @@ public class IssueController {
 		System.out.println("当前日期：" + df.format(new Date()));// new Date()为获取当前系统时间
 
 		// 给每一个Issue创建一个唯一的uuid
-		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		String uuid = null;
+		int row = 0;
+		do {
+			uuid = UUID.randomUUID().toString().replaceAll("-", "");
+			uuid = uuid.substring(0, 6);
+			// 判断数据库中是否存在该索引
+			row = issueService.getRowByIssueNo(uuid);
+			System.out.println("生成issueNo冲突，查询row:" + row);
+
+		} while (row != 0);
 
 		issue.setIssueNo(uuid);
 		issue.setStatus(0);

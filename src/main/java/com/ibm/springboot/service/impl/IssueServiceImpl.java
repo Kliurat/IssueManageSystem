@@ -2,8 +2,6 @@ package com.ibm.springboot.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +70,12 @@ public class IssueServiceImpl implements IssueService {
 
 		return issueDao.updateIssue(issue);
 
+	}
+
+	@Override
+	public int getRowByIssueNo(String issueNo) {
+		// TODO Auto-generated method stub
+		return issueDao.getRowByIssueNo(issueNo);
 	}
 
 }

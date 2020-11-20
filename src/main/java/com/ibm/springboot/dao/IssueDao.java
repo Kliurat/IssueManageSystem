@@ -32,4 +32,6 @@ public interface IssueDao {
 
 	int updateIssue(Issue issue);
 
+	int getRowByIssueNo(@Param("issueNo") String issueNo);
+
 }

@@ -3,6 +3,7 @@ package com.ibm.springboot.restcontroller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,5 +25,12 @@ public class LoginController {
 
 		return userService.login(loginId, password, session);
 
+	}
+
+	@GetMapping("/logout")
+	public CommonResult logout(HttpSession session) {
+
+		session.removeAttribute("user");
+		return new CommonResult<String>(200, "您已退出登陆，期待您下次的到来", null);
 	}
 }
