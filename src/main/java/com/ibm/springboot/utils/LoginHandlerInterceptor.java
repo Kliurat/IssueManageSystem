@@ -40,6 +40,10 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 		String token = request.getParameter("token");
 
+		System.out.println("user:" + user);
+
+		System.out.println("token:" + token);
+
 		if (user == null || token == null)// 未登录
 		{
 			String msg = null;
@@ -47,7 +51,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 			if (user == null) {
 				msg = "您尚未登录，请先登录";
 			} else if (token == null) {
-				msg = "非法请求，请携带token";
+				msg = "您所发起的为非法请求，请携带token验证";
 			}
 			{
 
@@ -104,7 +108,13 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 			}
 			System.out.println("audience:" + audience);
 			// 验证token是否有效--无效已做异常抛出，由全局异常处理后返回对应信息
-			result = JwtTokenUtil.parseJWT(token, audience.getBase64Secret()) != null;
+			try {
+				result = JwtTokenUtil.parseJWT(token, audience.getBase64Secret()) != null;
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				result = false;
+			}
 			System.out.println("token校验结果：" + result);
 
 			if (!result) {

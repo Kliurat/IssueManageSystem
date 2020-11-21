@@ -81,8 +81,8 @@ public class IssueController {
 		// 1.查看是否有自己的报表行记录
 		IssueReport report = null;
 		try {
-			report = iRepService.getReportByLoginID(user.getLoginID());
-//			report = iRepService.getReportByLoginID("7");
+			report = iRepService.getReportByLoginID(/* user.getLoginID() */"7");
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			if (e instanceof NullPointerException) {

@@ -50,7 +50,7 @@ audience:
   # JWT的签发主体，存入issuer
   name: restapiuser
   # 过期时间，时间戳
-  expiresSecond: 172800   #单位毫秒
+  expiresSecond: 604800000   #单位毫秒,7天有效期
   
   
   

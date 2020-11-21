@@ -98,4 +98,11 @@ public class IssueReport {
 		this.finishedPer = finishedPer;
 	}
 
+	@Override
+	public String toString() {
+		return "IssueReport [id=" + id + ", userId=" + loginId + ", username=" + username + ", createCount="
+				+ createCount + ", receiveCount=" + receiveCount + ", modifyCount=" + modifyCount + ", finishCount="
+				+ finishCount + ", finishedPer=" + finishedPer + "]";
+	}
+
 }
