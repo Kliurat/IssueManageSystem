@@ -160,11 +160,24 @@ public class IssueController {
 		List<Issue> list = issueService.findAll();
 		return new CommonResult<List<Issue>>(200, "全部数据查询成功", list);
 	}
+	
+	@RequestMapping("/getIssueByIssueNo")
+	public Issue getIssueByIssueNo(
+			@RequestParam(value = "issueNo", required = false) String issueNo,
+			@RequestParam(value = "status", required = false) String status) 
+	{
+
+		System.out.println("获取到的issueNo为： " + issueNo);
+		System.out.println("获取到的status为： " + status);
+		Issue issue = issueService.getIssueByIssueNo(issueNo);
+		return issue;
+	}
 
 	// 条件查询
 	// 注释部分为分页查询代码，如需要，关闭全部注释即可
 	@PostMapping("/query")
-	public CommonResult query(IssueVo issue
+	public CommonResult query(
+			IssueVo issue
 //			@RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum
 	) {
 
@@ -207,5 +220,7 @@ public class IssueController {
 
 		return new CommonResult<String>(status, msg, null);
 	}
+	
+	
 
 }

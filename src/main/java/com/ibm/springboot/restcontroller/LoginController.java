@@ -31,6 +31,7 @@ public class LoginController {
 	public CommonResult logout(HttpSession session) {
 
 		session.removeAttribute("user");
+		session.removeAttribute("token");
 		return new CommonResult<String>(200, "您已退出登陆，期待您下次的到来", null);
 	}
 }

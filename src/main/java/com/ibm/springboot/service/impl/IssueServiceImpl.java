@@ -78,4 +78,12 @@ public class IssueServiceImpl implements IssueService {
 		return issueDao.getRowByIssueNo(issueNo);
 	}
 
+	@Override
+	public Issue getIssueByIssueNo(String issueNo) {
+		// TODO Auto-generated method stub
+		return issueDao.getIssueByIssueNo(issueNo);
+	}
+	
+	
+
 }

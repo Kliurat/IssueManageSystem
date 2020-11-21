@@ -11,7 +11,7 @@ import com.ibm.springboot.utils.LoginHandlerInterceptor;
  * 
  * 
  */
-@Configuration
+//@Configuration
 public class MyWebMvcConfigurer implements WebMvcConfigurer {
 
 	// 配置视图映射

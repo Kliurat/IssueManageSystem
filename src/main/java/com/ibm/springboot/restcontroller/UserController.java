@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,8 +79,14 @@ public class UserController {
 	
 	//修改个人信息
 	@PutMapping("/update/user")
-	public int update(@RequestBody User user)
+	public int update(@RequestBody Map<String, String> map)
 	{
+		String loginID = map.get("loginID");
+		String username = map.get("username");
+		String email = map.get("email");
+		String password = map.get("password");
+		User user = new User(loginID,username,email,password);
+//		System.out.println("User传来了：" + user);
 		int update = userService.update(user);
 		return update;
 	}

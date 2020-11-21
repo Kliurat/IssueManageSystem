@@ -61,11 +61,15 @@
              		and status = #{status}
                 </if>
                 
-               	<if test="createStartDate != null">
+               	<if test="createStartDate != null and createEndDate !=null">
                     and create_date between #{createStartDate}
                     and #{createEndDate}
                 </if>
                 
+                <if test="createStartDate == null and createEndDate !=null">
+                    and create_date between #{createStartDate}
+                    and #{createEndDate}
+                </if>
                 
                 <if test="createPersonID != null">
                 	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
@@ -138,7 +142,7 @@
 				</if>
 				
 				<if test="solution != null">
-					status = #{solution}
+					solution = #{solution}
 				</if>
 				
 			</set>
@@ -152,4 +156,12 @@
 			from issue
 		where issue_no = #{issueNo} 
 	</select>
+	
+	<select id="getIssueByIssueNo" resultType="com.ibm.springboot.entity.Issue">
+		select
+			<include refid="columnsAll"/>
+				from issue
+				where issue_no = #{issueNo}
+	</select>
+	
 </mapper>

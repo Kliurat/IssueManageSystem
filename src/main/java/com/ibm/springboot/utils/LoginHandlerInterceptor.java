@@ -38,7 +38,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 		Object user = request.getSession().getAttribute("user");
 
-		String token = request.getParameter("token");
+		String token = (String) request.getSession().getAttribute("token");
 
 		System.out.println("user:" + user);
 

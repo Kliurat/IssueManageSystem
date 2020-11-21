@@ -29,6 +29,8 @@ public interface IssueDao {
 	public List<Issue> findAll();
 
 	List<Issue> queryByCondition(IssueVo issue);
+	
+	Issue getIssueByIssueNo(String issueNo);
 
 	int updateIssue(Issue issue);
 
