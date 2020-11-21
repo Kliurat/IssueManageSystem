@@ -4,7 +4,7 @@ public class IssueReport {
 
 	private Integer id; // 序号
 
-	private String userId; // 登陆ID
+	private String loginId; // 登陆ID
 
 	private String username; // 用户姓名
 
@@ -22,11 +22,10 @@ public class IssueReport {
 		super();
 	}
 
-	public IssueReport(String userId, String username, int createCount, int receiveCount, int modifyCount,
-
+	public IssueReport(String loginId, String username, int createCount, int receiveCount, int modifyCount,
 			int finishCount, float finishedPer) {
 		super();
-		this.userId = userId;
+		this.loginId = loginId;
 		this.username = username;
 		this.createCount = createCount;
 		this.receiveCount = receiveCount;
@@ -43,12 +42,12 @@ public class IssueReport {
 		this.id = id;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getLoginId() {
+		return loginId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserId(String loginId) {
+		this.loginId = loginId;
 	}
 
 	public String getUsername() {
@@ -101,11 +100,9 @@ public class IssueReport {
 
 	@Override
 	public String toString() {
-		return "IssueReport [id=" + id + ", userId=" + userId + ", username=" + username + ", createCount="
+		return "IssueReport [id=" + id + ", userId=" + loginId + ", username=" + username + ", createCount="
 				+ createCount + ", receiveCount=" + receiveCount + ", modifyCount=" + modifyCount + ", finishCount="
 				+ finishCount + ", finishedPer=" + finishedPer + "]";
 	}
-	
-	
 
 }

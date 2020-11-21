@@ -45,6 +45,9 @@ public class IssueController {
 	public CommonResult insertIssue(Issue issue, HttpSession session) {
 
 		System.out.println("进入.......................................................");
+		System.out.println(issue);
+
+		System.out.println("待插入Issue:" + issue.toString());
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");// 设置日期格式
 		System.out.println("当前日期：" + df.format(new Date()));// new Date()为获取当前系统时间
@@ -71,13 +74,11 @@ public class IssueController {
 		}
 
 		System.out.println("待插入Issue:" + issue.toString());
-		
 
 		User user = (User) session.getAttribute("user");
 		System.out.println("查看session存储的user:" + user);
 
 		// 1.查看是否有自己的报表行记录
-
 		IssueReport report = null;
 		try {
 			report = iRepService.getReportByLoginID(/* user.getLoginID() */"7");
@@ -95,8 +96,8 @@ public class IssueController {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
 		}
-		
-		//根据登陆的user，取出loginID
+
+		// 根据登陆的user，取出loginID
 		issue.setCreatePersonID(user.getLoginID());
 
 		// 3.插入issue

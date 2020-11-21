@@ -40,6 +40,9 @@ public class JwtTokenUtil {
 		try {
 			Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(base64Security))
 					.parseClaimsJws(jsonWebToken).getBody();
+			System.out.println("token签发时间：" + claims.getIssuedAt().toString());
+
+			System.out.println("token过期时间：" + claims.getExpiration().toString());
 			return claims;
 		} catch (ExpiredJwtException eje) {
 //            e.printStackTrace();
@@ -64,6 +67,7 @@ public class JwtTokenUtil {
 		// 使用HS256加密算法
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
+		// 单位：毫秒
 		long nowMillis = System.currentTimeMillis();
 		Date now = new Date(nowMillis);
 
@@ -75,11 +79,13 @@ public class JwtTokenUtil {
 		String encryId = Base64Util.encode(userId);
 
 		// 添加构成JWT的参数
+		Date date = new Date();
+		System.out.println("签发时间：" + date.toString());
 		JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
 				// 可以将基本不重要的对象信息放到claims
 				.claim("role", role).claim("userId", userId).setSubject(username) // 代表这个JWT的主体，即它的所有者
 				.setIssuer(audience.getClientId()) // 代表这个JWT的签发主体
-				.setIssuedAt(new Date()) // JWT的签发时间
+				.setIssuedAt(date) // JWT的签发时间
 				.setAudience(audience.getName()) // 代表这个JWT的接收对象
 				.signWith(signatureAlgorithm, signingKey);
 		// 添加Token过期时间
@@ -89,6 +95,8 @@ public class JwtTokenUtil {
 			Date exp = new Date(expMillis);
 			builder.setExpiration(exp) // 是一个时间戳，代表这个JWT的过期时间
 					.setNotBefore(now); // JWT的生效时间
+			System.out.println("过期时间：" + exp.toString());
+
 		}
 		// 生成JWT
 		return builder.compact();
