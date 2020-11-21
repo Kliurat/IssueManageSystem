@@ -14,9 +14,19 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     mode: HTML
+
+#    
+#  thymeleaf:#    cache: false
+#    enabled: true
+#    encoding: utf-8
+#    prefix: classpath:/templates/
+#    suffix: .html
+#    mode: HTML
     
   mvc:
     hiddenmethod:      filter:        enabled: true
+        
+  devtools:    restart:      enabled: true
 
     
 mybatis:
@@ -40,6 +50,7 @@ audience:
   # JWT的签发主体，存入issuer
   name: restapiuser
   # 过期时间，时间戳
-  expiresSecond: 172800
+  expiresSecond: 172800   #单位毫秒
+  
   
   

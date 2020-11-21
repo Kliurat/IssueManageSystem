@@ -13,7 +13,7 @@ public class User implements Serializable {
 	private int sortID;
 
 	// 用户登陆ID
-	private int loginID;
+	private String loginID;
 
 	// 用户姓名
 	private String username;
@@ -30,18 +30,35 @@ public class User implements Serializable {
 	private Date registeDate;
 
 	// 用户状态
-	// 1：激活；-1：注销
-	private int status;
+	// 1：激活；0：注销
+	private Integer status;
 
 	// 用户角色
 	// 0：普通用户；1：经理
-	private int role;
+	private Integer role;
 
 	public User() {
 
 	}
+	
+	
 
-	public User(int loginID, String username, String email, String password, int status, int role) {
+	public User(String loginID, String username) {
+		super();
+		this.loginID = loginID;
+		this.username = username;
+	}
+
+	
+	public User(String loginID, Integer status, Integer role) {
+		super();
+		this.loginID = loginID;
+		this.status = status;
+		this.role = role;
+	}
+
+	
+	public User(String loginID, String username, String email, String password, Integer status, Integer role) {
 		super();
 		this.loginID = loginID;
 		this.username = username;
@@ -51,7 +68,7 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	public User(int loginID, String username, String email, String password) {
+	public User(String loginID, String username, String email, String password) {
 		super();
 		this.loginID = loginID;
 		this.username = username;
@@ -59,8 +76,8 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public User(int sortID, int loginID, String username, String email, String password, Date registeDate, int status,
-			int role) {
+	public User(int sortID, String loginID, String username, String email, String password, Date registeDate, Integer status,
+			Integer role) {
 		super();
 		this.sortID = sortID;
 		this.loginID = loginID;
@@ -80,11 +97,11 @@ public class User implements Serializable {
 		this.sortID = sortID;
 	}
 
-	public int getLoginID() {
+	public String getLoginID() {
 		return loginID;
 	}
 
-	public void setLoginID(int loginID) {
+	public void setLoginID(String loginID) {
 		this.loginID = loginID;
 	}
 
@@ -112,19 +129,19 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public int getRole() {
+	public Integer getRole() {
 		return role;
 	}
 
-	public void setRole(int role) {
+	public void setRole(Integer role) {
 		this.role = role;
 	}
 

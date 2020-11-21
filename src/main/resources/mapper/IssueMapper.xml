@@ -4,13 +4,20 @@
 <!-- mapper标签要指定namespace属性，不然会报错，可看做包名-->
 <mapper namespace="com.ibm.springboot.dao.IssueDao">
 
+
+	<resultMap id="IssueMap" type="com.ibm.springboot.entity.Issue">
+		<result property="modifyPersonID" column="modify_person_ID"/>
+    	<result property="createPersonID" column="create_person_ID"/>
+    	<result property="actualComplteTime" column="actual_complte_time"/>
+	</resultMap>
+
 	<sql id="columnsAll">
 		id,issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,
 		priority,influent_version,re_step,create_person_ID,
 		modify_person_ID,title,status,solution
 	</sql>
 
-	<select id="findAll" resultType="com.ibm.springboot.entity.Issue">
+	<select id="findAll" resultMap="IssueMap">
 		select 
 			<include refid="columnsAll"/>
 			from issue
@@ -20,23 +27,22 @@
 		delete from issue
 		where id = #{id}
 	</delete>
-	
-	<insert	id="insert">
-		insert into issue(
-		issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,priority,influent_version,
-		re_step,create_person_ID,modify_person_ID,title,status) values (
-			#{issue.issueNo},
-			#{issue.issueType},
-			#{issue.createDate},
-			#{issue.planModifyTime},
-			#{issue.actualComplteTime},
-			#{issue.priority},
-			#{issue.influentVersion},
-			#{issue.reStep},
-			#{issue.createPersonID},
-			#{issue.modifyPersonID},
-			#{issue.title},
-			#{issue.status}
+
+	<insert	id="insert" parameterType="com.ibm.springboot.entity.Issue">
+	    insert into issue(
+		issue_no,issue_type,create_date,plan_modify_time,priority,influent_version,
+		re_step,create_person_ID,modify_person_ID,title,status) values(
+			#{issueNo},
+			#{issueType},
+			#{createDate},
+			#{planModifyTime},
+			#{priority},
+			#{influentVersion},
+			#{reStep},
+			#{createPersonID},
+			#{modifyPersonID},
+			#{title},
+			#{status}
 		)
 		
 	</insert>
@@ -46,31 +52,34 @@
 			<include refid="columnsAll"/>
 				from issue
 			<where>
-                <if test="issue.issueNo != null">
-                    issue_no = #{issue.issueNo} 
+                <if test="issueNo != null and issueNo.trim() != ''">
+                	<bind name="_issue_no" value="'%' + issueNo + '%'"/>
+                    issue_no like #{_issue_no} 
                 </if>
                 
-                <if test="issue.status != null">
-             		and status = #{issue.status}
+                <if test="status != null">
+             		and status = #{status}
                 </if>
                 
-               	<if test="issue.createStartDate != null">
-                    and create_date between #{issue.createStartDate}
-                    and #{issue.createEndDate}
+               	<if test="createStartDate != null">
+                    and create_date between #{createStartDate}
+                    and #{createEndDate}
                 </if>
                 
                 
-                <if test="issue.createPersonID != null">
-                    and create_person_ID = #{issue.createPersonID}
+                <if test="createPersonID != null">
+                	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
+                    and create_person_ID like #{_create_person_id}
                 </if>
                 
-                <if test="issue.modifyPersonID != null">
-                    and issue.modify_person_ID = #{issue.modifyPersonID}
+                <if test="modifyPersonID != null">
+                	<bind name="_modify_person_id" value="'%' + modifyPersonID + '%'"/>
+                    and modify_person_ID like #{_modify_person_id}
                 </if>
                 
-                <if test="issue.modifyStartDate != null">
-                    and plan_modify_time between #{issue.modifyStartDate}
-                    and #{issue.modifyEndDate}
+                <if test="modifyStartDate != null">
+                    and plan_modify_time between #{modifyStartDate}
+                    and #{modifyEndDate}
                     
                 </if>
                 
@@ -136,4 +145,11 @@
 			
 			where id = #{id}
 	</update>
+	
+	<select id="getRowByIssueNo" resultType="int">
+		select 
+			count(id) 
+			from issue
+		where issue_no = #{issueNo} 
+	</select>
 </mapper>

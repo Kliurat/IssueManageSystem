@@ -41,11 +41,11 @@
 	  </where>
 	</select>
 	
-	<select id="findByLoginId" resultType="com.ibm.springboot.entity.User">
+	<select id="findByUserName" resultType="com.ibm.springboot.entity.User">
 		select 
 			sortID,loginID,username,email,password,registeDate,status,role
 			from user
-			where loginID = #{loginId}
+			where loginID = #{username}
 	</select>
 
 	<!-- int updateStatus(); -->
@@ -61,12 +61,14 @@
 	<update id="updateStatusAndRole">
 	   update user 
 	   <set>
-           <if test="status != null and role == null">  <!-- 注销 status = 0，传入 status = 1 -->
+	      <choose>
+           <when test="status != 0">  <!-- 注销 status = 0，传入 status = 1 -->
               status = 0,
-           </if>
-           <if test="role != null and status == null">    <!-- 经理 role = 1,传入 role != 1 -->
+           </when>
+           <when test="role != 1">    <!-- 经理 role = 1,传入 role != 1 -->
               role = 1
-           </if>
+           </when>
+        </choose>
 	   </set> 
 	   where loginID = #{loginID} 
 	</update>

@@ -17,13 +17,13 @@ public class IssueReportServiceImpl implements IssueReportService {
 	IssueReportDao issueReportDao;
 
 	@Override
-	public List<IssueReport> findAll(Integer loginId, String username) {
+	public List<IssueReport> findAll(String loginId, String username) {
 
 		return issueReportDao.findAll(loginId, username);
 	}
 
 	@Override
-	public IssueReport getReportByLoginID(Integer loginID) {
+	public IssueReport getReportByLoginID(String loginID) {
 		return issueReportDao.selectByUserId(loginID);
 	}
 

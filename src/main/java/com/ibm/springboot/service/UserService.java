@@ -28,7 +28,14 @@ public interface UserService {
 	// 在指派修改人的时候，传入loginID的前缀，
 	public List<User> getUsersByPreLoginID(int loginID);
 
+	public int updateStatus(User user);
+
+	public int updateRole(User user);
+
+	// 在指派修改人的时候，传入loginID的前缀，
+	public List<User> getUsersByPreLoginID(String loginID);
+
 	// 用户登录
-	public CommonResult login(Integer loginId, String password, HttpSession session);
+	public CommonResult login(String loginId, String password, HttpSession session);
 
 }

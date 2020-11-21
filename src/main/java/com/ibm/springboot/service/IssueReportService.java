@@ -6,9 +6,9 @@ import com.ibm.springboot.entity.IssueReport;
 
 public interface IssueReportService {
 
-	List<IssueReport> findAll(Integer loginId, String username);
+	List<IssueReport> findAll(String loginId, String username);
 
-	IssueReport getReportByLoginID(Integer loginID);
+	IssueReport getReportByLoginID(String loginID);
 
 	int insertReport(IssueReport report);
 

@@ -1,7 +1,11 @@
 package com.ibm.springboot.restcontroller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -45,11 +49,46 @@ public class IssueController {
 
 		System.out.println("待插入Issue:" + issue.toString());
 
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");// 设置日期格式
+		System.out.println("当前日期：" + df.format(new Date()));// new Date()为获取当前系统时间
+
+		// 给每一个Issue创建一个唯一的uuid
+		String uuid = null;
+		int row = 0;
+		do {
+			uuid = UUID.randomUUID().toString().replaceAll("-", "");
+			uuid = uuid.substring(0, 6);
+			// 判断数据库中是否存在该索引
+			row = issueService.getRowByIssueNo(uuid);
+			System.out.println("生成issueNo冲突，查询row:" + row);
+
+		} while (row != 0);
+
+		issue.setIssueNo(uuid);
+		issue.setStatus(0);
+
+		try {
+			issue.setCreateDate(df.parse(df.format(new Date())));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("待插入Issue:" + issue.toString());
+
 		User user = (User) session.getAttribute("user");
 		System.out.println("查看session存储的user:" + user);
 
 		// 1.查看是否有自己的报表行记录
-		IssueReport report = iRepService.getReportByLoginID(user.getLoginID());
+		IssueReport report = null;
+		try {
+			report = iRepService.getReportByLoginID(user.getLoginID());
+//			report = iRepService.getReportByLoginID("7");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			if (e instanceof NullPointerException) {
+				return new CommonResult<String>(201, "您尚未登陆，请先登陆", null);
+			}
+		}
 		if (report == null) {
 			// 2.若无，则插入一条，创建数为1
 			iRepService.insertReport(new IssueReport(user.getLoginID(), user.getUsername(), 1, 0, 0, 0, 0));
@@ -57,6 +96,9 @@ public class IssueController {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
 		}
+
+		// 根据登陆的user，取出loginID
+		issue.setCreatePersonID(user.getLoginID());
 
 		// 3.插入issue
 		CommonResult result = issueService.insertIssue(issue);

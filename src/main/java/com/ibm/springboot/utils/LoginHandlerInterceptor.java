@@ -5,9 +5,17 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ibm.springboot.entity.CommonResult;
+import com.ibm.springboot.entity.jwt.Audience;
+import com.ibm.springboot.util.JwtTokenUtil;
 
 // 这是一个拦截器，做登录拦截的。
 
@@ -17,6 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
  * */
 @Component
 public class LoginHandlerInterceptor implements HandlerInterceptor {
+
+	@Autowired
+	Audience audience;
+
 	// 目标方法执行之前，做一个预检查
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -26,8 +38,21 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 		Object user = request.getSession().getAttribute("user");
 
-		if (user == null)// 未登录
+		String token = request.getParameter("token");
+
+		if (user == null || token == null)// 未登录
 		{
+			String msg = null;
+
+			if (user == null) {
+				msg = "您尚未登录，请先登录";
+			} else if (token == null) {
+				msg = "非法请求，请携带token";
+			}
+			{
+
+			}
+
 			// 带上提示的消息，返回登录的页面
 			System.out.println("您尚未登录，请先登录");
 
@@ -38,9 +63,28 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 			response.setContentType("application/json;charset=UTF-8");
 
 			PrintWriter out = response.getWriter();
-			out.print("您尚未登录，请先登录");
+//			out.print("您尚未登录，请先登录");
+
+			response.setContentType("application/json;charset=UTF-8");
+
+			CommonResult<String> result = new CommonResult<String>(201, msg, null);
+
+			String jsonStr = JSONObject.toJSONString(result);
+
+			JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+
+			out.append(jsonObject.toString());
+
 			out.flush();
+
 			out.close();
+
+//			response.setContentType("application/json;charset=UTF-8");
+//
+//			PrintWriter out = response.getWriter();
+//			out.print("您尚未登录，请先登录");
+//			out.flush();
+//			out.close();
 
 //			request.getRequestDispatcher("/login.html").forward(request, response);
 
@@ -48,7 +92,38 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 		} else// 已经登录
 		{
-			return true;
+
+			boolean result = false;
+			// token为null,说明客户端发送请求没有携带token
+
+			// 验证token是否有效
+			if (audience == null) {
+				BeanFactory factory = WebApplicationContextUtils
+						.getRequiredWebApplicationContext(request.getServletContext());
+				audience = (Audience) factory.getBean("audience");
+			}
+			System.out.println("audience:" + audience);
+			// 验证token是否有效--无效已做异常抛出，由全局异常处理后返回对应信息
+			result = JwtTokenUtil.parseJWT(token, audience.getBase64Secret()) != null;
+			System.out.println("token校验结果：" + result);
+
+			if (!result) {
+				request.getSession().removeAttribute("user");
+				response.setCharacterEncoding("UTF-8");
+				response.setContentType("application/json;charset=UTF-8");
+				CommonResult<String> res = new CommonResult<String>(201, "登录已失效，请重新登录", null);
+				String jsonStr = JSONObject.toJSONString(res);
+				JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+
+				PrintWriter out = response.getWriter();
+
+				out.append(jsonObject.toString());
+
+				out.flush();
+				out.close();
+			}
+
+			return result;
 		}
 
 	}
