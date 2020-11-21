@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- mapper标签要指定namespace属性，不然会报错，可看做包名-->
 <mapper namespace="com.ibm.springboot.dao.IssueDao">
-
 
 	<resultMap id="IssueMap" type="com.ibm.springboot.entity.Issue">
 		<result property="modifyPersonID" column="modify_person_ID"/>
@@ -44,9 +42,9 @@
 			#{title},
 			#{status}
 		)
-		
 	</insert>
 	
+	<!-- Issue模糊搜索 -->
 	<select id="queryByCondition" parameterType="com.ibm.springboot.entity.VO.IssueVo" resultType="com.ibm.springboot.entity.Issue">
 		select
 			<include refid="columnsAll"/>
@@ -65,12 +63,6 @@
                     and create_date between #{createStartDate}
                     and #{createEndDate}
                 </if>
-                
-                <if test="createStartDate == null and createEndDate !=null">
-                    and create_date between #{createStartDate}
-                    and #{createEndDate}
-                </if>
-                
                 <if test="createPersonID != null">
                 	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
                     and create_person_ID like #{_create_person_id}
@@ -84,9 +76,7 @@
                 <if test="modifyStartDate != null">
                     and plan_modify_time between #{modifyStartDate}
                     and #{modifyEndDate}
-                    
                 </if>
-                
             </where> 
 	</select>
 	

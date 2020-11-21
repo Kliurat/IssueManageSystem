@@ -21,16 +21,7 @@ public class IssueReportController {
 	@Resource
 	IssueReportService iService;
 
-	/**
-	 * 
-	 * @author :chf
-	 * @date :2020-11-20 16:28:05
-	 * @description :1.不带参数时，默认返回所有Issue报表记录；2.带参数时，执行模糊查询
-	 * @param loginId
-	 * @param username
-	 * @return
-	 */
-
+	//Issue报表-------统计报表
 	@RequestMapping("")
 	public CommonResult getAll(
 			@RequestParam(value = "loginID", required = false) String userId,
@@ -64,16 +55,5 @@ public class IssueReportController {
 
 		return new CommonResult<List<IssueReport>>(status, msg, list);
 	}
-
-	// 待删
-//	@PostMapping("query")
-//	public CommonResult<List<IssueReport>> queryByCondition(
-//			@RequestParam(value = "loginID", required = false) String loginID,
-//			@RequestParam(value = "username", required = false) String username) {
-//
-//		// 查询
-//
-//		return new CommonResult<List<IssueReport>>();
-//	}
 
 }

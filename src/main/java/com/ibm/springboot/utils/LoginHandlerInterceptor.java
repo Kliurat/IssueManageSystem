@@ -83,18 +83,10 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 			out.close();
 
-//			response.setContentType("application/json;charset=UTF-8");
-//
-//			PrintWriter out = response.getWriter();
-//			out.print("您尚未登录，请先登录");
-//			out.flush();
-//			out.close();
-
-//			request.getRequestDispatcher("/login.html").forward(request, response);
-
 			return false;
 
-		} else// 已经登录
+		} 
+		else// 已经登录
 		{
 
 			boolean result = false;

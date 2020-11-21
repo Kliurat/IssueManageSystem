@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- mapper标签要指定namespace属性，不然会报错，可看做包名-->
 <mapper namespace="com.ibm.springboot.dao.IssueReportDao">
 
 	<sql id="columnsAll">
 		id,user_id,username,create_count,receive_count,modify_count,finish_count,finished_per
 	</sql>
 	
-	<!--List<IssueReport> findAll(); -->
+	<!--List<IssueReport> findAll(); 
+	   根据输入条件：用户ID,用户姓名。模糊查询Issue报表
+	-->
 	<select id="findAll" resultType="com.ibm.springboot.entity.IssueReport">
 		select 
 			<include refid="columnsAll"/>
@@ -19,10 +20,10 @@
 					login_id like #{_login_id}
 				</if>
 				
-
 				<if test="username != null and username.trim() != ''">
-					<bind name="_user_name" value="'%' + username + '%'"/>
-					and username like #{_user_name}
+				    <!-- 模糊查询的另外一种写法 -->
+					<bind name="_user_name" value="'%' + username + '%'"/>  
+					and username = #{_user_name}
 				</if>
 			</where>
 	</select>
@@ -34,9 +35,9 @@
 			from issue_report
 			where login_id = #{loginId}
 	</select>
+
 	
 	<!--int insert(IssueReport report); -->
-	
 	<insert id="insert">
 		insert into issue_report(login_id,username,create_count,receive_count,modify_count,finished_per)
 		values (
@@ -59,10 +60,7 @@
 			modify_count = #{modifyCount},
 			finish_count = #{finishCount},
 			finished_per = #{finishedPer}
-		where login_id = #{loginId}
-		
+		where user_id = #{userId}
 	</update>
-	
-	
 	
 </mapper>

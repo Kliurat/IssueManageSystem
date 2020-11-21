@@ -24,6 +24,9 @@ public class IssueReportServiceImpl implements IssueReportService {
 		
 	}
 
+	/**
+	 *   当用户创建一个Issue的时候，需要获取 create_count 并将其值加一
+	 */
 	@Override
 	public IssueReport getReportByLoginID(String loginID) {
 		return issueReportDao.selectByUserId(loginID);
@@ -47,7 +50,9 @@ public class IssueReportServiceImpl implements IssueReportService {
 		}
 		
 		int result = issueReportDao.insert(report);
+		
 		System.out.println("用户报表插入结果：" + result);
+		
 		return result;
 	}
 
