@@ -184,6 +184,10 @@ public class IssueController {
 
 //		return new CommonResult<MyPageInfo<Issue>>(status, msg, dataPage);
 
+		for (Issue issue2 : list) {
+			System.out.println(issue2);
+		}
+		
 		return new CommonResult<List<Issue>>(status, msg, list);
 	}
 
