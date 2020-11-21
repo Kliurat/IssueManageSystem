@@ -16,7 +16,7 @@ public class IssueDetail implements Serializable {
 		private String issueNo;
 
 		// Issue类型
-		private String issueType;
+		private String issueType;	
 
 		/*
 		 * @DateTimeFormat(pattern = "yyyy/MM/dd") 作用是指定前端向后端传时间参数应用什么格式
