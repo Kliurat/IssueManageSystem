@@ -30,15 +30,13 @@ public class IssueReportController {
 	 * @param username
 	 * @return
 	 */
+
 	@RequestMapping("")
 	public CommonResult getAll(
 			@RequestParam(value = "loginID", required = false) String userId,
-			@RequestParam(value = "username", required = false) String username
-//			@RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum
-		)
+			@RequestParam(value = "username", required = false) String username)
 	{
 	
-//		System.out.println("IssueReportController=>getAll：PageNum=" + pageNum);
 		System.out.println("userId:" + userId);
 		System.out.println("username:" + username);
 
@@ -52,8 +50,6 @@ public class IssueReportController {
 			userId = null;
 		}
 
-//		PageHelper.startPage(pageNum, ConstantUtil.PAGE_SIZE_5);
-
 		List<IssueReport> list = iService.findAll(userId, username);
 
 		if (list == null) {
@@ -61,13 +57,7 @@ public class IssueReportController {
 			System.out.println("list为null");
 		}
 
-//		PageInfo<IssueReport> page = new PageInfo<IssueReport>(list);
-//
-//		MyPageInfo<IssueReport> dataPage = new MyPageInfo<IssueReport>(page.getNavigateFirstPage(), page.getPageNum(),
-//				page.getNavigateLastPage(), page.getPageSize(), page.getTotal(), list);
-//
-//		return new CommonResult<MyPageInfo<IssueReport>>(200, msg, dataPage);
-		
+	
 		for (IssueReport issueReport : list) {
 			System.out.println(issueReport);
 		}

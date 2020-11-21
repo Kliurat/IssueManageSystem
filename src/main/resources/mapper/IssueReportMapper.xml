@@ -5,7 +5,7 @@
 <mapper namespace="com.ibm.springboot.dao.IssueReportDao">
 
 	<sql id="columnsAll">
-		id,user_id,username,create_count,receive_count,modify_count,finish_count,finished_per
+		id,login_id,username,create_count,receive_count,modify_count,finish_count,finished_per
 	</sql>
 	
 	<!--List<IssueReport> findAll(); -->
@@ -14,30 +14,33 @@
 			<include refid="columnsAll"/>
 			from issue_report
 			<where>
-				<if test="userId != null">
-					user_id = #{userId}
+				<if test="loginId != null and loginId.trim() != ''">
+					<bind name="_login_id" value="'%' + loginId + '%'"/>
+					login_id like #{_login_id}
 				</if>
 				
+
 				<if test="username != null and username.trim() != ''">
 					<bind name="_user_name" value="'%' + username + '%'"/>
-					and username = #{_user_name}
+					and username like #{_user_name}
 				</if>
 			</where>
 	</select>
 	
 	<!--IssueReport selectByUserId(Integer userId); -->
-	<select id="selectByUserId" resultType="com.ibm.springboot.entity.IssueReport">
+	<select id="selectByLoginId" resultType="com.ibm.springboot.entity.IssueReport">
 		select 
 			<include refid="columnsAll"/>
 			from issue_report
-			where user_id = #{userId}
+			where login_id = #{loginId}
 	</select>
+	
 	<!--int insert(IssueReport report); -->
 	
 	<insert id="insert">
-		insert into issue_report(user_id,username,create_count,receive_count,modify_count,finished_per)
+		insert into issue_report(login_id,username,create_count,receive_count,modify_count,finished_per)
 		values (
-			#{userId},
+			#{loginId},
 			#{username},
 			#{createCount},
 			#{receiveCount},
@@ -56,7 +59,7 @@
 			modify_count = #{modifyCount},
 			finish_count = #{finishCount},
 			finished_per = #{finishedPer}
-		where user_id = #{userId}
+		where login_id = #{loginId}
 		
 	</update>
 	

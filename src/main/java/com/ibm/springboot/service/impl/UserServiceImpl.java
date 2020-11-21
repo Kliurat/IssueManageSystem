@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int updateStatus(User user) {
 		// TODO Auto-generated method stub
-		
+
 		return userDao.updateStatus(user);
 	}
 
@@ -130,6 +130,12 @@ public class UserServiceImpl implements UserService {
 	public int updateRole(User user) {
 		// TODO Auto-generated method stub
 		return userDao.updateRole(user);
+	}
+
+	@Override
+	public List<User> getUsersByPreLoginID(int loginID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

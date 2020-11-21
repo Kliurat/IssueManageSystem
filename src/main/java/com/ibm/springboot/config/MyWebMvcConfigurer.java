@@ -1,6 +1,7 @@
 package com.ibm.springboot.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -10,7 +11,7 @@ import com.ibm.springboot.utils.LoginHandlerInterceptor;
  * 
  * 
  */
-//@Configuration
+@Configuration
 public class MyWebMvcConfigurer implements WebMvcConfigurer {
 
 	// 配置视图映射
