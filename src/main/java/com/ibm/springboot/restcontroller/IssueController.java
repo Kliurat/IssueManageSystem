@@ -26,6 +26,7 @@ import com.ibm.springboot.entity.User;
 import com.ibm.springboot.entity.VO.IssueVo;
 import com.ibm.springboot.service.IssueReportService;
 import com.ibm.springboot.service.IssueService;
+import com.ibm.springboot.util.ConstantUtil;
 
 @RestController
 @RequestMapping("/issue")
@@ -43,6 +44,11 @@ public class IssueController {
 	// 创建Issue
 	@PostMapping("")
 	public CommonResult insertIssue(Issue issue, HttpSession session) {
+
+		User user = (User) session.getAttribute("user");
+		if (user.getRole() != 0) {
+			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
+		}
 
 		System.out.println("进入.......................................................");
 		System.out.println(issue);
@@ -75,7 +81,6 @@ public class IssueController {
 
 		System.out.println("待插入Issue:" + issue.toString());
 
-		User user = (User) session.getAttribute("user");
 		System.out.println("查看session存储的user:" + user);
 
 		// 1.查看是否有自己的报表行记录
@@ -164,26 +169,22 @@ public class IssueController {
 	// 条件查询
 	// 注释部分为分页查询代码，如需要，关闭全部注释即可
 	@PostMapping("/query")
-	public CommonResult query(IssueVo issue
-//			@RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum
-	) {
+	public CommonResult query(IssueVo issue) {
 
 		System.out.println("待查询条件：" + issue);
 
 		int status = 200;
 		String msg = "查询成功";
 
-//		PageHelper.startPage(pageNum, ConstantUtil.PAGE_SIZE_5);
-
 		List<Issue> list = issueService.queryByCondition(issue);
 		if (list == null) {
 			list = new ArrayList<Issue>();
 		}
-//		PageInfo<Issue> page = new PageInfo<Issue>(list);
-//		MyPageInfo<Issue> dataPage = new MyPageInfo<Issue>(page.getNavigateFirstPage(), page.getPageNum(),
-//				page.getNavigateLastPage(), page.getPageSize(), page.getTotal(), list);
 
-//		return new CommonResult<MyPageInfo<Issue>>(status, msg, dataPage);
+		System.out.println("查询结果：");
+		for (Issue issue2 : list) {
+			System.out.println(issue2.toString());
+		}
 
 		return new CommonResult<List<Issue>>(status, msg, list);
 	}
@@ -194,6 +195,7 @@ public class IssueController {
 		System.out.println("修改后的Issue：" + issue.toString());
 		int status = 200;
 		String msg = "提交成功";
+
 		issue.setStatus(1); // 状态置为待验证
 		int result = issueService.updateIssue(issue);
 		if (result != 1) {

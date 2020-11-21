@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService {
 					map.put("loginID", user.getLoginID());
 					map.put("username", user.getUsername());
 					map.put("token", token);
+					session.setAttribute("token", token);
 					System.out.println("#####  登陆成功 ##### ，生成token:" + token);
 				} else {
 					status = 201;

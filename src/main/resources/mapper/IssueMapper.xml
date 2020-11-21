@@ -62,10 +62,35 @@
                 </if>
                 
                	<if test="createStartDate != null">
-                    and create_date between #{createStartDate}
-                    and #{createEndDate}
+                    and 
+                    <![CDATA[
+                    create_date >= #{createStartDate,jdbcType=DATE}
+                    ]]>
                 </if>
                 
+                <if test="createEndDate != null">
+                    and 
+                    <![CDATA[
+                    create_date <= #{createEndDate,jdbcType=DATE}
+                    ]]>
+                </if>
+                
+                
+                
+                <if test="modifyStartDate != null">
+                    and 
+                    <![CDATA[
+                    plan_modify_time >= #{modifyStartDate,jdbcType=DATE}
+                    ]]>
+                </if>
+                
+                <if test="modifyEndDate != null">
+                    and 
+                    <![CDATA[
+                    plan_modify_time <= #{modifyEndDate,jdbcType=DATE}
+                    ]]>
+                </if>
+                                    
                 
                 <if test="createPersonID != null">
                 	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
@@ -77,11 +102,11 @@
                     and modify_person_ID like #{_modify_person_id}
                 </if>
                 
-                <if test="modifyStartDate != null">
-                    and plan_modify_time between #{modifyStartDate}
-                    and #{modifyEndDate}
+<!--                 <if test="modifyStartDate != null"> -->
+<!--                     and plan_modify_time between #{modifyStartDate} -->
+<!--                     and #{modifyEndDate} -->
                     
-                </if>
+<!--                 </if> -->
                 
             </where> 
 	</select>
