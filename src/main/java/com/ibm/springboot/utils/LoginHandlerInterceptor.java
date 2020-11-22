@@ -24,7 +24,7 @@ import com.ibm.springboot.util.JwtTokenUtil;
  * 作者：赖炎林
  * 作用：登陆认证拦截器
  * */
-@Component
+//@Component
 public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 	@Autowired

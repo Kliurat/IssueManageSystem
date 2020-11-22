@@ -33,6 +33,7 @@ import com.ibm.springboot.entity.User;
 import com.ibm.springboot.service.UserService;
 
 @RestController
+@CrossOrigin
 public class UserController {
 	
 	@Autowired
@@ -166,6 +167,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/login")
+	@CrossOrigin(origins = "*")
 	public CommonResult login(@RequestParam("loginId") String loginId, 
 							  @RequestParam("password") String password,
 							  HttpSession session) {
