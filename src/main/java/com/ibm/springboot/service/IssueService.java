@@ -19,4 +19,6 @@ public interface IssueService {
 	int updateIssue(Issue issue);
 
 	int getRowByIssueNo(String issueNo);
+	
+	Issue getIssueByIssueNo(String issueNo);
 }

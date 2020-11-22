@@ -105,10 +105,13 @@ public class UserServiceImpl implements UserService {
 					map = new HashedMap<String, Object>();
 					map.put("loginID", user.getLoginID());
 					map.put("username", user.getUsername());
+					map.put("email", user.getEmail());
 					map.put("token", token);
 					session.setAttribute("token", token);
 
 					System.out.println("#####  登陆成功 ##### ，生成token:" + token);
+
+					session.setAttribute("token", token);
 				} else {
 					status = 201;
 					msg = "用户名或密码错误";

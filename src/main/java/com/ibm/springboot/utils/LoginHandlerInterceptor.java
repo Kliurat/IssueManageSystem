@@ -59,8 +59,6 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 			PrintWriter out = response.getWriter();
 
-			response.setContentType("application/json;charset=UTF-8");
-
 			CommonResult<String> result = new CommonResult<String>(201, msg, null);
 
 			String jsonStr = JSONObject.toJSONString(result);
@@ -75,43 +73,36 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 			return false;
 
-		} 
-		else// 已经登录
+		} else// 已经登录
 		{
 
 			boolean result = false;
 
-			if (token == null) {
-				status = 201;
-				msg = "您发起的为非法请求，请携带token验证";
+			/*
+			 * if (token == null) { status = 201; msg = "您发起的为非法请求，请携带token验证";
+			 * 
+			 * } else {
+			 * 
+			 * }
+			 */
 
-			} else {
-				// 验证token是否有效
-				if (audience == null) {
-					BeanFactory factory = WebApplicationContextUtils
-							.getRequiredWebApplicationContext(request.getServletContext());
-					audience = (Audience) factory.getBean("audience");
-				}
+			// 验证token是否过期
 
-				try {
-					// 验证token是否过期，过期则返回false
-					result = JwtTokenUtil.parseJWT(token, audience.getBase64Secret()) != null;
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					// 捕捉异常，防止用户输入了一个格式不符合的token串
-					result = false;
-					System.out.println("捕捉异常信息：");
-
-					System.out.println(e.getMessage());
-				}
-				System.out.println("token校验结果：" + result);
-				if (!result) {
-					status = 201;
-					msg = "登录已失效，请重新登录";
-				}
+			if (audience == null) {
+				BeanFactory factory = WebApplicationContextUtils
+						.getRequiredWebApplicationContext(request.getServletContext());
+				audience = (Audience) factory.getBean("audience");
 			}
 
+			result = JwtTokenUtil.parseJWT(token, audience.getBase64Secret()) != null;
+
+			System.out.println("token校验结果：" + result);
+
 			if (!result) {
+
+				status = 201;
+
+				msg = "登录已失效，请重新登录";
 
 				response.setCharacterEncoding("UTF-8");
 

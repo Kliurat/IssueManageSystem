@@ -102,7 +102,6 @@
                     ]]>
                 </if>
                                     
-                
                 <if test="createPersonID != null">
                 	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
                     and create_person_ID like #{_create_person_id}
@@ -125,7 +124,7 @@
 				</if>
 				
 				<if test="solution != null">
-					status = #{solution}
+					solution = #{solution}
 				</if>
 				
 			</set>
@@ -139,4 +138,12 @@
 			from issue
 		where issue_no = #{issueNo} 
 	</select>
+	
+	<select id="getIssueByIssueNo" resultType="com.ibm.springboot.entity.Issue">
+		select
+			<include refid="columnsAll"/>
+				from issue
+				where issue_no = #{issueNo}
+	</select>
+	
 </mapper>
