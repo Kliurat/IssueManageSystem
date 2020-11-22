@@ -14,7 +14,7 @@ public interface IssueReportDao {
 	List<IssueReport> findAll(@Param("loginId") String loginId, @Param("username") String username);
 
 	// 根据 userId 查询
-	IssueReport selectByUserId(String userId);
+	IssueReport selectByLoginId(String loginId);
 
 	// 插入记录
 	int insert(IssueReport report);

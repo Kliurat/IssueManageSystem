@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 *      登录的逻辑判断
+	 * 登录的逻辑判断
 	 */
 	public CommonResult login(String loginId, String password, HttpSession session) {
 
@@ -86,49 +86,44 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> map = null;
 
 		// 用户名、密码不为空
-		if (loginId != null && password != null && !"".equals(password.trim())) 
-		{
+		if (loginId != null && password != null && !"".equals(password.trim())) {
 			User user = userDao.findByLoginId(loginId.trim());
-			
-			if (user != null) 
-			{
 
-				if (password.equals(user.getPassword()))
-				{
+			if (user != null) {
+
+				if (password.equals(user.getPassword())) {
 					status = 200;
-					
+
 					session.setAttribute("user", user);
-					
+
 					msg = "登陆成功";
-					
+
 					// 调用封装好的方法，生成 token
 					token = JwtTokenUtil.createJWT(String.valueOf(user.getSortID()), String.valueOf(user.getLoginID()),
 							String.valueOf(user.getRole()), audience);
-					
+
 					map = new HashedMap<String, Object>();
 					map.put("loginID", user.getLoginID());
 					map.put("username", user.getUsername());
+					map.put("email", user.getEmail());
 					map.put("token", token);
-					
+					session.setAttribute("token", token);
+
 					System.out.println("#####  登陆成功 ##### ，生成token:" + token);
-				} 
-				else 
-				{
+
+					session.setAttribute("token", token);
+				} else {
 					status = 201;
 					msg = "用户名或密码错误";
 				}
 
-			} 
-			else 
-			{
+			} else {
 				// 根据用户名找不到用户
 				status = 201;
 				msg = "用户名或密码错误";
 			}
 
-		} 
-		else 
-		{
+		} else {
 			// 用户名或密码为空
 			status = 201;
 			msg = "用户名或密码不能为空";
@@ -149,7 +144,7 @@ public class UserServiceImpl implements UserService {
 	// 改变用户的角色：普通用户，经理
 	@Override
 	public int updateRole(User user) {
-		
+
 		return userDao.updateRole(user);
 	}
 

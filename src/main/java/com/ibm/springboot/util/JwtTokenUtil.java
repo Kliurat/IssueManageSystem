@@ -62,7 +62,7 @@ public class JwtTokenUtil {
 	 * @Author: 蔡海锋
 	 * @Date: 2020/9/3
 	 */
-	public static String createJWT(String userId, String username, String role, Audience audience) {
+	public static String createJWT(String loginId, String username, String role, Audience audience) {
 
 		// 使用HS256加密算法
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -76,14 +76,14 @@ public class JwtTokenUtil {
 		Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
 		// userId是重要信息，进行加密
-		String encryId = Base64Util.encode(userId);
+		String encryId = Base64Util.encode(loginId);
 
 		// 添加构成JWT的参数
 		Date date = new Date();
 		System.out.println("签发时间：" + date.toString());
 		JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
 				// 可以将基本不重要的对象信息放到claims
-				.claim("role", role).claim("userId", userId).setSubject(username) // 代表这个JWT的主体，即它的所有者
+				.claim("role", role).claim("loginId", loginId).setSubject(username) // 代表这个JWT的主体，即它的所有者
 				.setIssuer(audience.getClientId()) // 代表这个JWT的签发主体
 				.setIssuedAt(date) // JWT的签发时间
 				.setAudience(audience.getName()) // 代表这个JWT的接收对象

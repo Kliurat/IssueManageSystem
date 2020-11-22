@@ -30,6 +30,8 @@ public interface IssueDao {
 
 	//模糊查询Issue
 	List<Issue> queryByCondition(IssueVo issue);
+	
+	Issue getIssueByIssueNo(String issueNo);
 
 	//修改Issue
 	int updateIssue(Issue issue);

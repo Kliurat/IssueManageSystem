@@ -26,6 +26,7 @@ import com.ibm.springboot.entity.User;
 import com.ibm.springboot.entity.VO.IssueVo;
 import com.ibm.springboot.service.IssueReportService;
 import com.ibm.springboot.service.IssueService;
+import com.ibm.springboot.util.ConstantUtil;
 
 @RestController
 @RequestMapping("/issue")
@@ -43,6 +44,11 @@ public class IssueController {
 	// 创建Issue
 	@PostMapping("")
 	public CommonResult insertIssue(Issue issue, HttpSession session) {
+
+		User user = (User) session.getAttribute("user");
+		if (user.getRole() != 0) {
+			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
+		}
 
 		System.out.println("进入.......................................................");
 		System.out.println(issue);
@@ -75,23 +81,26 @@ public class IssueController {
 
 		System.out.println("待插入Issue:" + issue.toString());
 
-		User user = (User) session.getAttribute("user");
 		System.out.println("查看session存储的user:" + user);
 
 		// 1.查看是否有自己的报表行记录
 		IssueReport report = null;
-		try {
-			report = iRepService.getReportByLoginID(/* user.getLoginID() */"7");
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			if (e instanceof NullPointerException) {
-				return new CommonResult<String>(201, "您尚未登陆，请先登陆", null);
-			}
-		}
+		report = iRepService.getReportByLoginID(user.getLoginID());
+//		try {
+//			
+//
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			if (e instanceof NullPointerException) {
+//				return new CommonResult<String>(201, "您尚未登陆，请先登陆", null);
+//			}
+//		}
+		System.out.println("查看快快快：" + report);
 		if (report == null) {
 			// 2.若无，则插入一条，创建数为1
+			System.out.println("插入开始");
 			iRepService.insertReport(new IssueReport(user.getLoginID(), user.getUsername(), 1, 0, 0, 0, 0));
+			System.out.println("插入结束");
 		} else {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
@@ -161,29 +170,38 @@ public class IssueController {
 		return new CommonResult<List<Issue>>(200, "全部数据查询成功", list);
 	}
 
+	@RequestMapping("/getIssueByIssueNo")
+	public Issue getIssueByIssueNo(@RequestParam(value = "issueNo", required = false) String issueNo,
+			@RequestParam(value = "status", required = false) String status) {
+
+		System.out.println("获取到的issueNo为： " + issueNo);
+		System.out.println("获取到的status为： " + status);
+		Issue issue = issueService.getIssueByIssueNo(issueNo);
+		return issue;
+	}
+
 	// 条件查询
-	// 注释部分为分页查询代码，如需要，关闭全部注释即可
 	@PostMapping("/query")
-	public CommonResult query(IssueVo issue
-//			@RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum
-	) {
+	public CommonResult query(IssueVo issue) {
 
 		System.out.println("待查询条件：" + issue);
 
 		int status = 200;
 		String msg = "查询成功";
 
-//		PageHelper.startPage(pageNum, ConstantUtil.PAGE_SIZE_5);
-
 		List<Issue> list = issueService.queryByCondition(issue);
 		if (list == null) {
 			list = new ArrayList<Issue>();
 		}
-//		PageInfo<Issue> page = new PageInfo<Issue>(list);
-//		MyPageInfo<Issue> dataPage = new MyPageInfo<Issue>(page.getNavigateFirstPage(), page.getPageNum(),
-//				page.getNavigateLastPage(), page.getPageSize(), page.getTotal(), list);
 
-//		return new CommonResult<MyPageInfo<Issue>>(status, msg, dataPage);
+		System.out.println("查询结果：");
+		for (Issue issue2 : list) {
+			System.out.println(issue2.toString());
+		}
+
+		for (Issue issue2 : list) {
+			System.out.println(issue2);
+		}
 
 		return new CommonResult<List<Issue>>(status, msg, list);
 	}
@@ -194,6 +212,7 @@ public class IssueController {
 		System.out.println("修改后的Issue：" + issue.toString());
 		int status = 200;
 		String msg = "提交成功";
+
 		issue.setStatus(1); // 状态置为待验证
 		int result = issueService.updateIssue(issue);
 		if (result != 1) {

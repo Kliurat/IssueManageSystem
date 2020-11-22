@@ -17,8 +17,21 @@
 
 	<select id="findAll" resultMap="IssueMap">
 		select 
-			<include refid="columnsAll"/>
-			from issue
+			t1.id,issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,
+			priority,influent_version,re_step,create_person_ID,
+			
+			modify_person_ID,title,t1.status,solution,
+			t2.username createPersonName,t3.username modifyPersonName
+			
+			from issue t1,user t2,user t3
+			
+			
+<!-- 			select  -->
+<!-- 			   t1.id,t1.create_person_ID,T1.modify_person_ID,t2.username createPersonName,t3.username modifyPersonName -->
+<!-- 			   from issue t1,user t2,user t3 -->
+		   where t1.create_person_ID = t2.loginID
+		   AND t1.modify_person_ID = t3.loginID
+			   
 	</select>
 	
 	<delete id="delete">
@@ -60,10 +73,35 @@
                 </if>
                 
                	<if test="createStartDate != null">
-                    and create_date between #{createStartDate}
-                    and #{createEndDate}
+                    and 
+                    <![CDATA[
+                    create_date >= #{createStartDate,jdbcType=DATE}
+                    ]]>
                 </if>
                 
+                <if test="createEndDate != null">
+                    and 
+                    <![CDATA[
+                    create_date <= #{createEndDate,jdbcType=DATE}
+                    ]]>
+                </if>
+                
+                
+                
+                <if test="modifyStartDate != null">
+                    and 
+                    <![CDATA[
+                    plan_modify_time >= #{modifyStartDate,jdbcType=DATE}
+                    ]]>
+                </if>
+                
+                <if test="modifyEndDate != null">
+                    and 
+                    <![CDATA[
+                    plan_modify_time <= #{modifyEndDate,jdbcType=DATE}
+                    ]]>
+                </if>
+                                    
                 <if test="createPersonID != null">
                 	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
                     and create_person_ID like #{_create_person_id}
@@ -73,67 +111,20 @@
                 	<bind name="_modify_person_id" value="'%' + modifyPersonID + '%'"/>
                     and modify_person_ID like #{_modify_person_id}
                 </if>
-                
-                <if test="modifyStartDate != null">
-                    and plan_modify_time between #{modifyStartDate}
-                    and #{modifyEndDate}
-                </if>
+                         
             </where> 
 	</select>
 	
 	<update id="updateIssue">
 		update issue
 			<set>
-<!-- 				<if test="issueNo != null"> -->
-<!-- 					issue_no = #{issueNo}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="issueType != null"> -->
-<!-- 					issue_type = #{issueType}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="createDate != null"> -->
-<!-- 					create_date = #{createDate}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="planModifyTime != null"> -->
-<!-- 					plan_modify_time = #{planModifyTime}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="actualComplteTime != null"> -->
-<!-- 					actual_complte_time = #{actualComplteTime}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="priority != null"> -->
-<!-- 					priority = #{priority}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="influentVersion != null"> -->
-<!-- 					influent_version = #{influentVersion}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="reStep != null"> -->
-<!-- 					re_step = #{reStep}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="createPersonID != null"> -->
-<!-- 					create_person_ID = #{createPersonID}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="modifyPersonID != null"> -->
-<!-- 					modify_person_ID = #{modifyPersonID}, -->
-<!-- 				</if> -->
-				
-<!-- 				<if test="title != null"> -->
-<!-- 					title = #{title}, -->
-<!-- 				</if> -->
 				
 				<if test="status != null">
 					status = #{status},
 				</if>
 				
 				<if test="solution != null">
-					status = #{solution}
+					solution = #{solution}
 				</if>
 				
 			</set>
@@ -147,4 +138,12 @@
 			from issue
 		where issue_no = #{issueNo} 
 	</select>
+	
+	<select id="getIssueByIssueNo" resultType="com.ibm.springboot.entity.Issue">
+		select
+			<include refid="columnsAll"/>
+				from issue
+				where issue_no = #{issueNo}
+	</select>
+	
 </mapper>

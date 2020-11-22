@@ -46,7 +46,7 @@ public class IssueReport {
 		return loginId;
 	}
 
-	public void setUserId(String loginId) {
+	public void setLoginId(String loginId) {
 		this.loginId = loginId;
 	}
 
@@ -100,7 +100,7 @@ public class IssueReport {
 
 	@Override
 	public String toString() {
-		return "IssueReport [id=" + id + ", userId=" + loginId + ", username=" + username + ", createCount="
+		return "IssueReport [id=" + id + ", loginId=" + loginId + ", username=" + username + ", createCount="
 				+ createCount + ", receiveCount=" + receiveCount + ", modifyCount=" + modifyCount + ", finishCount="
 				+ finishCount + ", finishedPer=" + finishedPer + "]";
 	}
