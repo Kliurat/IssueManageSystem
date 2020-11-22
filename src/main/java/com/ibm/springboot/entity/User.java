@@ -41,8 +41,6 @@ public class User implements Serializable {
 
 	}
 	
-	
-
 	public User(String loginID, String username) {
 		super();
 		this.loginID = loginID;
