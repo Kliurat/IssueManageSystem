@@ -7,6 +7,8 @@
 		<result property="modifyPersonID" column="modify_person_ID"/>
     	<result property="createPersonID" column="create_person_ID"/>
     	<result property="actualComplteTime" column="actual_complte_time"/>
+    	<result property="createPersonName" column="createPersonName"/>
+    	<result property="modifyPersonName" column="modifyPersonName"/>
 	</resultMap>
 
 	<sql id="columnsAll">
@@ -20,7 +22,7 @@
 			t1.id,issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,
 			priority,influent_version,re_step,create_person_ID,			
 			modify_person_ID,title,t1.status,solution,
-			t2.username createPersonName,t3.username modifyPersonName			
+			t2.username createPersonName,t3.username modifyPersonName		
 			from issue t1,user t2,user t3
 		   where t1.create_person_ID = t2.loginID
 		   AND t1.modify_person_ID = t3.loginID
@@ -99,23 +101,18 @@
                 	<bind name="_modify_person_id" value="'%' + modifyPersonID + '%'"/>
                     and modify_person_ID like #{_modify_person_id}
                 </if>
-             
 	</select>
 	
 	<update id="updateIssue">
 		update issue
 			<set>
-				
 				<if test="status != null">
 					status = #{status},
 				</if>
-				
 				<if test="solution != null">
 					solution = #{solution}
 				</if>
-				
 			</set>
-			
 			where id = #{id}
 	</update>
 	

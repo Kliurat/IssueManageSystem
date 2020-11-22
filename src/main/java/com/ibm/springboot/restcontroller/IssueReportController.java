@@ -40,13 +40,17 @@ public class IssueReportController {
 	public CommonResult getAll(@RequestParam(value = "loginID", required = false) String loginId,
 			@RequestParam(value = "username", required = false) String username, HttpSession session) {
 
-		User user = (User) session.getAttribute("user");
-
-		if (user.getRole() != 1) {
-
-			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
-
-		}
+//		User user = (User) session.getAttribute("user");
+		
+//		System.out.println(user);
+		
+//		User user = new User(in)
+//
+//		if (user.getRole() != 1) {
+//
+//			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
+//
+//		}
 
 		System.out.println("loginId:" + loginId);
 		System.out.println("username:" + username);

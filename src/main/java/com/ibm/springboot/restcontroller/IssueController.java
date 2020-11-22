@@ -31,6 +31,7 @@ import com.ibm.springboot.util.ConstantUtil;
 
 @RestController
 @RequestMapping("/issue")
+//@CrossOrigin(allowCredentials = "true")
 public class IssueController {
 
 	@Resource
@@ -46,10 +47,11 @@ public class IssueController {
 	@PostMapping("")
 	public CommonResult insertIssue(Issue issue, HttpSession session) {
 
-		User user = (User) session.getAttribute("user");
-		if (user.getRole() != 0) {
-			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
-		}
+//		User user = (User) session.getAttribute("user");
+		User user = new User();
+//		if (user.getRole() != 0) {
+//			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
+//		}
 
 		System.out.println("进入.......................................................");
 		System.out.println(issue);
@@ -82,7 +84,7 @@ public class IssueController {
 
 		System.out.println("待插入Issue:" + issue.toString());
 
-		System.out.println("查看session存储的user:" + user);
+//		System.out.println("查看session存储的user:" + user);
 
 		// 1.查看是否有自己的报表行记录
 		IssueReport report = null;

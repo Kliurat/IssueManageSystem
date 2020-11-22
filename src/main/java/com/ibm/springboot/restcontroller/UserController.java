@@ -34,6 +34,7 @@ import com.ibm.springboot.service.UserService;
 
 @RestController
 @CrossOrigin
+//@CrossOrigin(allowCredentials = "true")
 public class UserController {
 	
 	@Autowired
@@ -104,6 +105,7 @@ public class UserController {
 	
 	//根据用户ID或者用户姓名查询用户信息
 	@RequestMapping("/selectUser")
+	@CrossOrigin(origins = "http://192.168.3.30:8080", maxAge = 3600,allowCredentials = "true")
 	List<User> selectUser(@RequestParam(value = "loginID",required = false) String loginID,
 						  @RequestParam(value = "username",required = false) String username)
 	{
@@ -167,7 +169,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/login")
-	@CrossOrigin(origins = "*")
+	@CrossOrigin(origins = "http://192.168.3.30:8080", maxAge = 3600,allowCredentials = "true")
 	public CommonResult login(@RequestParam("loginId") String loginId, 
 							  @RequestParam("password") String password,
 							  HttpSession session) {
