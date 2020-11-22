@@ -32,29 +32,24 @@ public class IssueServiceImpl implements IssueService {
 	@Override
 	public CommonResult insertIssue(Issue issue) {
 
-//		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-//
-//		try {
-//			issue.setCreateDate(df.parse(df.format(new Date())));
-//			issue.setActualComplteTime(df.parse(df.format(new Date())));
-//			issue.setPlanModifyTime(df.parse(df.format(new Date())));
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
 		int i;
-		try {
+		try
+		{
 			i = issueDao.insert(issue);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		}
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 			return new CommonResult<String>(201, "Issue编号已存在或插入数据异常", null);
 		}
-		if (i != 1) {
+		
+		if (i != 1)
+		{
 			return new CommonResult<String>(500, "Issue创建失败", null);
 		}
+		
 		System.out.println("Issue插入结果：" + i);
+		
 		return new CommonResult<String>(200, "Issue创建成功", null);
 	}
 

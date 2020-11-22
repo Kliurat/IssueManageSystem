@@ -85,18 +85,22 @@ public class IssueController {
 
 		// 1.查看是否有自己的报表行记录
 		IssueReport report = null;
-		try {
-			report = iRepService.getReportByLoginID(/* user.getLoginID() */"7");
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			if (e instanceof NullPointerException) {
-				return new CommonResult<String>(201, "您尚未登陆，请先登陆", null);
-			}
-		}
+		report = iRepService.getReportByLoginID(user.getLoginID());
+//		try {
+//			
+//
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			if (e instanceof NullPointerException) {
+//				return new CommonResult<String>(201, "您尚未登陆，请先登陆", null);
+//			}
+//		}
+		System.out.println("查看快快快：" + report);
 		if (report == null) {
 			// 2.若无，则插入一条，创建数为1
+			System.out.println("插入开始");
 			iRepService.insertReport(new IssueReport(user.getLoginID(), user.getUsername(), 1, 0, 0, 0, 0));
+			System.out.println("插入结束");
 		} else {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);

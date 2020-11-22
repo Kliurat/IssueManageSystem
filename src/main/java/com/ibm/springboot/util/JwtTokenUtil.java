@@ -17,6 +17,11 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * Token的创建以及解析的工具类
+ * @author 赖炎林
+ *
+ */
 public class JwtTokenUtil {
 
 	public static final String AUTH_HEADER_KEY = "Authorization";

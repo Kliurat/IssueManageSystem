@@ -1,5 +1,10 @@
 package com.ibm.springboot.util;
 
+/**
+ *      常量工具类
+ * @author 赖炎林
+ *
+ */
 public class ConstantUtil {
 
 	public final static Integer PAGE_SIZE_5 = 5;

@@ -33,8 +33,9 @@ public class IssueReportController {
 	 * @return
 	 */
 
+	// Issue报表-------统计报表
 	@RequestMapping("")
-	public CommonResult getAll(@RequestParam(value = "loginID", required = false) String userId,
+	public CommonResult getAll(@RequestParam(value = "loginID", required = false) String loginId,
 			@RequestParam(value = "username", required = false) String username, HttpSession session) {
 
 		User user = (User) session.getAttribute("user");
@@ -45,7 +46,7 @@ public class IssueReportController {
 
 		}
 
-		System.out.println("userId:" + userId);
+		System.out.println("loginId:" + loginId);
 		System.out.println("username:" + username);
 
 		int status = 200;
@@ -54,11 +55,11 @@ public class IssueReportController {
 		if (username == "") {
 			username = null;
 		}
-		if (userId == "") {
-			userId = null;
+		if (loginId == "") {
+			loginId = null;
 		}
 
-		List<IssueReport> list = iService.findAll(userId, username);
+		List<IssueReport> list = iService.findAll(loginId, username);
 
 		if (list == null) {
 			list = new ArrayList<IssueReport>();
@@ -71,16 +72,5 @@ public class IssueReportController {
 
 		return new CommonResult<List<IssueReport>>(status, msg, list);
 	}
-
-	// 待删
-//	@PostMapping("query")
-//	public CommonResult<List<IssueReport>> queryByCondition(
-//			@RequestParam(value = "loginID", required = false) String loginID,
-//			@RequestParam(value = "username", required = false) String username) {
-//
-//		// 查询
-//
-//		return new CommonResult<List<IssueReport>>();
-//	}
 
 }

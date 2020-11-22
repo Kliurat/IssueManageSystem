@@ -75,6 +75,9 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
+	/**
+	 * 登录的逻辑判断
+	 */
 	public CommonResult login(String loginId, String password, HttpSession session) {
 
 		int status = 200;
@@ -84,21 +87,27 @@ public class UserServiceImpl implements UserService {
 
 		// 用户名、密码不为空
 		if (loginId != null && password != null && !"".equals(password.trim())) {
-
 			User user = userDao.findByLoginId(loginId.trim());
+
 			if (user != null) {
 
 				if (password.equals(user.getPassword())) {
 					status = 200;
+
 					session.setAttribute("user", user);
+
 					msg = "登陆成功";
+
+					// 调用封装好的方法，生成 token
 					token = JwtTokenUtil.createJWT(String.valueOf(user.getSortID()), String.valueOf(user.getLoginID()),
 							String.valueOf(user.getRole()), audience);
+
 					map = new HashedMap<String, Object>();
 					map.put("loginID", user.getLoginID());
 					map.put("username", user.getUsername());
 					map.put("token", token);
 					session.setAttribute("token", token);
+
 					System.out.println("#####  登陆成功 ##### ，生成token:" + token);
 				} else {
 					status = 201;
@@ -120,16 +129,19 @@ public class UserServiceImpl implements UserService {
 		return new CommonResult<Map<String, Object>>(status, msg, map);
 	}
 
+	/**
+	 * 改变用户的状态：注销
+	 */
 	@Override
 	public int updateStatus(User user) {
-		// TODO Auto-generated method stub
 
 		return userDao.updateStatus(user);
 	}
 
+	// 改变用户的角色：普通用户，经理
 	@Override
 	public int updateRole(User user) {
-		// TODO Auto-generated method stub
+
 		return userDao.updateRole(user);
 	}
 

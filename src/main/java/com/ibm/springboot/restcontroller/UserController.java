@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
 
 import org.apache.ibatis.annotations.Param;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.User;
 import com.ibm.springboot.service.UserService;
 
@@ -147,6 +149,34 @@ public class UserController {
 		
 		//返回全用户列表给前端
 		return userService.selectAll();
+	}
+	
+	/**
+	 *      登录判断方法
+	 * @param loginId   传入三个参数
+	 * @param password
+	 * @param session  
+	 * @return
+	 */
+	@PostMapping("/login")
+	public CommonResult login(@RequestParam("loginId") String loginId, 
+							  @RequestParam("password") String password,
+							  HttpSession session) {
+
+		return userService.login(loginId, password, session);
+
+	}
+
+	/**
+	   *     退出登录方法
+	 * @param session
+	 * @return
+	 */
+	@GetMapping("/logout")
+	public CommonResult logout(HttpSession session) {
+
+		session.removeAttribute("user");
+		return new CommonResult<String>(200, "您已退出登陆，期待您下次的到来", null);
 	}
 	
 }

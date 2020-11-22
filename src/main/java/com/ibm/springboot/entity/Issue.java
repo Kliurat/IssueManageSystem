@@ -51,10 +51,15 @@ public class Issue implements Serializable {
 	private String reStep;
 
 	// Issue创建人
+
 	private String createPersonID;
+
+	private String createPersonName;
 
 	// Issue指定修改人
 	private String modifyPersonID;
+
+	private String modifyPersonName;
 
 	// Issue标题
 	private String title;
@@ -63,7 +68,7 @@ public class Issue implements Serializable {
 	// -1：已关闭；0：待解决；1：待验证
 	private Integer status;
 
-	//解决方案
+	// 解决方案
 	private String solution;
 
 	public Issue() {
@@ -71,8 +76,8 @@ public class Issue implements Serializable {
 	}
 
 	public Issue(int id, String issueNo, String issueType, Date planModifyTime, Date actualComplteTime, int priority,
-			String influentVersion, String reStep, String createPersonID, String modifyPersonID, String title, int status)
-			throws ParseException {
+			String influentVersion, String reStep, String createPersonID, String modifyPersonID, String title,
+			int status) throws ParseException {
 		super();
 		this.id = id;
 		this.issueNo = issueNo;
@@ -93,8 +98,29 @@ public class Issue implements Serializable {
 		this.title = title;
 		this.status = status;
 	}
-	
-	
+
+	public Issue(Integer id, String issueNo, String issueType, Date createDate, Date planModifyTime,
+			Date actualComplteTime, Integer priority, String influentVersion, String reStep, String createPersonID,
+			String createPersonName, String modifyPersonID, String modifyPersonName, String title, Integer status,
+			String solution) {
+		super();
+		this.id = id;
+		this.issueNo = issueNo;
+		this.issueType = issueType;
+		this.createDate = createDate;
+		this.planModifyTime = planModifyTime;
+		this.actualComplteTime = actualComplteTime;
+		this.priority = priority;
+		this.influentVersion = influentVersion;
+		this.reStep = reStep;
+		this.createPersonID = createPersonID;
+		this.createPersonName = createPersonName;
+		this.modifyPersonID = modifyPersonID;
+		this.modifyPersonName = modifyPersonName;
+		this.title = title;
+		this.status = status;
+		this.solution = solution;
+	}
 
 	public Issue(String issueType, Date createDate, Date planModifyTime, Integer priority, String influentVersion,
 			String reStep, String modifyPersonID, String title) {
@@ -109,11 +135,11 @@ public class Issue implements Serializable {
 		this.title = title;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -157,11 +183,11 @@ public class Issue implements Serializable {
 		this.actualComplteTime = actualComplteTime;
 	}
 
-	public int getPriority() {
+	public Integer getPriority() {
 		return priority;
 	}
 
-	public void setPriority(int priority) {
+	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
 
@@ -189,12 +215,28 @@ public class Issue implements Serializable {
 		this.createPersonID = createPersonID;
 	}
 
+	public String getCreatePersonName() {
+		return createPersonName;
+	}
+
+	public void setCreatePersonName(String createPersonName) {
+		this.createPersonName = createPersonName;
+	}
+
 	public String getModifyPersonID() {
 		return modifyPersonID;
 	}
 
 	public void setModifyPersonID(String modifyPersonID) {
 		this.modifyPersonID = modifyPersonID;
+	}
+
+	public String getModifyPersonName() {
+		return modifyPersonName;
+	}
+
+	public void setModifyPersonName(String modifyPersonName) {
+		this.modifyPersonName = modifyPersonName;
 	}
 
 	public String getTitle() {
@@ -205,11 +247,11 @@ public class Issue implements Serializable {
 		this.title = title;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -226,8 +268,9 @@ public class Issue implements Serializable {
 		return "Issue [id=" + id + ", issueNo=" + issueNo + ", issueType=" + issueType + ", createDate=" + createDate
 				+ ", planModifyTime=" + planModifyTime + ", actualComplteTime=" + actualComplteTime + ", priority="
 				+ priority + ", influentVersion=" + influentVersion + ", reStep=" + reStep + ", createPersonID="
-				+ createPersonID + ", modifyPersonID=" + modifyPersonID + ", title=" + title + ", status=" + status
-				+ ", solution=" + solution + "]";
+				+ createPersonID + ", createPersonName=" + createPersonName + ", modifyPersonID=" + modifyPersonID
+				+ ", modifyPersonName=" + modifyPersonName + ", title=" + title + ", status=" + status + ", solution="
+				+ solution + "]";
 	}
 
 }

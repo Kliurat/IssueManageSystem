@@ -25,13 +25,16 @@ public interface IssueDao {
 	// 查询与登陆用户有关的Issue
 	public List<Issue> getIssuesByUser(User user);
 
-	// 经理的
+	// 经理查询所有的Issue
 	public List<Issue> findAll();
 
+	//模糊查询Issue
 	List<Issue> queryByCondition(IssueVo issue);
 
+	//修改Issue
 	int updateIssue(Issue issue);
 
+	//查询 issueNo = issueNo 的记录数
 	int getRowByIssueNo(@Param("issueNo") String issueNo);
 
 }
