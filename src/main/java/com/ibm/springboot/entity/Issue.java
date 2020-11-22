@@ -134,7 +134,7 @@ public class Issue implements Serializable {
 		this.modifyPersonID = modifyPersonID;
 		this.title = title;
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}

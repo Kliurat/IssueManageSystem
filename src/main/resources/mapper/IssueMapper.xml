@@ -7,6 +7,8 @@
 		<result property="modifyPersonID" column="modify_person_ID"/>
     	<result property="createPersonID" column="create_person_ID"/>
     	<result property="actualComplteTime" column="actual_complte_time"/>
+    	<result property="createPersonName" column="createPersonName"/>
+    	<result property="modifyPersonName" column="modifyPersonName"/>
 	</resultMap>
 
 	<sql id="columnsAll">
@@ -18,20 +20,12 @@
 	<select id="findAll" resultMap="IssueMap">
 		select 
 			t1.id,issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,
-			priority,influent_version,re_step,create_person_ID,
-			
+			priority,influent_version,re_step,create_person_ID,			
 			modify_person_ID,title,t1.status,solution,
-			t2.username createPersonName,t3.username modifyPersonName
-			
+			t2.username createPersonName,t3.username modifyPersonName		
 			from issue t1,user t2,user t3
-			
-			
-<!-- 			select  -->
-<!-- 			   t1.id,t1.create_person_ID,T1.modify_person_ID,t2.username createPersonName,t3.username modifyPersonName -->
-<!-- 			   from issue t1,user t2,user t3 -->
 		   where t1.create_person_ID = t2.loginID
-		   AND t1.modify_person_ID = t3.loginID
-			   
+		   AND t1.modify_person_ID = t3.loginID		   
 	</select>
 	
 	<delete id="delete">
@@ -58,61 +52,56 @@
 	</insert>
 	
 	<!-- Issue模糊搜索 -->
-	<select id="queryByCondition" parameterType="com.ibm.springboot.entity.VO.IssueVo" resultType="com.ibm.springboot.entity.Issue">
-		select
-			<include refid="columnsAll"/>
-				from issue
-			<where>
-                <if test="issueNo != null and issueNo.trim() != ''">
-                	<bind name="_issue_no" value="'%' + issueNo + '%'"/>
-                    issue_no like #{_issue_no} 
-                </if>
-                
-                <if test="status != null">
-             		and status = #{status}
-                </if>
-                
-               	<if test="createStartDate != null">
-                    and 
-                    <![CDATA[
-                    create_date >= #{createStartDate,jdbcType=DATE}
-                    ]]>
-                </if>
-                
-                <if test="createEndDate != null">
-                    and 
-                    <![CDATA[
-                    create_date <= #{createEndDate,jdbcType=DATE}
-                    ]]>
-                </if>
-                
-                
-                
-                <if test="modifyStartDate != null">
-                    and 
-                    <![CDATA[
-                    plan_modify_time >= #{modifyStartDate,jdbcType=DATE}
-                    ]]>
-                </if>
-                
-                <if test="modifyEndDate != null">
-                    and 
-                    <![CDATA[
-                    plan_modify_time <= #{modifyEndDate,jdbcType=DATE}
-                    ]]>
-                </if>
-                                    
-                <if test="createPersonID != null">
-                	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
-                    and create_person_ID like #{_create_person_id}
-                </if>
-                
-                <if test="modifyPersonID != null">
-                	<bind name="_modify_person_id" value="'%' + modifyPersonID + '%'"/>
-                    and modify_person_ID like #{_modify_person_id}
-                </if>
-                         
-            </where> 
+	<select id="queryByCondition" parameterType="com.ibm.springboot.entity.VO.IssueVo" resultMap="IssueMap">
+			select 
+				t1.id,issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,
+				priority,influent_version,re_step,create_person_ID,			
+				modify_person_ID,title,t1.status,solution,
+				t2.username createPersonName,t3.username modifyPersonName		
+			from issue t1,user t2,user t3
+		   	where t1.create_person_ID = t2.loginID AND t1.modify_person_ID = t3.loginID
+		   	<if test="issueNo != null and issueNo.trim() != ''">
+               	<bind name="_issue_no" value="'%' + issueNo + '%'"/>
+                    and issue_no like #{_issue_no} 
+               </if>
+               
+               <if test="status != null">
+            		and status = #{status}
+               </if>
+               
+              	<if test="createStartDate != null">
+                   and 
+                   <![CDATA[
+                   create_date >= #{createStartDate,jdbcType=DATE}
+                   ]]>
+               </if>
+               
+               <if test="createEndDate != null">
+                   and 
+                   <![CDATA[
+                   create_date <= #{createEndDate,jdbcType=DATE}
+                   ]]>
+               </if>
+               <if test="modifyStartDate != null">
+                   and 
+                   <![CDATA[
+                   plan_modify_time >= #{modifyStartDate,jdbcType=DATE}
+                   ]]>
+               </if>
+               <if test="modifyEndDate != null">
+                   and 
+                   <![CDATA[
+                   plan_modify_time <= #{modifyEndDate,jdbcType=DATE}
+                   ]]>
+               </if>
+               <if test="createPersonID != null">
+               	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
+                   and create_person_ID like #{_create_person_id}
+               </if>
+               <if test="modifyPersonID != null">
+               	<bind name="_modify_person_id" value="'%' + modifyPersonID + '%'"/>
+                   and modify_person_ID like #{_modify_person_id}
+               </if>         
 	</select>
 	
 	<update id="updateIssue">

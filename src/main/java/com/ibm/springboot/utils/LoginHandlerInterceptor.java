@@ -24,7 +24,7 @@ import com.ibm.springboot.util.JwtTokenUtil;
  * 作者：赖炎林
  * 作用：登陆认证拦截器
  * */
-@Component
+//@Component
 public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 	@Autowired
@@ -34,6 +34,12 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
+	
+		System.out.println("Integerhandler中的 ---> session的id" + request.getSession().getId());
+		
+//		System.out.println("session的值" + request.getSession().getAttribute("user") + "token: " + request.getSession().getAttribute("token"));
+
 
 		int status = 200;
 

@@ -4,7 +4,7 @@
 <mapper namespace="com.ibm.springboot.dao.IssueReportDao">
 
 	<sql id="columnsAll">
-		id,login_id,username,create_count,receive_count,modify_count,finish_count,finished_per
+		id,loginID,username,create_count,receive_count,modify_count,finish_count,finished_per
 	</sql>
 	
 	<!--List<IssueReport> findAll(); 
@@ -39,9 +39,9 @@
 	
 	<!--int insert(IssueReport report); -->
 	<insert id="insert">
-		insert into issue_report(login_id,username,create_count,receive_count,modify_count,finish_count,finished_per)
+		insert into issue_report(loginID,username,create_count,receive_count,modify_count,finish_count,finished_per)
 		values (
-			#{loginId},
+			#{loginID},
 			#{username},
 			#{createCount},		
 			#{receiveCount},
@@ -60,7 +60,7 @@
 			modify_count = #{modifyCount},
 			finish_count = #{finishCount},
 			finished_per = #{finishedPer}
-		where login_id = #{loginId}
+		where loginID = #{loginID}
 	</update>
 	
 </mapper>
