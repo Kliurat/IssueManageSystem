@@ -33,6 +33,7 @@ import com.ibm.springboot.entity.User;
 import com.ibm.springboot.service.UserService;
 
 @RestController
+@CrossOrigin
 //@CrossOrigin(allowCredentials = "true")
 public class UserController {
 	

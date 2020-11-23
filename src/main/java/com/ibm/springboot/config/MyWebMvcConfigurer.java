@@ -10,10 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.ibm.springboot.utils.LoginHandlerInterceptor;
 
-/*
- * 
- * 
- */
+
 @Configuration
 public class MyWebMvcConfigurer implements WebMvcConfigurer {
 	
@@ -26,6 +23,11 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		WebMvcConfigurer configurer = new WebMvcConfigurer() {
 
 			// 配置，注册拦截器 ---> 实现对未登录的用户进行拦截
+//			@Override
+//			public void addInterceptors(InterceptorRegistry registry) {
+//				registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/",
+//						"/login.html", "/user/login", "/login", "/asserts/**");
+//			}
 			@Override
 			public void addInterceptors(InterceptorRegistry registry) {
 //				registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/",

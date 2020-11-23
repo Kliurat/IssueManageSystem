@@ -19,7 +19,7 @@ import com.ibm.springboot.util.ConstantUtil;
 
 @RestController
 @RequestMapping("/issue/report")
-//@CrossOrigin(allowCredentials = "true")
+@CrossOrigin
 public class IssueReportController {
 
 	@Resource

@@ -193,14 +193,12 @@ public class IssueController {
 		String msg = "查询成功";
 
 		List<Issue> list = issueService.queryByCondition(issue);
+		
 		if (list == null) {
 			list = new ArrayList<Issue>();
 		}
 
 		System.out.println("查询结果：");
-		for (Issue issue2 : list) {
-			System.out.println(issue2.toString());
-		}
 
 		for (Issue issue2 : list) {
 			System.out.println(issue2);
