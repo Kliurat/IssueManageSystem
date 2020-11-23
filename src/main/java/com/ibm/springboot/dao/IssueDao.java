@@ -36,7 +36,11 @@ public interface IssueDao {
 	//修改Issue
 	int updateIssue(Issue issue);
 
-	//查询 issueNo = issueNo 的记录数
+	//查询 issueNo = issueNo  
 	int getRowByIssueNo(@Param("issueNo") String issueNo);
+	
+	//查询出createPersonID 或 modifyPersonID 为登陆id的issue
+	List<Issue> queryByID(IssueVo issue);
+
 
 }

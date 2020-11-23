@@ -13,7 +13,10 @@ public interface UserService {
 
 	// 查询所有的用户
 	public List<User> selectAll();
-
+		
+	// 查询所有的用户
+	public List<User> selectAllBesideLoginID(String loginID);
+	
 	// 修改个人信息
 	public int update(User user);
 

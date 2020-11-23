@@ -42,13 +42,13 @@ public class UserController {
 	
 	//注册新用户，向数据库中添加记录
 	@PostMapping("/register/user")
-	public int insertUser(@RequestBody User user) {
+	public int insertUser(User user) {
 		
 		//注册前要先判断用户是否存在，查询出所有的用户ID
 		List<User> list = userService.selectAll();
 		for (User user2 : list)
 		{
-			if(user2.getLoginID() == user.getLoginID())
+			if(user2.getLoginID().equals(user.getLoginID()))
 			{
 				// 该用户ID已经被使用过了
 				System.out.println("注册失败，用户ID已经被使用过了");
@@ -74,11 +74,17 @@ public class UserController {
 	}
 	
 	//查询所有的用户
-	@GetMapping("/selectAll/user")
-	public List<User> selectAll(HttpServletResponse response){
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		List<User> list = userService.selectAll();
-		return list;
+	@RequestMapping("/selectAll/user")
+	public List<User> selectAll(HttpServletResponse response,@RequestParam(required = false,value = "loginID") String loginID){
+//		response.setHeader("Access-Control-Allow-Origin", "*");
+		if (loginID == null) {
+			List<User> list = userService.selectAll();
+			return list;
+		}else {
+			List<User> list = userService.selectAllBesideLoginID(loginID);
+			return list;
+		}
+		
 	}
 	
 	//修改个人信息

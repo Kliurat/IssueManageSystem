@@ -26,10 +26,10 @@ public class IssueVo {
 	private Date createEndDate;
 
 	// Issue创建人ID
-	private Integer createPersonID;
+	private String createPersonID;
 
 	// Issue指定修改人ID
-	private Integer modifyPersonID;
+	private String modifyPersonID;
 
 	// 修改日期
 	// 起始日期
@@ -46,8 +46,8 @@ public class IssueVo {
 		super();
 	}
 
-	public IssueVo(String issueNo, Integer status, Date createStartDate, Date createEndDate, Integer createPersonID,
-			Integer modifyPersonID, Date modifyStartDate, Date modifyEndDate) {
+	public IssueVo(String issueNo, Integer status, Date createStartDate, Date createEndDate, String createPersonID,
+			String modifyPersonID, Date modifyStartDate, Date modifyEndDate) {
 		super();
 		this.issueNo = issueNo;
 		this.status = status;
@@ -91,19 +91,19 @@ public class IssueVo {
 		this.createEndDate = createEndDate;
 	}
 
-	public Integer getCreatePersonID() {
+	public String getCreatePersonID() {
 		return createPersonID;
 	}
 
-	public void setCreatePersonID(Integer createPersonID) {
+	public void setCreatePersonID(String createPersonID) {
 		this.createPersonID = createPersonID;
 	}
 
-	public Integer getModifyPersonID() {
+	public String getModifyPersonID() {
 		return modifyPersonID;
 	}
 
-	public void setModifyPersonID(Integer modifyPersonID) {
+	public void setModifyPersonID(String modifyPersonID) {
 		this.modifyPersonID = modifyPersonID;
 	}
 

@@ -15,6 +15,11 @@ public interface UserDao {
 
 	// 查询所有的用户
 	List<User> selectAll();
+	
+	// 查询所有的用户
+	List<User> selectAllBesideLoginID(String loginID);
+		
+		
 
 	// 根据用户姓名查询用户
 	List<User> selectByName(@Param("name") String name);

@@ -4,7 +4,7 @@
 <mapper namespace="com.ibm.springboot.dao.IssueReportDao">
 
 	<sql id="columnsAll">
-		id,loginID,username,create_count,receive_count,modify_count,finish_count,finished_per
+		id,login_id,username,create_count,receive_count,modify_count,finish_count,finished_per
 	</sql>
 	
 	<!--List<IssueReport> findAll(); 

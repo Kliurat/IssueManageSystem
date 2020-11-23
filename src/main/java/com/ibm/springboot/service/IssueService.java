@@ -15,6 +15,8 @@ public interface IssueService {
 	CommonResult insertIssue(Issue issue);
 
 	List<Issue> queryByCondition(IssueVo issue);
+	
+	List<Issue> queryByID(IssueVo issue);
 
 	int updateIssue(Issue issue);
 
