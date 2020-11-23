@@ -14,6 +14,12 @@
 	    select * from user
 	</select>
 	
+	<!-- List<User> selectAll(); -->
+	<select id="selectAllBesideLoginID" parameterType="String" resultType="com.ibm.springboot.entity.User">
+	    select * from user where loginID != #{loginID}
+
+	</select>
+	
 	<!-- int update(User user); -->
 	<update id="update" parameterType="com.ibm.springboot.entity.User">
 	   update user 

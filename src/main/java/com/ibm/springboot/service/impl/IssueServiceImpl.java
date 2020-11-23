@@ -59,6 +59,12 @@ public class IssueServiceImpl implements IssueService {
 		return issueDao.queryByCondition(issue);
 
 	}
+	
+	@Override
+	public List<Issue> queryByID(IssueVo issue) {
+		// TODO Auto-generated method stub
+		return issueDao.queryByID(issue);
+	}
 
 	@Override
 	public int updateIssue(Issue issue) {
@@ -78,6 +84,8 @@ public class IssueServiceImpl implements IssueService {
 		// TODO Auto-generated method stub
 		return issueDao.getIssueByIssueNo(issueNo);
 	}
+
+	
 	
 	
 

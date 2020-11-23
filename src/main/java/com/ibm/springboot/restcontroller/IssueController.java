@@ -206,15 +206,50 @@ public class IssueController {
 
 		return new CommonResult<List<Issue>>(status, msg, list);
 	}
+	
+		// 根据登陆id查询
+		@PostMapping("/queryIssueByID")
+		public CommonResult queryIssueByID(IssueVo issue) {
+
+			System.out.println("待查询条件：" + issue);
+
+			int status = 200;
+			String msg = "查询成功";
+
+			List<Issue> list = issueService.queryByID(issue);
+			
+			if (list == null) {
+				list = new ArrayList<Issue>();
+			}
+
+			System.out.println("查询结果：");
+
+			for (Issue issue2 : list) {
+				System.out.println(issue2);
+			}
+
+			return new CommonResult<List<Issue>>(status, msg, list);
+		}
 
 	// 修改解决方案&状态
-	@PutMapping
+	@PutMapping("/update")
 	public CommonResult modify(Issue issue) {
 		System.out.println("修改后的Issue：" + issue.toString());
 		int status = 200;
 		String msg = "提交成功";
-
-		issue.setStatus(1); // 状态置为待验证
+//
+//		issue.setStatus(1); // 状态置为待验证
+		
+		if(issue.getStatus() == -1) {
+			try {
+				SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");// 设置日期格式
+				issue.setActualComplteTime(df.parse(df.format(new Date())));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		int result = issueService.updateIssue(issue);
 		if (result != 1) {
 			status = 500;

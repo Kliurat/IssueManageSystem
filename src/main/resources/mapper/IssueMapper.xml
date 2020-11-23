@@ -59,13 +59,13 @@
 			modify_person_ID,title,t1.status,solution,
 			t2.username createPersonName,t3.username modifyPersonName			
 			from issue t1,user t2,user t3
-		   	where t1.create_person_ID = t2.loginID AND t1.modify_person_ID = t3.loginID
+		   	where ( t1.create_person_ID = t2.loginID AND t1.modify_person_ID = t3.loginID )
 		   	<if test="issueNo != null and issueNo.trim() != ''">
                	<bind name="_issue_no" value="'%' + issueNo + '%'"/>
                     and issue_no like #{_issue_no} 
                </if>
                
-               <if test="status != null">
+               <if test="status != null and status.trim() != ''">
             		and status = #{status}
                </if>
                
@@ -94,15 +94,28 @@
                    plan_modify_time <= #{modifyEndDate,jdbcType=DATE}
                    ]]>
                </if>
-               <if test="createPersonID != null">
-<!--                	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/> -->
+               <if test="createPersonID != null and createPersonID.trim() != ''">
                    and create_person_ID = #{createPersonID}
                </if>
-               <if test="modifyPersonID != null">
-<!--                	<bind name="_modify_person_id" value="'%' + modifyPersonID + '%'"/> -->
+               <if test="modifyPersonID != null and modifyPersonID.trim() != ''">
                    and modify_person_ID = #{modifyPersonID}
                </if> 
-               order by create_date desc        
+               order by create_date desc       
+	</select>
+	
+	
+	<select id="queryByID" parameterType="com.ibm.springboot.entity.VO.IssueVo" resultMap="IssueMap">
+		select 
+			t1.id,issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,
+			priority,influent_version,re_step,create_person_ID,			
+			modify_person_ID,title,t1.status,solution,
+			t2.username createPersonName,t3.username modifyPersonName			
+			from issue t1,user t2,user t3
+		   	where( t1.create_person_ID = t2.loginID AND t1.modify_person_ID = t3.loginID )
+		   	and (create_person_ID = #{createPersonID} or modify_person_ID = #{modifyPersonID})
+		   	order by create_date desc
+		
+	
 	</select>
 	
 	<update id="updateIssue">
@@ -113,6 +126,9 @@
 				</if>
 				<if test="solution != null">
 					solution = #{solution}
+				</if>
+				<if test="actual_complte_time != null">
+					actual_complte_time = #{actualComplteTime}
 				</if>
 			</set>
 			where id = #{id}
