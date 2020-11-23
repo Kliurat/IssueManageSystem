@@ -175,11 +175,14 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/login")
-	@CrossOrigin(origins = "http://192.168.3.30:8080", maxAge = 3600,allowCredentials = "true")
+//	@CrossOrigin(origins = "http://192.168.3.30:8080", maxAge = 3600,allowCredentials = "true")
 	public CommonResult login(@RequestParam("loginId") String loginId, 
 							  @RequestParam("password") String password,
 							  HttpSession session) {
 
+		System.out.println("1111111111111111111111111111111111111");
+		System.out.println("登陆的sessionID为：" + session.getId());
+		
 		return userService.login(loginId, password, session);
 
 	}

@@ -39,7 +39,7 @@
 	
 	<!--int insert(IssueReport report); -->
 	<insert id="insert">
-		insert into issue_report(loginID,username,create_count,receive_count,modify_count,finish_count,finished_per)
+		insert into issue_report(login_id,username,create_count,receive_count,modify_count,finish_count,finished_per)
 		values (
 			#{loginID},
 			#{username},
@@ -60,7 +60,7 @@
 			modify_count = #{modifyCount},
 			finish_count = #{finishCount},
 			finished_per = #{finishedPer}
-		where loginID = #{loginID}
+		where login_id = #{loginID}
 	</update>
 	
 </mapper>

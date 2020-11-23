@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
 //		System.out.println("session的值" + session.getAttribute("user") + "token: " + session.getAttribute("token"));
 		
-		System.out.println("UserImpl中---> session的id" + session.getId());
+//		System.out.println("UserImpl中---> session的id" + session.getId());
 		
 	return new CommonResult<Map<String, Object>>(status, msg, map);
 			

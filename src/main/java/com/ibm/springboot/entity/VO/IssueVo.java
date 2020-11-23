@@ -26,10 +26,10 @@ public class IssueVo {
 	private Date createEndDate;
 
 	// Issue创建人ID
-	private String createPersonID;
+	private String createPersonName;
 
 	// Issue指定修改人ID
-	private String modifyPersonID;
+	private String modifyPersonName;
 
 	// 修改日期
 	// 起始日期
@@ -41,22 +41,62 @@ public class IssueVo {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date modifyEndDate;
+	
+	//创建人的ID
+	private String createPersonID;
+	
+	//修改人的ID
+	private String modifyPersonID;
 
 	public IssueVo() {
 		super();
 	}
-
-	public IssueVo(String issueNo, Integer status, Date createStartDate, Date createEndDate, String createPersonID,
-			String modifyPersonID, Date modifyStartDate, Date modifyEndDate) {
+	
+	public IssueVo(String issueNo, Integer status, Date createStartDate, Date createEndDate, String createPersonName,
+			String modifyPersonName, Date modifyStartDate, Date modifyEndDate) {
 		super();
 		this.issueNo = issueNo;
 		this.status = status;
 		this.createStartDate = createStartDate;
 		this.createEndDate = createEndDate;
-		this.createPersonID = createPersonID;
-		this.modifyPersonID = modifyPersonID;
+		this.createPersonName = createPersonName;
+		this.modifyPersonName = modifyPersonName;
 		this.modifyStartDate = modifyStartDate;
 		this.modifyEndDate = modifyEndDate;
+	}
+	
+	
+	
+	public IssueVo(String issueNo, Integer status, Date createStartDate, Date createEndDate, String createPersonName,
+			String modifyPersonName, Date modifyStartDate, Date modifyEndDate, String createPersonID,
+			String modifyPersonID) {
+		super();
+		this.issueNo = issueNo;
+		this.status = status;
+		this.createStartDate = createStartDate;
+		this.createEndDate = createEndDate;
+		this.createPersonName = createPersonName;
+		this.modifyPersonName = modifyPersonName;
+		this.modifyStartDate = modifyStartDate;
+		this.modifyEndDate = modifyEndDate;
+		this.createPersonID = createPersonID;
+		this.modifyPersonID = modifyPersonID;
+	}
+
+	public String getCreatePersonID() {
+		return createPersonID;
+	}
+
+	public void setCreatePersonID(String createPersonID) {
+		this.createPersonID = createPersonID;
+	}
+
+	public String getModifyPersonID() {
+		return modifyPersonID;
+	}
+
+	public void setModifyPersonID(String modifyPersonID) {
+		this.modifyPersonID = modifyPersonID;
 	}
 
 	public String getIssueNo() {
@@ -91,20 +131,20 @@ public class IssueVo {
 		this.createEndDate = createEndDate;
 	}
 
-	public String getCreatePersonID() {
-		return createPersonID;
+	public String getCreatePersonName() {
+		return createPersonName;
 	}
 
-	public void setCreatePersonID(String createPersonID) {
-		this.createPersonID = createPersonID;
+	public void setCreatePersonName(String createPersonName) {
+		this.createPersonName = createPersonName;
 	}
 
-	public String getModifyPersonID() {
-		return modifyPersonID;
+	public String getModifyPersonName() {
+		return modifyPersonName;
 	}
 
-	public void setModifyPersonID(String modifyPersonID) {
-		this.modifyPersonID = modifyPersonID;
+	public void setModifyPersonName(String modifyPersonName) {
+		this.modifyPersonName = modifyPersonName;
 	}
 
 	public Date getModifyStartDate() {
@@ -126,8 +166,13 @@ public class IssueVo {
 	@Override
 	public String toString() {
 		return "IssueVo [issueNo=" + issueNo + ", status=" + status + ", createStartDate=" + createStartDate
-				+ ", createEndDate=" + createEndDate + ", createPersonID=" + createPersonID + ", modifyPersonID="
-				+ modifyPersonID + ", modifyStartDate=" + modifyStartDate + ", modifyEndDate=" + modifyEndDate + "]";
+				+ ", createEndDate=" + createEndDate + ", createPersonName=" + createPersonName + ", modifyPersonName="
+				+ modifyPersonName + ", modifyStartDate=" + modifyStartDate + ", modifyEndDate=" + modifyEndDate
+				+ ", createPersonID=" + createPersonID + ", modifyPersonID=" + modifyPersonID + "]";
 	}
+
+	
+
+	
 
 }

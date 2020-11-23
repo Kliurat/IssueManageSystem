@@ -47,8 +47,8 @@ public class IssueController {
 	@PostMapping("")
 	public CommonResult insertIssue(Issue issue, HttpSession session) {
 
-//		User user = (User) session.getAttribute("user");
 		User user = new User();
+		user.setLoginID(issue.getCreatePersonID());
 //		if (user.getRole() != 0) {
 //			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
 //		}
@@ -185,8 +185,11 @@ public class IssueController {
 
 	// 条件查询
 	@PostMapping("/query")
-	public CommonResult query(IssueVo issue) {
+	public CommonResult query(HttpSession session,IssueVo issue) {
 
+		System.out.println("3333333333333333333333333333333333333");
+		System.out.println("查询后的sessionID为：" + session.getId());
+		
 		System.out.println("待查询条件：" + issue);
 
 		int status = 200;
@@ -209,9 +212,11 @@ public class IssueController {
 	
 		// 根据登陆id查询
 		@PostMapping("/queryIssueByID")
-		public CommonResult queryIssueByID(IssueVo issue) {
+		public CommonResult queryIssueByID(HttpSession session,IssueVo issue) {
+			
+			System.out.println("2222222222222222222222222222222222");
+			System.out.println("查询后的sessionID为：" + session.getId());
 
-			System.out.println("待查询条件：" + issue);
 
 			int status = 200;
 			String msg = "查询成功";
@@ -222,11 +227,11 @@ public class IssueController {
 				list = new ArrayList<Issue>();
 			}
 
-			System.out.println("查询结果：");
-
-			for (Issue issue2 : list) {
-				System.out.println(issue2);
-			}
+//			System.out.println("查询结果：");
+//
+//			for (Issue issue2 : list) {
+//				System.out.println(issue2);
+//			}
 
 			return new CommonResult<List<Issue>>(status, msg, list);
 		}
