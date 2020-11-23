@@ -41,7 +41,7 @@ public class UserController {
 	
 	//注册新用户，向数据库中添加记录
 	@PostMapping("/register/user")
-	public int insertUser(@RequestBody User user) {
+	public int insertUser(User user) {
 		
 		//注册前要先判断用户是否存在，查询出所有的用户ID
 		List<User> list = userService.selectAll();

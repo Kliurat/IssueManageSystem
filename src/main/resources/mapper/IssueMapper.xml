@@ -95,13 +95,14 @@
                    ]]>
                </if>
                <if test="createPersonID != null">
-               	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/>
-                   and create_person_ID like #{_create_person_id}
+<!--                	<bind name="_create_person_id" value="'%' + createPersonID + '%'"/> -->
+                   and create_person_ID = #{createPersonID}
                </if>
                <if test="modifyPersonID != null">
-               	<bind name="_modify_person_id" value="'%' + modifyPersonID + '%'"/>
-                   and modify_person_ID like #{_modify_person_id}
-               </if>         
+<!--                	<bind name="_modify_person_id" value="'%' + modifyPersonID + '%'"/> -->
+                   and modify_person_ID = #{modifyPersonID}
+               </if> 
+               order by create_date desc        
 	</select>
 	
 	<update id="updateIssue">
