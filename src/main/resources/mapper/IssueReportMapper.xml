@@ -29,6 +29,7 @@
 	</select>
 	
 	<!--IssueReport selectByUserId(Integer userId); -->
+<!-- 	根据 login_id 查询出 issue_report 的具体信息 -->
 	<select id="selectByLoginId" resultType="com.ibm.springboot.entity.IssueReport">
 		select 
 			<include refid="columnsAll"/>
@@ -38,6 +39,7 @@
 
 	
 	<!--int insert(IssueReport report); -->
+<!-- 	插入信息 -->
 	<insert id="insert">
 		insert into issue_report(login_id,username,create_count,receive_count,modify_count,finish_count,finished_per)
 		values (
@@ -52,6 +54,7 @@
 	</insert>
 	
 	<!-- int update(IssueReport report); -->
+<!-- 	修改信息 -->
 	<update id="update">
 		update issue_report
 		set
