@@ -70,6 +70,16 @@ public class Issue implements Serializable {
 
 	// 解决方案
 	private String solution;
+	
+	private String url;
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public Issue() {
 		super();

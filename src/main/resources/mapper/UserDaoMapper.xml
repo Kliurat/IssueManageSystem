@@ -5,8 +5,8 @@
 
    <!-- void insert(User user); -->
    <insert id="insert" parameterType="com.ibm.springboot.entity.User">
-   		insert into user(loginID,username,email,password,registeDate) 
-   		VALUES(#{loginID},#{username},#{email},#{password},#{registeDate})
+   		insert into user(loginID,username,email,password,registeDate,status,role) 
+   		VALUES(#{loginID},#{username},#{email},#{password},#{registeDate},1,0)
    </insert>
    
 	<!-- List<User> selectAll(); -->

@@ -1,6 +1,7 @@
 package com.ibm.springboot.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -41,6 +42,9 @@ public interface IssueDao {
 	
 	//查询出createPersonID 或 modifyPersonID 为登陆id的issue
 	List<Issue> queryByID(IssueVo issue);
+	
+	// 导出
+	List<Map<String, Object>> queryUserInfoResultListMap();
 
 
 }

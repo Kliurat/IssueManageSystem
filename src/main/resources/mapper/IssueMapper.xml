@@ -146,4 +146,9 @@
 				where issue_no = #{issueNo}
 	</select>
 	
+<!-- 	导出 -->
+	 <select id="queryUserInfoResultListMap" resultType="HashMap">
+        select * from issue;
+    </select> 
+	
 </mapper>
