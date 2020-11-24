@@ -111,6 +111,13 @@ public class UserServiceImpl implements UserService {
 				User user = userDao.findByLoginId(loginId.trim());
 				if (user != null)
 				{
+					
+					if (user.getStatus() == null || user.getStatus() == 0) {
+						status = 403;
+						msg = "该用户已被注销";
+						return new CommonResult<Map<String, Object>>(status, msg, map);
+					}
+
 
 					if (password.equals(user.getPassword())) {
 						status = 200;
