@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.springboot.dao.IssueDao;
 import com.ibm.springboot.dao.UserDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
@@ -268,6 +269,11 @@ public class IssueController {
 			}
 
 			// 查看目标用户是否有报表行记录
+			
+			//根据IssueNo查找到modifyPersonID
+			Issue temp = issueService.getIssueByIssueNo(issue.getIssueNo());
+			issue.setModifyPersonID(temp.getModifyPersonID());
+			
 			IssueReport report = iRepService.getReportByLoginID(issue.getModifyPersonID());
 			if (report == null) {
 				// 若无，先查询目标用户的信息
