@@ -157,11 +157,13 @@ public class UserController {
 		System.out.println("====================");
 		System.out.println("user为：" + user);
 		
-		if(role == null && status != null) {
-			userService.updateStatus(user);
-		}else if (role != null && status == null) {
-			userService.updateRole(user);
-		}
+//		if(role == null && status != null) {
+//			userService.updateStatus(user);
+//		}else if (role != null && status == null) {
+//			userService.updateRole(user);
+//		}
+		
+		userService.updateStatusAndRole(user);
 		
 		//返回全用户列表给前端
 		return userService.selectAll();
@@ -179,8 +181,7 @@ public class UserController {
 	public CommonResult login(@RequestParam("loginId") String loginId, 
 							  @RequestParam("password") String password,
 							  HttpSession session) {
-
-		System.out.println("1111111111111111111111111111111111111");
+		
 		System.out.println("登陆的sessionID为：" + session.getId());
 		
 		return userService.login(loginId, password, session);
