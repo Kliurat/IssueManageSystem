@@ -64,13 +64,17 @@
 	   update user set role = 1 WHERE loginID = #{loginID}
 	</update>
 	
+	<!-- 根据传入的User中的role和status来判断进行注销、提升权限、降低权限的操作 -->
 	<update id="updateStatusAndRole">
 	   update user 
 	   <set>
            <if test="status != null and role == null">  <!-- 注销 status = 0，传入 status = 1 -->
               status = 0,
            </if>
-           <if test="role != null and status == null">    <!-- 经理 role = 1,传入 role != 1 -->
+           <if test="role == 0 and status == null">    <!-- 提升到经理 role = 1,传入 role != 1 -->
+              role = 1
+           </if>
+           <if test="role == 1 and status == null">    <!-- 降级普通用户 role = 0,传入 role = 1 -->
               role = 1
            </if>
 	   </set> 
