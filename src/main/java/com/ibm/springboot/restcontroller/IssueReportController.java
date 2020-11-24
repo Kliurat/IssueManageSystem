@@ -86,7 +86,7 @@ public class IssueReportController {
 	public String Formatter() {
 		iRepDao.deleteAll();
 		iRepDao.staticsFromIssueTable();
-		return "数据校验成功";
+		return "数据统计成功";
 	}
 
 }

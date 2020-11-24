@@ -28,4 +28,8 @@ public class ConstantUtil {
 
 	public final static int ISSUE_VERIFYING = 1; // 待验证
 
+	public final static int ROLE_MANAGER = 1; // 经理
+
+	public final static int ROLE_ORDINARY_USER = 0; // 普通用户
+
 }

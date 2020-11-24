@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ibm.springboot.dao.IssueDao;
 import com.ibm.springboot.dao.UserDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
@@ -50,9 +49,9 @@ public class IssueController {
 		User user = new User();
 		user.setLoginID(issue.getCreatePersonID());
 
-//		if (user.getRole() != 0) {
-//			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
-//		}
+		if (user.getRole() != ConstantUtil.ROLE_ORDINARY_USER) {
+			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
+		}
 
 		// 设置创建时间
 		SimpleDateFormat df = new SimpleDateFormat(ConstantUtil.DATE_FORMAT_TWO_STRING);
@@ -269,11 +268,11 @@ public class IssueController {
 			}
 
 			// 查看目标用户是否有报表行记录
-			
-			//根据IssueNo查找到modifyPersonID
+
+			// 根据IssueNo查找到modifyPersonID
 			Issue temp = issueService.getIssueByIssueNo(issue.getIssueNo());
 			issue.setModifyPersonID(temp.getModifyPersonID());
-			
+
 			IssueReport report = iRepService.getReportByLoginID(issue.getModifyPersonID());
 			if (report == null) {
 				// 若无，先查询目标用户的信息
