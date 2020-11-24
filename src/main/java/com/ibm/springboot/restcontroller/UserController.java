@@ -149,7 +149,7 @@ public class UserController {
 	@RequestMapping("/update/statusAndrole")
 	public List<User> updateStatusAndRole(@RequestParam(value = "loginID",required = false) String loginID,@RequestParam(value = "role",required = false) Integer role,@RequestParam(value = "status",required = false) Integer status)
 	{
-		User user = new User(loginID,role,status);
+		User user = new User(loginID,status,role);
 		System.out.println("loginID：" + loginID);
 		System.out.println("role：" + role);
 		System.out.println("status：" + status);
@@ -157,13 +157,13 @@ public class UserController {
 		System.out.println("====================");
 		System.out.println("user为：" + user);
 		
-//		if(role == null && status != null) {
-//			userService.updateStatus(user);
-//		}else if (role != null && status == null) {
-//			userService.updateRole(user);
-//		}
+		if(role == null && status != null) {
+			userService.updateStatus(user);
+		}else if (role != null && status == null) {
+			userService.updateRole(user);
+		}
 		
-		userService.updateStatusAndRole(user);
+//		userService.updateStatusAndRole(user);
 		
 		//返回全用户列表给前端
 		return userService.selectAll();

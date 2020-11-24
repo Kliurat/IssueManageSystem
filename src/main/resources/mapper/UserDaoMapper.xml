@@ -5,8 +5,8 @@
 
    <!-- void insert(User user); -->
    <insert id="insert" parameterType="com.ibm.springboot.entity.User">
-   		insert into user(loginID,username,email,password,registeDate) 
-   		VALUES(#{loginID},#{username},#{email},#{password},#{registeDate})
+   		insert into user(loginID,username,email,password,registeDate,status,role) 
+   		VALUES(#{loginID},#{username},#{email},#{password},#{registeDate},1,0)
    </insert>
    
 	<!-- List<User> selectAll(); -->
@@ -45,6 +45,7 @@
 	        <!-- and username = #{username} -->
 	     </if>
 	  </where>
+	  order by convert(loginID using gbk) asc
 	</select>
 	
 	<select id="findByLoginId" resultType="com.ibm.springboot.entity.User">
@@ -61,7 +62,20 @@
 	
 	<!-- int updateRole(@Param("role") int role); -->
 	<update id="updateRole">
-	   update user set role = 1 WHERE loginID = #{loginID}
+	   update user
+	   <set>
+		   <if test="role == 1">
+		   		role = 0
+		   </if>
+		   <if test="role == 0">
+		   		role = 1
+		   </if>
+		   
+<!-- 		   loginID = #{loginID} -->
+		   
+	   </set> 
+	   
+	   where loginID = #{loginID}
 	</update>
 	
 	<!-- 根据传入的User中的role和status来判断进行注销、提升权限、降低权限的操作 -->
@@ -69,7 +83,7 @@
 	   update user 
 	   <set>
            <if test="status != null and role == null">  <!-- 注销 status = 0，传入 status = 1 -->
-              status = 0,
+              status = 0
            </if>
            <if test="role == 0 and status == null">    <!-- 提升到经理 role = 1,传入 role != 1 -->
               role = 1

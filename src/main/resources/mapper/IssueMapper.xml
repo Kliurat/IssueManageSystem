@@ -59,7 +59,7 @@
                     and issue_no like #{_issue_no} 
                </if>
                
-               <if test="status != null and status.trim() != ''">
+               <if test="status == 0 or status == 1 or status == -1">
             		and status = #{status}
                </if>
                
@@ -97,7 +97,17 @@
                    and modify_person_ID in (
 					    select loginID from user where username = #{modifyPersonName}
 					    )
-               </if> 
+               </if>
+               <if test="status == 3">
+               		and t1.status != 0
+               </if>
+               <if test="createPersonID != null">
+               		and create_person_ID = #{createPersonID}
+               </if>
+               <if test="modifyPersonID != null">
+               		and modify_person_ID = #{modifyPersonID}
+               </if>
+               
                order by create_date desc       
 	</select>
 	
