@@ -135,8 +135,8 @@ public class FileUploadController {
 //		    ClassPathResource classPathResource = new ClassPathResource("sql/1606204571676error.jpg");
 //		    File file = classPathResource.getFile();
 //		    InputStream inputStream = (InputStream) classPathResource.getInputStream();
-		    
-		    String path[] = {"F:\\JMPX\\1606205851789Doge.jpg","F:\\JMPX\\1606209566548Doge.jpg"};
+//			F:\文件\IDEA壁纸
+		    String path[] = {"F:\\文件\\IDEA壁纸\\59ec62012e38f.jpg","F:\\文件\\IDEA壁纸\\IMG_1323(20200426-170336).JPG"};
 		    
 		    OutputStream out = null;
 		    BufferedInputStream fis = null;
