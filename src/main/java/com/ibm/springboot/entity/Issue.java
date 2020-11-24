@@ -1,13 +1,12 @@
 package com.ibm.springboot.entity;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ibm.springboot.util.ConstantUtil;
 
 public class Issue implements Serializable {
 
@@ -21,23 +20,25 @@ public class Issue implements Serializable {
 	private String issueType;
 
 	/*
-	 * @DateTimeFormat(pattern = "yyyy/MM/dd") 作用是指定前端向后端传时间参数应用什么格式
+	 * @DateTimeFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
+	 * 作用是指定前端向后端传时间参数应用什么格式
 	 * 
 	 * @JsonFormat(pattern = "yyyy/MM-dd") 指定后端向前端传递的格式
 	 */
 
 	// 创建时间
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = ConstantUtil.DATE_FORMAT_ONE_STRING)
+	@JsonFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
 	private Date createDate;
 
 	// 计划修改时间
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = ConstantUtil.DATE_FORMAT_ONE_STRING)
+	@JsonFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
 	private Date planModifyTime;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern = "yyyy/MM/dd")
+	// 实际完成时间
+	@DateTimeFormat(pattern = ConstantUtil.DATE_FORMAT_ONE_STRING)
+	@JsonFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
 	private Date actualComplteTime;
 
 	// Issue等级
@@ -87,16 +88,11 @@ public class Issue implements Serializable {
 
 	public Issue(int id, String issueNo, String issueType, Date planModifyTime, Date actualComplteTime, int priority,
 			String influentVersion, String reStep, String createPersonID, String modifyPersonID, String title,
-			int status) throws ParseException {
+			int status) {
 		super();
 		this.id = id;
 		this.issueNo = issueNo;
 		this.issueType = issueType;
-
-		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-
-		this.createDate = df.parse(df.format(new Date()));
-		System.out.println("构造函数时间：" + this.createDate);
 
 		this.planModifyTime = planModifyTime;
 		this.actualComplteTime = actualComplteTime;
@@ -144,7 +140,7 @@ public class Issue implements Serializable {
 		this.modifyPersonID = modifyPersonID;
 		this.title = title;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}

@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ibm.springboot.util.ConstantUtil;
 
 public class User implements Serializable {
 
@@ -25,8 +26,8 @@ public class User implements Serializable {
 	private String password;
 
 	// 注册日期
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = ConstantUtil.DATE_FORMAT_ONE_STRING)
+	@JsonFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
 	private Date registeDate;
 
 	// 用户状态
@@ -40,6 +41,7 @@ public class User implements Serializable {
 	public User() {
 
 	}
+
 	public User(String loginID, Integer role) {
 		super();
 		this.loginID = loginID;
@@ -52,7 +54,6 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	
 	public User(String loginID, Integer status, Integer role) {
 		super();
 		this.loginID = loginID;
@@ -60,7 +61,6 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	
 	public User(String loginID, String username, String email, String password, Integer status, Integer role) {
 		super();
 		this.loginID = loginID;
@@ -79,8 +79,8 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public User(int sortID, String loginID, String username, String email, String password, Date registeDate, Integer status,
-			Integer role) {
+	public User(int sortID, String loginID, String username, String email, String password, Date registeDate,
+			Integer status, Integer role) {
 		super();
 		this.sortID = sortID;
 		this.loginID = loginID;

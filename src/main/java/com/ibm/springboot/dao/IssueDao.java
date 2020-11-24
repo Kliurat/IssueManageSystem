@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.ibm.springboot.entity.Issue;
+import com.ibm.springboot.entity.IssueReport;
 import com.ibm.springboot.entity.User;
 import com.ibm.springboot.entity.VO.IssueVo;
 
@@ -23,28 +24,29 @@ public interface IssueDao {
 
 	int delete(@Param("id") Integer id);
 
-	// 查询与登陆用户有关的Issue
+	// 查询与登陆用户有关的Issue ？？？是否在用
 	public List<Issue> getIssuesByUser(User user);
 
-	// 经理查询所有的Issue
+	// 经理查询所有的Issue ？？？是否在用
 	public List<Issue> findAll();
 
-	//模糊查询Issue
+	// 模糊查询Issue
 	List<Issue> queryByCondition(IssueVo issue);
-	
+
 	Issue getIssueByIssueNo(String issueNo);
 
-	//修改Issue
+	// 修改Issue
 	int updateIssue(Issue issue);
 
-	//查询 issueNo = issueNo  
+	// 查询 issueNo = issueNo
 	int getRowByIssueNo(@Param("issueNo") String issueNo);
-	
-	//查询出createPersonID 或 modifyPersonID 为登陆id的issue
+
+	// 查询出createPersonID 或 modifyPersonID 为登陆id的issue
 	List<Issue> queryByID(IssueVo issue);
 	
 	// 导出
 	List<Map<String, Object>> queryUserInfoResultListMap();
 
+	List<IssueReport> accountAllForIssueReport();
 
 }

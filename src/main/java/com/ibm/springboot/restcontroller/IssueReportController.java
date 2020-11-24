@@ -7,15 +7,15 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.springboot.dao.IssueReportDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.IssueReport;
-import com.ibm.springboot.entity.User;
 import com.ibm.springboot.service.IssueReportService;
-import com.ibm.springboot.util.ConstantUtil;
 
 @RestController
 @RequestMapping("/issue/report")
@@ -24,6 +24,9 @@ public class IssueReportController {
 
 	@Resource
 	IssueReportService iService;
+
+	@Resource
+	IssueReportDao iRepDao;
 
 	/**
 	 * 
@@ -41,9 +44,9 @@ public class IssueReportController {
 			@RequestParam(value = "username", required = false) String username, HttpSession session) {
 
 //		User user = (User) session.getAttribute("user");
-		
+
 //		System.out.println(user);
-		
+
 //		User user = new User(in)
 //
 //		if (user.getRole() != 1) {
@@ -77,6 +80,13 @@ public class IssueReportController {
 		}
 
 		return new CommonResult<List<IssueReport>>(status, msg, list);
+	}
+
+	@GetMapping("formatter")
+	public String Formatter() {
+		iRepDao.deleteAll();
+		iRepDao.staticsFromIssueTable();
+		return "数据统计成功";
 	}
 
 }

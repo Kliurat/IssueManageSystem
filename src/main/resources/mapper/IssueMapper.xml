@@ -59,7 +59,7 @@
                     and issue_no like #{_issue_no} 
                </if>
                
-               <if test="status != null and status.trim() != ''">
+               <if test="status == 0 or status == 1 or status == -1">
             		and status = #{status}
                </if>
                
@@ -97,8 +97,19 @@
                    and modify_person_ID in (
 					    select loginID from user where username = #{modifyPersonName}
 					    )
-               </if> 
+               </if>
+               <if test="status == 3">
+               		and t1.status != 0
+               </if>
+               <if test="createPersonID != null">
+               		and create_person_ID = #{createPersonID}
+               </if>
+               <if test="modifyPersonID != null">
+               		and modify_person_ID = #{modifyPersonID}
+               </if>
+               
                order by create_date desc       
+
 	</select>
 	
 	<select id="queryByID" parameterType="com.ibm.springboot.entity.VO.IssueVo" resultMap="IssueMap">
@@ -113,7 +124,7 @@
 		   	order by create_date desc
 	</select>
 	
-<!-- 	修改 issue 的时候只需要修改表的 status 以及 solution -->
+<!-- 	修改 issue 的时候只需要修改表的 status & solution & 实际完成时间-->
 	<update id="updateIssue">
 		update issue
 			<set>
@@ -121,7 +132,7 @@
 					status = #{status},
 				</if>
 				<if test="solution != null">
-					solution = #{solution}
+					solution = #{solution},
 				</if>
 				<if test="actualComplteTime != null">
 					actual_complte_time = #{actualComplteTime}
@@ -150,5 +161,9 @@
 	 <select id="queryUserInfoResultListMap" resultType="HashMap">
         select * from issue;
     </select> 
+    
+	<select id="accountAllForIssueReport" resultType="com.ibm.springboot.entity.IssueReport">
+		
+	</select>
 	
 </mapper>

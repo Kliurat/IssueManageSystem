@@ -22,4 +22,9 @@ public interface IssueReportDao {
 	// 修改记录
 	int update(IssueReport report);
 
+	int deleteAll();
+
+	// 统计issue表的数据，并插入到IssueReport表
+	int staticsFromIssueTable();
+
 }
