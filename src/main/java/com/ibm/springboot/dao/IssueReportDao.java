@@ -22,4 +22,6 @@ public interface IssueReportDao {
 	// 修改记录
 	int update(IssueReport report);
 
+	int updateTable();
+
 }

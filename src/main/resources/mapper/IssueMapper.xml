@@ -109,6 +109,7 @@
                </if>
                
                order by create_date desc       
+
 	</select>
 	
 	<select id="queryByID" parameterType="com.ibm.springboot.entity.VO.IssueVo" resultMap="IssueMap">
@@ -123,7 +124,7 @@
 		   	order by create_date desc
 	</select>
 	
-<!-- 	修改 issue 的时候只需要修改表的 status 以及 solution -->
+<!-- 	修改 issue 的时候只需要修改表的 status & solution & 实际完成时间-->
 	<update id="updateIssue">
 		update issue
 			<set>
@@ -131,7 +132,7 @@
 					status = #{status},
 				</if>
 				<if test="solution != null">
-					solution = #{solution}
+					solution = #{solution},
 				</if>
 				<if test="actualComplteTime != null">
 					actual_complte_time = #{actualComplteTime}
@@ -154,6 +155,10 @@
 			<include refid="columnsAll"/>
 				from issue
 				where issue_no = #{issueNo}
+	</select>
+	
+	<select id="accountAllForIssueReport" resultType="com.ibm.springboot.entity.IssueReport">
+		
 	</select>
 	
 </mapper>

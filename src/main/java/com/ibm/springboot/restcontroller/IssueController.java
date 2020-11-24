@@ -10,7 +10,6 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.springboot.dao.IssueDao;
 import com.ibm.springboot.dao.UserDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
@@ -49,17 +49,21 @@ public class IssueController {
 
 		User user = new User();
 		user.setLoginID(issue.getCreatePersonID());
+
 //		if (user.getRole() != 0) {
 //			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
 //		}
 
-		System.out.println("进入.......................................................");
-		System.out.println(issue);
-
-		System.out.println("待插入Issue:" + issue.toString());
-
-		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");// 设置日期格式
-		System.out.println("当前日期：" + df.format(new Date()));// new Date()为获取当前系统时间
+		// 设置创建时间
+		SimpleDateFormat df = new SimpleDateFormat(ConstantUtil.DATE_FORMAT_TWO_STRING);
+		Date createDate = null;
+		try {
+			createDate = df.parse(df.format(new Date()));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		issue.setCreateDate(createDate);
 
 		// 给每一个Issue创建一个唯一的uuid
 		String uuid = null;
@@ -69,51 +73,53 @@ public class IssueController {
 			uuid = uuid.substring(0, 6);
 			// 判断数据库中是否存在该索引
 			row = issueService.getRowByIssueNo(uuid);
-			System.out.println("生成issueNo冲突，查询row:" + row);
+			System.out.println("insertIssue==>生成issueNo冲突，查询row:" + row);
 
 		} while (row != 0);
 
 		issue.setIssueNo(uuid);
 		issue.setStatus(0);
 
-		try {
-			issue.setCreateDate(df.parse(df.format(new Date())));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		System.out.println("insertIssue==>待插入" + issue.toString());
 
-		System.out.println("待插入Issue:" + issue.toString());
+		/*-----------------------------------------------------------------------------------------
+		 * 开始
+		 * 报表数据更新处理
+		 * 
+		 */
 
-//		System.out.println("查看session存储的user:" + user);
+		// 创建人的Issue创建数加1
 
 		// 1.查看是否有自己的报表行记录
 		IssueReport report = null;
 		report = iRepService.getReportByLoginID(user.getLoginID());
-//		try {
-//			
-//
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			if (e instanceof NullPointerException) {
-//				return new CommonResult<String>(201, "您尚未登陆，请先登陆", null);
-//			}
-//		}
-		System.out.println("查看快快快：" + report);
+
+		System.out.println("insertIssue==>loginID:" + user.getLoginID() + ", 报表行：" + report);
 		if (report == null) {
 			// 2.若无，则插入一条，创建数为1
-			System.out.println("插入开始");
-			iRepService.insertReport(new IssueReport(user.getLoginID(), user.getUsername(), 1, 0, 0, 0, 0));
-			System.out.println("插入结束");
+			iRepService.insertReport(new IssueReport(user.getLoginID(), user.getUsername(), 1, 0, 0, 0));
 		} else {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
 		}
 
+		/*-----------------------------------------------------------------------------------------
+		 * 结束
+		 * 报表数据更新处理
+		 * 
+		 */
+
 		// 根据登陆的user，取出loginID
-		issue.setCreatePersonID(user.getLoginID());
+//		issue.setCreatePersonID(user.getLoginID());
 
 		// 3.插入issue
 		CommonResult result = issueService.insertIssue(issue);
+
+		/*-----------------------------------------------------------------------------------------
+		 * 开始
+		 * 报表数据更新处理
+		 * 
+		 */
 		if (result.getStatus() == 200) {
 			// issue创建成功，更新issue发派目标用户的issue报表
 
@@ -124,18 +130,27 @@ public class IssueController {
 				User targetUser = userDao.findByLoginId(issue.getModifyPersonID());
 
 				// 再插入一条issue报表行，收到数为1
-				iRepService.insertReport(
-						new IssueReport(targetUser.getLoginID(), targetUser.getUsername(), 0, 1, 0, 0, 0));
+				iRepService
+						.insertReport(new IssueReport(targetUser.getLoginID(), targetUser.getUsername(), 0, 1, 0, 0));
 			} else {
 				// 7.计算完成率
-				int finished = report.getFinishCount();
+				int finished = report.getModifyCount();
 				report.setReceiveCount(report.getReceiveCount() + 1);
 				int receive = report.getReceiveCount();
 				float finishedPer = finished * 1.0f / receive;
 				report.setFinishedPer(finishedPer);
+				System.out.println("接收人完成率计算结果：" + finishedPer);
 				iRepService.updateReport(report);
 			}
+
 		}
+
+		/*-----------------------------------------------------------------------------------------
+		 * 结束
+		 * 报表数据更新处理
+		 * 
+		 */
+
 		return result;
 	}
 
@@ -185,18 +200,15 @@ public class IssueController {
 
 	// 条件查询
 	@PostMapping("/query")
-	public CommonResult query(HttpSession session,IssueVo issue) {
+	public CommonResult query(HttpSession session, IssueVo issue) {
 
-		System.out.println("3333333333333333333333333333333333333");
-		System.out.println("查询后的sessionID为：" + session.getId());
-		
 		System.out.println("待查询条件：" + issue);
 
 		int status = 200;
 		String msg = "查询成功";
 
 		List<Issue> list = issueService.queryByCondition(issue);
-		
+
 		if (list == null) {
 			list = new ArrayList<Issue>();
 		}
@@ -209,23 +221,22 @@ public class IssueController {
 
 		return new CommonResult<List<Issue>>(status, msg, list);
 	}
-	
-		// 根据登陆id查询
-		@PostMapping("/queryIssueByID")
-		public CommonResult queryIssueByID(HttpSession session,IssueVo issue) {
-			
-			System.out.println("2222222222222222222222222222222222");
-			System.out.println("查询后的sessionID为：" + session.getId());
 
+	// 根据登陆id查询
+	@PostMapping("/queryIssueByID")
+	public CommonResult queryIssueByID(HttpSession session, IssueVo issue) {
 
-			int status = 200;
-			String msg = "查询成功";
+		System.out.println("2222222222222222222222222222222222");
+//		System.out.println("查询后的sessionID为：" + session.getId());
 
-			List<Issue> list = issueService.queryByID(issue);
-			
-			if (list == null) {
-				list = new ArrayList<Issue>();
-			}
+		int status = 200;
+		String msg = "查询成功";
+
+		List<Issue> list = issueService.queryByID(issue);
+
+		if (list == null) {
+			list = new ArrayList<Issue>();
+		}
 
 //			System.out.println("查询结果：");
 //
@@ -233,8 +244,8 @@ public class IssueController {
 //				System.out.println(issue2);
 //			}
 
-			return new CommonResult<List<Issue>>(status, msg, list);
-		}
+		return new CommonResult<List<Issue>>(status, msg, list);
+	}
 
 	// 修改解决方案&状态
 	@PutMapping("/update")
@@ -244,17 +255,54 @@ public class IssueController {
 		String msg = "提交成功";
 //
 //		issue.setStatus(1); // 状态置为待验证
-		
-		if(issue.getStatus() == -1) {
+
+		if (issue.getStatus() == ConstantUtil.ISSUE_CLOSED) {
 			try {
-				SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");// 设置日期格式
-				issue.setActualComplteTime(df.parse(df.format(new Date())));
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+				Date parse = df.parse(df.format(new Date()));
+				issue.setActualComplteTime(parse);
+
+				System.out.println("实际完成时间：" + parse.toString());
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			// 查看目标用户是否有报表行记录
+			
+			//根据IssueNo查找到modifyPersonID
+			Issue temp = issueService.getIssueByIssueNo(issue.getIssueNo());
+			issue.setModifyPersonID(temp.getModifyPersonID());
+			
+			IssueReport report = iRepService.getReportByLoginID(issue.getModifyPersonID());
+			if (report == null) {
+				// 若无，先查询目标用户的信息
+				User targetUser = userDao.findByLoginId(issue.getModifyPersonID());
+
+				// 再插入一条issue报表行，修改数为1
+				report = new IssueReport(targetUser.getLoginID(), targetUser.getUsername(), 0, 1, 1, 1);
+				iRepService.insertReport(report);
+
+			} else {
+				// 计算完成率
+
+				report.setModifyCount(report.getModifyCount() + 1);
+				int finished = report.getModifyCount(); // 修改数即为issue的已关闭数，即是完成数
+
+//				report.setReceiveCount(report.getReceiveCount() + 1);
+
+				int receive = report.getReceiveCount();
+				float finishedPer = finished * 1.0f / receive;
+				System.out.println("完成：" + finished);
+				System.out.println("接收：" + receive);
+				System.out.println("插入后：完成率= " + finishedPer);
+				report.setFinishedPer(finishedPer);
+				iRepService.updateReport(report);
+
+			}
+
 		}
-		
+
 		int result = issueService.updateIssue(issue);
 		if (result != 1) {
 			status = 500;

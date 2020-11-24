@@ -14,7 +14,7 @@ public class IssueReport {
 
 	private int modifyCount; // 修改数
 
-	private int finishCount; // 完成数
+//	private int finishCount; // 完成数
 
 	private float finishedPer; // 完成率
 
@@ -23,14 +23,14 @@ public class IssueReport {
 	}
 
 	public IssueReport(String loginID, String username, int createCount, int receiveCount, int modifyCount,
-			int finishCount, float finishedPer) {
+			float finishedPer) {
 		super();
 		this.loginID = loginID;
 		this.username = username;
 		this.createCount = createCount;
 		this.receiveCount = receiveCount;
 		this.modifyCount = modifyCount;
-		this.finishCount = finishCount;
+//		this.finishCount = finishCount;
 		this.finishedPer = finishedPer;
 	}
 
@@ -41,8 +41,6 @@ public class IssueReport {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	
 
 	public String getLoginID() {
 		return loginID;
@@ -84,13 +82,13 @@ public class IssueReport {
 		this.modifyCount = modifyCount;
 	}
 
-	public int getFinishCount() {
-		return finishCount;
-	}
-
-	public void setFinishCount(int finishCount) {
-		this.finishCount = finishCount;
-	}
+//	public int getFinishCount() {
+//		return finishCount;
+//	}
+//
+//	public void setFinishCount(int finishCount) {
+//		this.finishCount = finishCount;
+//	}
 
 	public float getFinishedPer() {
 		return finishedPer;
@@ -104,7 +102,7 @@ public class IssueReport {
 	public String toString() {
 		return "IssueReport [id=" + id + ", loginID=" + loginID + ", username=" + username + ", createCount="
 				+ createCount + ", receiveCount=" + receiveCount + ", modifyCount=" + modifyCount + ", finishCount="
-				+ finishCount + ", finishedPer=" + finishedPer + "]";
+				+ ", finishedPer=" + finishedPer + "]";
 	}
 
 }

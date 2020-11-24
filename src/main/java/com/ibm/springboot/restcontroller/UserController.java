@@ -181,8 +181,7 @@ public class UserController {
 	public CommonResult login(@RequestParam("loginId") String loginId, 
 							  @RequestParam("password") String password,
 							  HttpSession session) {
-
-		System.out.println("1111111111111111111111111111111111111");
+		
 		System.out.println("登陆的sessionID为：" + session.getId());
 		
 		return userService.login(loginId, password, session);
