@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
 		// 用户名、密码不为空
 		if (loginId != null && password != null && !"".equals(password.trim()))
 		{
-			
+			// 管理员登录
 			if(loginId.equals("Admin")&&password.equals("Admin123"))
 			{
 				User adminUser = new User(loginId,Integer.getInteger("2"));
@@ -108,11 +108,22 @@ public class UserServiceImpl implements UserService {
 			}
 			else
 			{
+				// 普通用户登录
+				
 				User user = userDao.findByLoginId(loginId.trim());
+				
 				if (user != null)
 				{
+					
+					if (user.getStatus() == null || user.getStatus() == 0) 
+					{
+						status = 403;
+						msg = "该用户已被注销";
+						return new CommonResult<Map<String, Object>>(status, msg, map);
+					}
 
 					if (password.equals(user.getPassword())) {
+						
 						status = 200;
 
 						session.setAttribute("user", user);
@@ -151,10 +162,6 @@ public class UserServiceImpl implements UserService {
 			status = 201;
 			msg = "用户名或密码不能为空";	
 		}
-
-//		System.out.println("session的值" + session.getAttribute("user") + "token: " + session.getAttribute("token"));
-		
-//		System.out.println("UserImpl中---> session的id" + session.getId());
 		
 	return new CommonResult<Map<String, Object>>(status, msg, map);
 			
