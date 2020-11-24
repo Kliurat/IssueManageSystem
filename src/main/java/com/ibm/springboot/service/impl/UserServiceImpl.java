@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ibm.springboot.dao.UserDao;
 import com.ibm.springboot.entity.CommonResult;
@@ -87,30 +86,31 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> map = null;
 
 		// 用户名、密码不为空
-		if (loginId != null && password != null && !"".equals(password.trim()))
-		{
-			
-			if(loginId.equals("Admin")&&password.equals("Admin123"))
-			{
-				User adminUser = new User(loginId,Integer.getInteger("2"));
+		if (loginId != null && password != null && !"".equals(password.trim())) {
+
+			if (loginId.equals("Admin") && password.equals("Admin123")) {
+				User adminUser = new User(loginId, Integer.getInteger("2"));
 				status = 200;
 				session.setAttribute("user", adminUser);
 				msg = "Admin管理员登陆成功";
-				token = JwtTokenUtil.createJWT(String.valueOf(adminUser.getLoginID()), String.valueOf(adminUser.getLoginID()),
-						String.valueOf(adminUser.getRole()), audience);
+				token = JwtTokenUtil.createJWT(String.valueOf(adminUser.getLoginID()),
+						String.valueOf(adminUser.getLoginID()), String.valueOf(adminUser.getRole()), audience);
 				map = new HashedMap<String, Object>();
 				map.put("loginID", adminUser.getLoginID());
 				map.put("role", adminUser.getRole());
 				map.put("token", token);
 				session.setAttribute("token", token);
 				System.out.println("#####  登陆成功 ##### ，生成token:" + token);
-				
-			}
-			else
-			{
+
+			} else {
 				User user = userDao.findByLoginId(loginId.trim());
-				if (user != null)
-				{
+				if (user != null) {
+
+					if (user.getStatus() == null || user.getStatus() == 0) {
+						status = 403;
+						msg = "该用户已被注销";
+						return new CommonResult<Map<String, Object>>(status, msg, map);
+					}
 
 					if (password.equals(user.getPassword())) {
 						status = 200;
@@ -120,8 +120,8 @@ public class UserServiceImpl implements UserService {
 						msg = "登陆成功";
 
 						// 调用封装好的方法，生成 token
-						token = JwtTokenUtil.createJWT(String.valueOf(user.getSortID()), String.valueOf(user.getLoginID()),
-								String.valueOf(user.getRole()), audience);
+						token = JwtTokenUtil.createJWT(String.valueOf(user.getSortID()),
+								String.valueOf(user.getLoginID()), String.valueOf(user.getRole()), audience);
 
 						map = new HashedMap<String, Object>();
 						map.put("loginID", user.getLoginID());
@@ -144,22 +144,18 @@ public class UserServiceImpl implements UserService {
 					msg = "用户名或密码错误";
 				}
 			}
-		}
-		else
-		{
+		} else {
 			// 用户名或密码为空
 			status = 201;
-			msg = "用户名或密码不能为空";	
+			msg = "用户名或密码不能为空";
 		}
 
 //		System.out.println("session的值" + session.getAttribute("user") + "token: " + session.getAttribute("token"));
-		
+
 //		System.out.println("UserImpl中---> session的id" + session.getId());
-		
-	return new CommonResult<Map<String, Object>>(status, msg, map);
-			
-			
-			
+
+		return new CommonResult<Map<String, Object>>(status, msg, map);
+
 	}
 
 	/**
@@ -191,7 +187,5 @@ public class UserServiceImpl implements UserService {
 
 		return list;
 	}
-
-
 
 }

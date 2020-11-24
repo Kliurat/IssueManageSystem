@@ -57,48 +57,48 @@
 		   	<if test="issueNo != null and issueNo.trim() != ''">
                	<bind name="_issue_no" value="'%' + issueNo + '%'"/>
                     and issue_no like #{_issue_no} 
-               </if>
-               
-               <if test="status != null and status.trim() != ''">
-            		and status = #{status}
-               </if>
-               
-              	<if test="createStartDate != null">
-                   and 
-                   <![CDATA[
-                   create_date >= #{createStartDate,jdbcType=DATE}
-                   ]]>
-               </if>
-               
-               <if test="createEndDate != null">
-                   and 
-                   <![CDATA[
-                   create_date <= #{createEndDate,jdbcType=DATE}
-                   ]]>
-               </if>
-               <if test="modifyStartDate != null">
-                   and 
-                   <![CDATA[
-                   plan_modify_time >= #{modifyStartDate,jdbcType=DATE}
-                   ]]>
-               </if>
-               <if test="modifyEndDate != null">
-                   and 
-                   <![CDATA[
-                   plan_modify_time <= #{modifyEndDate,jdbcType=DATE}
-                   ]]>
-               </if>
-               <if test="createPersonName != null and createPersonName.trim() != ''">
-                   and create_person_ID in (
-					    select loginID from user where username = #{createPersonName}
-					    )
-               </if>
-               <if test="modifyPersonName != null and modifyPersonName.trim() != ''">
-                   and modify_person_ID in (
-					    select loginID from user where username = #{modifyPersonName}
-					    )
-               </if> 
-               order by create_date desc       
+            </if>
+            
+            <if test="status != null and status.trim() != ''">
+         		and status = #{status}
+            </if>
+            
+           	<if test="createStartDate != null">
+                and 
+                <![CDATA[
+                create_date >= #{createStartDate,jdbcType=DATE}
+                ]]>
+            </if>
+            
+            <if test="createEndDate != null">
+                and 
+                <![CDATA[
+                create_date <= #{createEndDate,jdbcType=DATE}
+                ]]>
+            </if>
+            <if test="modifyStartDate != null">
+                and 
+                <![CDATA[
+                plan_modify_time >= #{modifyStartDate,jdbcType=DATE}
+                ]]>
+            </if>
+            <if test="modifyEndDate != null">
+                and 
+                <![CDATA[
+                plan_modify_time <= #{modifyEndDate,jdbcType=DATE}
+                ]]>
+            </if>
+            <if test="createPersonName != null and createPersonName.trim() != ''">
+                and create_person_ID in (
+		    select loginID from user where username = #{createPersonName}
+		    )
+            </if>
+            <if test="modifyPersonName != null and modifyPersonName.trim() != ''">
+                and modify_person_ID in (
+		    select loginID from user where username = #{modifyPersonName}
+		    )
+            </if> 
+            order by create_date desc       
 	</select>
 	
 	<select id="queryByID" parameterType="com.ibm.springboot.entity.VO.IssueVo" resultMap="IssueMap">
@@ -113,7 +113,7 @@
 		   	order by create_date desc
 	</select>
 	
-<!-- 	修改 issue 的时候只需要修改表的 status 以及 solution -->
+<!-- 	修改 issue 的时候只需要修改表的 status & solution & 实际完成时间-->
 	<update id="updateIssue">
 		update issue
 			<set>
@@ -121,7 +121,7 @@
 					status = #{status},
 				</if>
 				<if test="solution != null">
-					solution = #{solution}
+					solution = #{solution},
 				</if>
 				<if test="actualComplteTime != null">
 					actual_complte_time = #{actualComplteTime}
@@ -144,6 +144,10 @@
 			<include refid="columnsAll"/>
 				from issue
 				where issue_no = #{issueNo}
+	</select>
+	
+	<select id="accountAllForIssueReport" resultType="com.ibm.springboot.entity.IssueReport">
+		
 	</select>
 	
 </mapper>

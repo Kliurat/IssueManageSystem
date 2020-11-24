@@ -55,6 +55,19 @@ public class IssueReportServiceImpl implements IssueReportService {
 
 	@Override
 	public int updateReport(IssueReport report) {
+		float finishedPer = report.getFinishedPer();
+		int temp = (int) (finishedPer * 1000);
+		int k = temp % 10; // 取出第三位
+		if (k >= 5) {
+
+			int t = (int) (finishedPer * 100) + 1;
+			report.setFinishedPer(t);
+		} else {
+
+			int t = (int) (finishedPer * 100);
+			report.setFinishedPer(t);
+		}
+
 		int result = issueReportDao.update(report);
 		return result;
 	}

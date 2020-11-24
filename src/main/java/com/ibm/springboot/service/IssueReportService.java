@@ -14,4 +14,9 @@ public interface IssueReportService {
 
 	int updateReport(IssueReport report);
 
+//	// 24号报表增加-cai
+//	int createNumAddOne(String loginId);
+//
+//	int receiveNumAddOne(String loginId);
+
 }
