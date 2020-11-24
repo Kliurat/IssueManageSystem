@@ -1,6 +1,7 @@
 package com.ibm.springboot.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
@@ -23,4 +24,7 @@ public interface IssueService {
 	int getRowByIssueNo(String issueNo);
 	
 	Issue getIssueByIssueNo(String issueNo);
+	
+	// 导出
+	List<Map<String, Object>> queryUserInfoResultListMap();
 }

@@ -64,7 +64,54 @@
 		where login_id = #{loginID}
 	</update>
 	
+	<delete id="deleteAll">
+		delete from issue_report
+	</delete>	
 	
+	<insert id="staticsFromIssueTable">
+		insert into issue_report(login_id,username,create_count,receive_count,modify_count,finished_per)
+			SELECT t7.loginID,t7.username,t7.create_count,t7.receive_count,t8.modify_count,t8.modify_count / t7.receive_count * 100 finished_per
+			from
+			(
+				SELECT t4.loginID,t4.username,t4.create_count,t6.receive_count
+			from
+			
+				(SELECT loginID,username,COUNT(t3.id) create_count
+				FROM 
+				(
+				SELECT t1.loginID,t1.username,t2.id
+				FROM user t1 LEFT JOIN issue t2
+				ON t1.loginID = t2.create_person_ID
+				) t3
+				GROUP BY t3.loginID) t4
+			
+			LEFT JOIN
+			
+				(SELECT loginID,COUNT(t5.id) receive_count
+				FROM 
+				(
+				SELECT t1.loginID,t2.id
+				FROM user t1 LEFT JOIN issue t2
+				ON t1.loginID = t2.modify_person_ID
+				) t5
+				GROUP BY t5.loginID) t6
+			
+			ON t4.loginID = t6.loginID
+			) t7
+			LEFT JOIN 
+			
+			
+			(SELECT loginID,COUNT(t5.id) modify_count
+			FROM 
+			(
+			SELECT t1.loginID,t2.id
+			FROM user t1 LEFT JOIN issue t2
+			ON t1.loginID = t2.modify_person_ID AND t2.`status` = -1
+			) t5
+			GROUP BY t5.loginID) t8
+			
+			ON t7.loginID = t8.loginID
+	</insert>
 	
 	
 </mapper>

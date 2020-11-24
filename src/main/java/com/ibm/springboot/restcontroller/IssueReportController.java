@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.springboot.dao.IssueReportDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.IssueReport;
 import com.ibm.springboot.service.IssueReportService;
@@ -23,6 +24,9 @@ public class IssueReportController {
 
 	@Resource
 	IssueReportService iService;
+
+	@Resource
+	IssueReportDao iRepDao;
 
 	/**
 	 * 
@@ -80,8 +84,9 @@ public class IssueReportController {
 
 	@GetMapping("formatter")
 	public String Formatter() {
-
-		return "数据校验成功";
+		iRepDao.deleteAll();
+		iRepDao.staticsFromIssueTable();
+		return "数据统计成功";
 	}
 
 }

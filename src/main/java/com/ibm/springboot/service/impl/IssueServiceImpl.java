@@ -1,6 +1,7 @@
 package com.ibm.springboot.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,17 @@ public class IssueServiceImpl implements IssueService {
 		// TODO Auto-generated method stub
 		return issueDao.getIssueByIssueNo(issueNo);
 	}
+
+	@Override
+	public List<Map<String, Object>> queryUserInfoResultListMap() {
+		
+		List<Map<String, Object>> list = issueDao.queryUserInfoResultListMap();
+		return list;
+		
+	}
+	
+	
+	
 
 	
 	

@@ -1,5 +1,5 @@
 server:
-  port: 8888
+  port: 8081
  
     
 spring:
@@ -52,6 +52,18 @@ audience:
   name: restapiuser
   # 过期时间，时间戳
   expiresSecond: 604800000   #单位毫秒,7天有效期
+  
+#  文件上传
+  servlet:
+    multipart:
+      max-file-size: 200MB #单个文件上传大小
+      max-request-size: 600MB #连续上传文件大小
+      
+      
+handsomeboy:
+ file:
+  root:
+    path: "F:\\JMPX\\" #存储路径
   
 
   
