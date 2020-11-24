@@ -60,7 +60,7 @@
                </if>
                
                <if test="status == 0 or status == 1 or status == -1">
-            		and status = #{status}
+            		and t1.status = #{status}
                </if>
                
               	<if test="createStartDate != null">
