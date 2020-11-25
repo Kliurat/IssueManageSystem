@@ -31,9 +31,11 @@ public class Issue implements Serializable {
 	@JsonFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
 	private Date createDate;
 
-	// 计划修改时间
-	@DateTimeFormat(pattern = ConstantUtil.DATE_FORMAT_ONE_STRING)
-	@JsonFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
+//	// 计划修改时间
+//	@DateTimeFormat(pattern = ConstantUtil.DATE_FORMAT_ONE_STRING)
+//	@JsonFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8") //返回时间类型
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") //接收时间类型
 	private Date planModifyTime;
 
 	// 实际完成时间
@@ -71,6 +73,16 @@ public class Issue implements Serializable {
 
 	// 解决方案
 	private String solution;
+	
+	private String url;
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public Issue() {
 		super();
