@@ -8,4 +8,6 @@ public interface IssuePictureService {
 	
 	List<IssuePicture> getIssuePicturesByIssueNo(String issueNo);
 
+	
+	int insert(IssuePicture issuePicture);
 }

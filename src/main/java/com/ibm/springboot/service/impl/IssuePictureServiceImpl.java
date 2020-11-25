@@ -30,4 +30,16 @@ public class IssuePictureServiceImpl implements IssuePictureService{
 		return issuePictures;
 	}
 
+	@Override
+	public int insert(IssuePicture issuePicture) {
+		// TODO Auto-generated method stub
+		int result = -1;
+		try {
+			result = issuePictureDao.insert(issuePicture);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return 0;
+	}
+
 }

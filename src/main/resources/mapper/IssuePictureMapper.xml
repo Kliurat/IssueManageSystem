@@ -6,5 +6,9 @@
 	<select id="getIssuePicturesByIssueNo">
 		select * from issue_picture where issue_no = #{issueNo}
 	</select>
+	
+	<insert id="insert">
+		insert into issue_picture(issue_no,img_url) values(#{issueNo},#{imgUrl})
+	</insert>
 
 </mapper>

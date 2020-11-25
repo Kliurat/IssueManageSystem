@@ -41,10 +41,11 @@ public class IssueController {
 
 	// 创建Issue
 	@PostMapping("")
-	public CommonResult insertIssue(Issue issue, HttpSession session) 
+	public CommonResult insertIssue(Issue issue, HttpSession session,String timeStr) 
 	{
 		
 		////////////////////////////////////////////////////////////////////////////////////
+		System.out.println("str为：" + timeStr);
 
 		User user = new User();
 		user.setLoginID(issue.getCreatePersonID());
