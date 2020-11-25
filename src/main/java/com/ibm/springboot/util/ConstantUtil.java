@@ -20,7 +20,7 @@ public class ConstantUtil {
 
 	public final static String DATE_FORMAT_ONE_STRING = "yyyy-MM-dd HH:mm:ss";
 
-	public final static String DATE_FORMAT_TWO_STRING = "yyyy/MM/dd HH:mm:ss";
+	public final static String DATE_FORMAT_TWO_STRING = "yyyy-MM-dd HH:mm:ss";
 
 	public final static int ISSUE_CLOSED = -1;
 

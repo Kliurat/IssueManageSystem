@@ -1,6 +1,8 @@
 package com.ibm.springboot.restcontroller;
 
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,10 +13,13 @@ import com.ibm.springboot.utils.FileDownLoad;
 @RestController
 public class FileUploadController {
 	
+	@Value("${handsomeboy.file.root.path}")  //不能放在方法中
+	private String fileRootPath;
+	
 	@PostMapping("/file/upload")
     public String fileUpload(@RequestParam("files") MultipartFile[] files)
 	{
-        String filePath = FileDownLoad.fileUpload(files);
+        String filePath = FileDownLoad.fileUpload(files,fileRootPath);
         return filePath;
     }
 	
