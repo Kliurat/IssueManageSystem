@@ -147,9 +147,12 @@ public class UserController {
 	
 	//Admin对用户的注销 --- 实际上是修改数据库，将 user 表的用户状态修改为0
 	@RequestMapping("/update/statusAndrole")
-	public List<User> updateStatusAndRole(@RequestParam(value = "loginID",required = false) String loginID,@RequestParam(value = "role",required = false) Integer role,@RequestParam(value = "status",required = false) Integer status)
+	public List<User> updateStatusAndRole(@RequestParam(value = "loginID",required = false) String loginID,
+										  @RequestParam(value = "role",required = false) Integer role,
+										  @RequestParam(value = "status",required = false) Integer status)
 	{
 		User user = new User(loginID,status,role);
+		
 		System.out.println("loginID：" + loginID);
 		System.out.println("role：" + role);
 		System.out.println("status：" + status);

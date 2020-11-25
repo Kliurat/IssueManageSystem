@@ -17,12 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileDownLoad
 {
-	
-		@Value("${handsomeboy.file.root.path}")  //不能放在方法中
-		private static String fileRootPath;
-		
 		// 前端传文件给后端
-	    public static String fileUpload(MultipartFile[] files)
+	    public static String fileUpload(MultipartFile[] files,String fileRootPath)
 		{
 			
 	        String filePath = "";

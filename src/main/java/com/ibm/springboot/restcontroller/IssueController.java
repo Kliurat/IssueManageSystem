@@ -38,18 +38,46 @@ public class IssueController {
 
 	@Resource
 	UserDao userDao;
+	
+	
 
 	// 创建Issue
 	@PostMapping("")
-	public CommonResult insertIssue(Issue issue, HttpSession session) 
+	public CommonResult insertIssue(Issue issue, HttpSession session,String timeStr) 
 	{
+		
+		String timeStr1 = timeStr;
+		String timeStr2 = timeStr;
+		
+		int index = timeStr.indexOf("T");
+		String left = timeStr.substring(0,index);
+		
+		System.out.println("left:" + left);
+		
+		String right = timeStr1.substring(index+1,timeStr2.length());
+		
+		System.out.println("right:" + right);
+		
+		String timePlanString = left + " " + right + ":00";
+		
+		System.out.println("timeStr: "+timeStr);
+		System.out.println("timePlanString: "+timePlanString);
+		
+		timeStr = timePlanString;
 		
 		////////////////////////////////////////////////////////////////////////////////////
 
 		User user = new User();
-		user.setLoginID(issue.getCreatePersonID());
+		
+		String createPersonID = issue.getCreatePersonID();
+		
+		System.out.println("1111111111111111111111111111111111111111 :"+createPersonID);
+		
+		User usersByLoginID = userDao.getUsersByLoginID(createPersonID);	
+		
+		System.out.println("1111111111111111111111111111111111111111 :"+usersByLoginID);
 
-		if (user.getRole() != ConstantUtil.ROLE_ORDINARY_USER) {
+		if (usersByLoginID.getRole() != ConstantUtil.ROLE_ORDINARY_USER) {
 			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
 		}
 
@@ -58,6 +86,11 @@ public class IssueController {
 		Date createDate = null;
 		try {
 			createDate = df.parse(df.format(new Date()));
+			
+			Date parse = df.parse(timeStr);
+			
+			issue.setPlanModifyTime(parse);
+			
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -91,12 +124,12 @@ public class IssueController {
 
 		// 1.查看是否有自己的报表行记录
 		IssueReport report = null;
-		report = iRepService.getReportByLoginID(user.getLoginID());
+		report = iRepService.getReportByLoginID(usersByLoginID.getLoginID());
 
-		System.out.println("insertIssue==>loginID:" + user.getLoginID() + ", 报表行：" + report);
+		System.out.println("insertIssue==>loginID:" + usersByLoginID.getLoginID() + ", 报表行：" + report);
 		if (report == null) {
 			// 2.若无，则插入一条，创建数为1
-			iRepService.insertReport(new IssueReport(user.getLoginID(), user.getUsername(), 1, 0, 0, 0));
+			iRepService.insertReport(new IssueReport(usersByLoginID.getLoginID(), usersByLoginID.getUsername(), 1, 0, 0, 0));
 		} else {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
@@ -194,8 +227,6 @@ public class IssueController {
 		System.out.println("获取到的issueNo为： " + issueNo);
 		System.out.println("获取到的status为： " + status);
 		Issue issue = issueService.getIssueByIssueNo(issueNo);
-		
-		issue.setUrl("F:\\JMPX\\16062045717911.jpg");
 		
 		return issue;
 		

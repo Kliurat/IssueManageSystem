@@ -98,8 +98,9 @@
 					    select loginID from user where username = #{modifyPersonName}
 					    )
                </if>
+               
                <if test="status == 3">
-               		and t1.status != 0
+               		and t1.status == -1
                </if>
                <if test="createPersonID != null">
                		and create_person_ID = #{createPersonID}

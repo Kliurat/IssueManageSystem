@@ -70,11 +70,7 @@
 		   <if test="role == 0">
 		   		role = 1
 		   </if>
-		   
-<!-- 		   loginID = #{loginID} -->
-		   
 	   </set> 
-	   
 	   where loginID = #{loginID}
 	</update>
 	
@@ -89,7 +85,7 @@
               role = 1
            </if>
            <if test="role == 1 and status == null">    <!-- 降级普通用户 role = 0,传入 role = 1 -->
-              role = 1
+              role = 0
            </if>
 	   </set> 
 	   where loginID = #{loginID} 
@@ -102,5 +98,9 @@
 		</if>
 	</select>
 	
+<!-- 	public User getUsersByLoginID(String loginID); -->
+	<select id="getUsersByLoginID" resultType="com.ibm.springboot.entity.User">
+		select * from user where loginID = #{loginID}
+	</select>
 	
 </mapper>
