@@ -11,6 +11,14 @@ public class IssuePicture implements Serializable {
 	private byte[] pictureByte;
 	
 	private String imgUrl;
+	
+	
+
+	public IssuePicture(String issueNo, String imgUrl) {
+		super();
+		this.issueNo = issueNo;
+		this.imgUrl = imgUrl;
+	}
 
 	public IssuePicture(Integer id, String issueNo, byte[] pictureByte, String imgUrl) {
 		super();

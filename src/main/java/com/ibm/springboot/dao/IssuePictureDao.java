@@ -11,4 +11,8 @@ public interface IssuePictureDao {
 	
 	public List<IssuePicture> getIssuePicturesByIssueNo(String issueNo);
 	
+	public int insert(IssuePicture issuePicture);
+	
+	public int getCountByIssueNO(String issueNo);
+	
 }
