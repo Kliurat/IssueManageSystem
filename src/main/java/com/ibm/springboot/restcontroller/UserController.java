@@ -1,6 +1,5 @@
 package com.ibm.springboot.restcontroller;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -207,18 +206,19 @@ public class UserController {
 
 		List<User> users = null;
 		try {
+//			Thread.sleep(100);
 			users = UserDataUtil.excelToUsers(file.getInputStream());
-		} catch (IOException e) {
+			for (User user : users) {
+				userService.insert(user);
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			System.out.println(e.getMessage());
+			return new CommonResult<String>(400, "数据异常，请检查编号是否重复或格式是否正确", null);
 		}
 
 		System.out.println("从Excel文件读取到的数据：" + users);
-
-		for (User user : users) {
-
-			userService.insert(user);
-		}
 
 		return new CommonResult<String>(200, "批量注册成功", null);
 

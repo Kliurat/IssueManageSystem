@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.ibm.springboot.dao.UserDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
@@ -41,10 +44,7 @@ public class IssueController {
 
 	// 创建Issue
 	@PostMapping("")
-	public CommonResult insertIssue(Issue issue, HttpSession session) 
-	{
-		
-		////////////////////////////////////////////////////////////////////////////////////
+	public CommonResult insertIssue(Issue issue, HttpSession session) {
 
 		User user = new User();
 		user.setLoginID(issue.getCreatePersonID());
@@ -194,11 +194,11 @@ public class IssueController {
 		System.out.println("获取到的issueNo为： " + issueNo);
 		System.out.println("获取到的status为： " + status);
 		Issue issue = issueService.getIssueByIssueNo(issueNo);
-		
+
 		issue.setUrl("F:\\JMPX\\16062045717911.jpg");
-		
+
 		return issue;
-		
+
 	}
 
 	// 条件查询
@@ -208,7 +208,7 @@ public class IssueController {
 		System.out.println("待查询条件：" + issue);
 
 		int status = 200;
-		
+
 		String msg = "查询成功";
 
 		List<Issue> list = issueService.queryByCondition(issue);
@@ -241,8 +241,6 @@ public class IssueController {
 		if (list == null) {
 			list = new ArrayList<Issue>();
 		}
-
-
 
 		return new CommonResult<List<Issue>>(status, msg, list);
 	}
@@ -288,9 +286,6 @@ public class IssueController {
 
 				report.setModifyCount(report.getModifyCount() + 1);
 				int finished = report.getModifyCount(); // 修改数即为issue的已关闭数，即是完成数
-
-//				report.setReceiveCount(report.getReceiveCount() + 1);
-
 				int receive = report.getReceiveCount();
 				float finishedPer = finished * 1.0f / receive;
 				System.out.println("完成：" + finished);

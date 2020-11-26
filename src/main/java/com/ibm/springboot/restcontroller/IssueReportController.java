@@ -82,7 +82,7 @@ public class IssueReportController {
 		return new CommonResult<List<IssueReport>>(status, msg, list);
 	}
 
-	@GetMapping("formatter")
+	@GetMapping("reset")
 	public String Formatter() {
 		iRepDao.deleteAll();
 		iRepDao.staticsFromIssueTable();
