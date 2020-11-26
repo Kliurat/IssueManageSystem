@@ -36,6 +36,7 @@
 			<include refid="columnsAll"/>
 			from issue_report
 			where login_id = #{loginId}
+			order by login_id
 	</select>
 
 	
