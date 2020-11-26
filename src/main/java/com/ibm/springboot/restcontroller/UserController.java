@@ -169,32 +169,36 @@ public class UserController {
 
 	// 退出登录方法
 	@GetMapping("/logout")
-	public CommonResult logout(HttpSession session) {
+	public CommonResult logout(HttpSession session) 
+	{
 		session.removeAttribute("user"); // 暂时弃用
 		return new CommonResult<String>(200, "您已退出登陆，期待您下次的到来", null);
 	}
 
-	// 导入用户列表，批量注册
+	// 批量导入用户
+	// 批量注册
 	@PostMapping("/users/import")
-	public CommonResult importStudents(@RequestParam("file") MultipartFile file) {
-
+	public CommonResult importStudents(@RequestParam("file") MultipartFile file) 
+	{
 		List<User> users = null;
-		try {
-//			Thread.sleep(100);
+		
+		try 
+		{
 			users = UserDataUtil.excelToUsers(file.getInputStream());
-			for (User user : users) {
+			
+			System.out.println("从Excel文件读取到的数据：" + users);
+			
+			// 批量插入
+			for (User user : users)
+			{
 				userService.insert(user);
 			}
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			System.out.println(e.getMessage());
 			return new CommonResult<String>(400, "数据异常，请检查编号是否重复或格式是否正确", null);
-
 		}
-
-		System.out.println("从Excel文件读取到的数据：" + users);
-
 		return new CommonResult<String>(200, "批量注册成功", null);
-
 	}
-
 }
