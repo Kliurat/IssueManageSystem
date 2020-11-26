@@ -11,21 +11,22 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.ibm.springboot.entity.Issue;
+import com.ibm.springboot.entity.IssueReport;
 
 public class ExcelToStudent {
 
 	// 根据传入的文件输入流，将excel表中的信息读取出来并返回
-	public static List<Issue> excelToStudents(InputStream is) {
-
+	public static List<IssueReport> excelToStudents(InputStream is) {
+		
 		try {
-
+			
 			Workbook workbook = new XSSFWorkbook(is);
 
 			Sheet sheet = workbook.getSheetAt(0);
 
 			Iterator<Row> rows = sheet.iterator();
 
-			List<Issue> students = new ArrayList<Issue>();
+			List<IssueReport> issuelist = new ArrayList<IssueReport>();
 
 			int rowNumber = 0;
 
@@ -41,7 +42,7 @@ public class ExcelToStudent {
 
 				Iterator<Cell> cellsInRow = currentRow.iterator();
 
-				Issue issue = new Issue();
+				IssueReport issueReport = new IssueReport();
 
 				int cellIdx = 0;
 
@@ -55,30 +56,50 @@ public class ExcelToStudent {
 						break;
 
 					case 1:
-						issue.setIssueNo(currentCell.getStringCellValue());
+						issueReport.setId(currentCell.getColumnIndex());
 						break;
 
 					case 2:
-						issue.setIssueType(currentCell.getStringCellValue());;
+						issueReport.setLoginID(currentCell.getStringCellValue());;
 						break;
 						
 					case 3:
-						issue.setTitle(currentCell.getStringCellValue());
+						issueReport.setUsername(currentCell.getStringCellValue());
+						break;
+						
+					case 4:
+						issueReport.setUsername(currentCell.getStringCellValue());
+						break;
+						
+					case 5:
+						issueReport.setReceiveCount(currentCell.getColumnIndex());;
+						break;
+
+					case 6:
+						issueReport.setModifyCount(currentCell.getColumnIndex());
+						break;
+						
+					case 7:
+						issueReport.setFinishedPer(currentCell.getColumnIndex());
 						break;
 
 					default:
 						break;
 					}
+					
+					System.out.println(cellIdx);
 
 					cellIdx++;
+					
 				}
 
-				students.add(issue);
+				issuelist.add(issueReport);
 
 			}
+			
 			workbook.close();
 
-			return students;
+			return issuelist;
 		} 
 		catch (IOException e)
 		{

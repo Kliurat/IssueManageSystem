@@ -31,9 +31,13 @@ public class ColumnTitleMap
 	 */
 	private void initUserInfoColu() 
 	{
-		columnTitleMap.put("issue_no", "Issue编号");
-		columnTitleMap.put("issue_type", "Issue类型");
-		columnTitleMap.put("title", "Issue标题");
+		columnTitleMap.put("id", "编号");
+		columnTitleMap.put("login_id", "登录id");
+		columnTitleMap.put("username", "用户姓名");
+		columnTitleMap.put("create_count", "创建数量");
+		columnTitleMap.put("receive_count", "受到数量");
+		columnTitleMap.put("modify_count", "完成数量");
+		columnTitleMap.put("finished_per", "完成率");
 	}
 
 	/**
@@ -41,9 +45,13 @@ public class ColumnTitleMap
 	 */
 	private void initUserInfoTitleKeyList() 
 	{
-		titleKeyList.add("issue_no");
-		titleKeyList.add("issue_type");
-		titleKeyList.add("title");
+		titleKeyList.add("id");
+		titleKeyList.add("login_id");
+		titleKeyList.add("username");
+		titleKeyList.add("create_count");
+		titleKeyList.add("receive_count");
+		titleKeyList.add("modify_count");
+		titleKeyList.add("finished_per");
 	}
 
 	public Map<String, String> getColumnTitleMap() 

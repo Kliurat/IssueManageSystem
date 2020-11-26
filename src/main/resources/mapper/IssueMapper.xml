@@ -98,8 +98,9 @@
 					    select loginID from user where username = #{modifyPersonName}
 					    )
                </if>
+               
                <if test="status == 3">
-               		and t1.status != 0
+               		and t1.status == -1
                </if>
                <if test="createPersonID != null">
                		and create_person_ID = #{createPersonID}
@@ -116,15 +117,20 @@
 		select 
 			t1.id,issue_no,issue_type,create_date,plan_modify_time,actual_complte_time,
 			priority,influent_version,re_step,create_person_ID,			
-			modify_person_ID,title,t1.status,solution,
-			t2.username createPersonName,t3.username modifyPersonName			
+			modify_person_ID,title,t1.status,solution,		
+			t2.username createPersonName,t3.username modifyPersonName
+						
 			from issue t1,user t2,user t3
+			
 		   	where( t1.create_person_ID = t2.loginID AND t1.modify_person_ID = t3.loginID )
-		   	and (create_person_ID = #{createPersonID} or modify_person_ID = #{modifyPersonID})
+		   	and (create_person_ID = #{createPersonID} or modify_person_ID = #{createPersonID})
 		   	order by create_date desc
 	</select>
 	
-<!-- 	修改 issue 的时候只需要修改表的 status & solution & 实际完成时间-->
+<!-- 	修改 issue状态 的时候只需要修改表的 status & solution & 实际完成时间-->
+<!--         创建，待解决。 status == 0 -->
+<!--         解决，待验证。 status == 1   solution = #{solution} -->
+<!--         关闭，已关闭。 status == -1  actual_complte_time = #{actualComplteTime} -->
 	<update id="updateIssue">
 		update issue
 			<set>
@@ -157,13 +163,8 @@
 				where issue_no = #{issueNo}
 	</select>
 	
-<!-- 	导出 -->
 	 <select id="queryUserInfoResultListMap" resultType="HashMap">
-        select * from issue;
+        select * from issue_report;
     </select> 
-    
-	<select id="accountAllForIssueReport" resultType="com.ibm.springboot.entity.IssueReport">
-		
-	</select>
 	
 </mapper>

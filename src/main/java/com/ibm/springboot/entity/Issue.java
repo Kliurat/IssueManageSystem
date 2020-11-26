@@ -19,13 +19,6 @@ public class Issue implements Serializable {
 	// Issue类型
 	private String issueType;
 
-	/*
-	 * @DateTimeFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
-	 * 作用是指定前端向后端传时间参数应用什么格式
-	 * 
-	 * @JsonFormat(pattern = "yyyy/MM-dd") 指定后端向前端传递的格式
-	 */
-
 	// 创建时间
 	@DateTimeFormat(pattern = ConstantUtil.DATE_FORMAT_ONE_STRING)
 	@JsonFormat(pattern = ConstantUtil.DATE_FORMAT_TWO_STRING)
@@ -73,16 +66,6 @@ public class Issue implements Serializable {
 
 	// 解决方案
 	private String solution;
-	
-	private String url;
-	
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
 
 	public Issue() {
 		super();
