@@ -10,4 +10,6 @@ public interface IssuePictureService {
 
 	
 	int insert(IssuePicture issuePicture);
+	
+	int getCountByIssueNO(String issueNo);
 }

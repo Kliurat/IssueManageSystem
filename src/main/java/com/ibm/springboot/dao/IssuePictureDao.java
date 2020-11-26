@@ -13,4 +13,6 @@ public interface IssuePictureDao {
 	
 	public int insert(IssuePicture issuePicture);
 	
+	public int getCountByIssueNO(String issueNo);
+	
 }

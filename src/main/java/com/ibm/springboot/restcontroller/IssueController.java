@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ibm.springboot.dao.UserDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
+import com.ibm.springboot.entity.IssuePicture;
+import com.ibm.springboot.entity.IssueRefuseReason;
 import com.ibm.springboot.entity.IssueReport;
 import com.ibm.springboot.entity.User;
 import com.ibm.springboot.entity.VO.IssueVo;
+import com.ibm.springboot.service.IssuePictureService;
+import com.ibm.springboot.service.IssueRefuseReasonService;
 import com.ibm.springboot.service.IssueReportService;
 import com.ibm.springboot.service.IssueService;
 import com.ibm.springboot.util.ConstantUtil;
@@ -35,11 +41,15 @@ public class IssueController {
 
 	@Resource
 	IssueReportService iRepService;
+	
+	@Autowired
+	IssuePictureService issuePictureService;
+	
+	@Autowired
+	IssueRefuseReasonService issueRefuseReasonService;
 
 	@Resource
 	UserDao userDao;
-	
-	
 
 	// 创建Issue
 	@PostMapping("")
@@ -155,7 +165,7 @@ public class IssueController {
 		 */
 		if (result.getStatus() == 200) {
 			// issue创建成功，更新issue发派目标用户的issue报表
-
+			result.setMsg(uuid);
 			// 4.查看目标用户是否有报表行记录
 			report = iRepService.getReportByLoginID(issue.getModifyPersonID());
 			if (report == null) {
@@ -183,7 +193,7 @@ public class IssueController {
 		 * 报表数据更新处理
 		 * 
 		 */
-
+		
 		return result;
 	}
 
@@ -229,8 +239,19 @@ public class IssueController {
 		System.out.println("获取到的status为： " + status);
 		Issue issue = issueService.getIssueByIssueNo(issueNo);
 		
-		return issue;
+		List<IssuePicture> issuePictures = issuePictureService.getIssuePicturesByIssueNo(issueNo);
 		
+		//在前端点击详情的时候，把issuePicture加入到issue传过去渲染
+		issue.setIssuePictures(issuePictures);
+		
+		IssueRefuseReason issueRefuseReason = issueRefuseReasonService.getIssueRefuseReason(issueNo);
+		
+		if (issueRefuseReason!=null) {
+			issue.setReason(issueRefuseReason.getReason());
+		}
+		
+		return issue;
+			
 	}
 
 	// 条件查询
@@ -285,6 +306,15 @@ public class IssueController {
 		System.out.println("修改后的Issue：" + issue.toString());
 		int status = 200;
 		String msg = "提交成功";
+		
+		if(issue.getStatus() == 0) {
+			IssueRefuseReason issueRefuseReason = issueRefuseReasonService.getIssueRefuseReason(issue.getIssueNo());
+			if(issueRefuseReason == null) {
+				int insertResult = issueRefuseReasonService.insert(new IssueRefuseReason(issue.getIssueNo(), issue.getReason()));
+			}else {
+				int updateResult = issueRefuseReasonService.update(new IssueRefuseReason(issue.getIssueNo(),  issue.getReason()));
+			}
+		}
 //
 //		issue.setStatus(1); // 状态置为待验证
 

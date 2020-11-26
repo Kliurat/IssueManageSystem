@@ -35,11 +35,21 @@ public class IssuePictureServiceImpl implements IssuePictureService{
 		// TODO Auto-generated method stub
 		int result = -1;
 		try {
+			String imgUrl1 = issuePicture.getImgUrl();
+			
+			String replaceAll = imgUrl1.replaceAll("\\\\", "/");
+			issuePicture.setImgUrl(replaceAll);
 			result = issuePictureDao.insert(issuePicture);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return 0;
+		return result;
+	}
+
+	@Override
+	public int getCountByIssueNO(String issueNo) {
+		// TODO Auto-generated method stub
+		return issuePictureDao.getCountByIssueNO(issueNo);
 	}
 
 }

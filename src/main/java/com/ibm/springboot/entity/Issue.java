@@ -2,6 +2,7 @@ package com.ibm.springboot.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -66,6 +67,11 @@ public class Issue implements Serializable {
 
 	// 解决方案
 	private String solution;
+	
+	//图片
+	private List<IssuePicture> issuePictures;
+	
+	private String reason;
 
 	public Issue() {
 		super();
@@ -124,6 +130,61 @@ public class Issue implements Serializable {
 		this.reStep = reStep;
 		this.modifyPersonID = modifyPersonID;
 		this.title = title;
+	}
+	
+	
+
+	public Issue(Integer id, String issueNo, String issueType, Date createDate, Date planModifyTime,
+			Date actualComplteTime, Integer priority, String influentVersion, String reStep, String createPersonID,
+			String createPersonName, String modifyPersonID, String modifyPersonName, String title, Integer status,
+			String solution, List<IssuePicture> issuePictures) {
+		super();
+		this.id = id;
+		this.issueNo = issueNo;
+		this.issueType = issueType;
+		this.createDate = createDate;
+		this.planModifyTime = planModifyTime;
+		this.actualComplteTime = actualComplteTime;
+		this.priority = priority;
+		this.influentVersion = influentVersion;
+		this.reStep = reStep;
+		this.createPersonID = createPersonID;
+		this.createPersonName = createPersonName;
+		this.modifyPersonID = modifyPersonID;
+		this.modifyPersonName = modifyPersonName;
+		this.title = title;
+		this.status = status;
+		this.solution = solution;
+		this.issuePictures = issuePictures;
+	}
+
+	
+	
+	
+
+	public Issue(Integer id, String issueNo, String issueType, Date createDate, Date planModifyTime,
+			Date actualComplteTime, Integer priority, String influentVersion, String reStep, String createPersonID,
+			String createPersonName, String modifyPersonID, String modifyPersonName, String title, Integer status,
+			String solution, List<IssuePicture> issuePictures, String reason) {
+		super();
+		this.id = id;
+		this.issueNo = issueNo;
+		this.issueType = issueType;
+		this.createDate = createDate;
+		this.planModifyTime = planModifyTime;
+		this.actualComplteTime = actualComplteTime;
+		this.priority = priority;
+		this.influentVersion = influentVersion;
+		this.reStep = reStep;
+		this.createPersonID = createPersonID;
+		this.createPersonName = createPersonName;
+		this.modifyPersonID = modifyPersonID;
+		this.modifyPersonName = modifyPersonName;
+		this.title = title;
+		this.status = status;
+		this.solution = solution;
+		this.issuePictures = issuePictures;
+		this.reason = reason;
 	}
 
 	public Integer getId() {
@@ -253,6 +314,24 @@ public class Issue implements Serializable {
 	public void setSolution(String solution) {
 		this.solution = solution;
 	}
+	
+	
+
+	public List<IssuePicture> getIssuePictures() {
+		return issuePictures;
+	}
+
+	public void setIssuePictures(List<IssuePicture> issuePictures) {
+		this.issuePictures = issuePictures;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 
 	@Override
 	public String toString() {
@@ -261,7 +340,19 @@ public class Issue implements Serializable {
 				+ priority + ", influentVersion=" + influentVersion + ", reStep=" + reStep + ", createPersonID="
 				+ createPersonID + ", createPersonName=" + createPersonName + ", modifyPersonID=" + modifyPersonID
 				+ ", modifyPersonName=" + modifyPersonName + ", title=" + title + ", status=" + status + ", solution="
-				+ solution + "]";
+				+ solution + ", issuePictures=" + issuePictures + ", reason=" + reason + "]";
 	}
+	
+	
+
+	
+
+	
+
+	
+	
+	
+	
+	
 
 }
