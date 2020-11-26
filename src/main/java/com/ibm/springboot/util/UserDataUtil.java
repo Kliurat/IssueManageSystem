@@ -49,54 +49,44 @@ public class UserDataUtil {
 					Cell currentCell = cellsInRow.next();
 					currentCell.setCellType(CellType.STRING);
 					switch (cellIdx) {
-					case 0:
-						s1 = currentCell.getStringCellValue();
-						break;
 
-					case 1:
+					case 0:
 						s1 = currentCell.getStringCellValue();
 						user.setLoginID(s1);
 						break;
 
-					case 2:
+					case 1:
 						s1 = currentCell.getStringCellValue();
 						user.setUsername(s1);
 						break;
 
-					case 3:
+					case 2:
 						s1 = currentCell.getStringCellValue();
 						user.setEmail(s1);
 						break;
 
-					case 4:
+					case 3:
 						s1 = currentCell.getStringCellValue();
 						user.setPassword(s1);
 						break;
 
-					case 5:
-						user.setStatus(Integer.valueOf(currentCell.getStringCellValue()));
-						break;
-
-					case 6:
+					case 4:
 						user.setRole(Integer.valueOf(currentCell.getStringCellValue()));
-						break;
-
-					case 7:
-						DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-						Date date = new Date();
-						try {
-							date = fmt.parse(currentCell.getStringCellValue());
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-//							e.printStackTrace();
-						}
-						user.setRegisteDate(date);
-
 						break;
 
 					default:
 						break;
 					}
+					user.setStatus(1);
+					DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+					Date date = new Date();
+					try {
+						date = fmt.parse(currentCell.getStringCellValue());
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+//						e.printStackTrace();
+					}
+					user.setRegisteDate(date);
 					cellIdx++;
 				}
 				System.out.println("读取到的User:" + user.toString());

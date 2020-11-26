@@ -180,7 +180,6 @@ public class UserController {
 
 		List<User> users = null;
 		try {
-//			Thread.sleep(100);
 			users = UserDataUtil.excelToUsers(file.getInputStream());
 			for (User user : users) {
 				userService.insert(user);
