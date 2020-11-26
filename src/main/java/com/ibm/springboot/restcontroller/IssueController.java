@@ -39,23 +39,26 @@ public class IssueController {
 	@Resource
 	UserDao userDao;
 	
-	
-
 	// 创建Issue
+	// timeStr 前端传过来的计划修改时间
 	@PostMapping("")
 	public CommonResult insertIssue(Issue issue, HttpSession session,String timeStr) 
 	{
 		
+		//timeStr: 2020-11-29T17:34
+		//timePlanString: 2020-11-29 17:34:00
+		// 为了将前端传过来的 timeStr 
+		//日期格式 转化为 timePlanString 的日期格式
+		// 以便插入数据库
 		String timeStr1 = timeStr;
 		String timeStr2 = timeStr;
 		
 		int index = timeStr.indexOf("T");
-		String left = timeStr.substring(0,index);
 		
+		String left = timeStr.substring(0,index);
 		System.out.println("left:" + left);
 		
-		String right = timeStr1.substring(index+1,timeStr2.length());
-		
+		String right = timeStr1.substring(index+1,timeStr2.length());	
 		System.out.println("right:" + right);
 		
 		String timePlanString = left + " " + right + ":00";
@@ -71,48 +74,62 @@ public class IssueController {
 		
 		String createPersonID = issue.getCreatePersonID();
 		
-		System.out.println("1111111111111111111111111111111111111111 :"+createPersonID);
+		System.out.println("createPersonID :"+createPersonID);
 		
 		User usersByLoginID = userDao.getUsersByLoginID(createPersonID);	
 		
-		System.out.println("1111111111111111111111111111111111111111 :"+usersByLoginID);
+		System.out.println("createPerson :"+usersByLoginID);
 
-		if (usersByLoginID.getRole() != ConstantUtil.ROLE_ORDINARY_USER) {
+		// 经理没有创建 Issue 的权利
+		if (usersByLoginID.getRole() != ConstantUtil.ROLE_ORDINARY_USER)
+		{
 			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
 		}
 
 		// 设置创建时间
 		SimpleDateFormat df = new SimpleDateFormat(ConstantUtil.DATE_FORMAT_TWO_STRING);
 		Date createDate = null;
-		try {
+		
+		try 
+		{
+			// 设置创建时间
 			createDate = df.parse(df.format(new Date()));
+			issue.setCreateDate(createDate);
 			
+			// 设置计划修改时间
 			Date parse = df.parse(timeStr);
-			
 			issue.setPlanModifyTime(parse);
 			
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
+		}
+		catch (ParseException e1) 
+		{
 			e1.printStackTrace();
 		}
-		issue.setCreateDate(createDate);
 
 		// 给每一个Issue创建一个唯一的uuid
 		String uuid = null;
+		
 		int row = 0;
-		do {
+		
+		do 
+		{
 			uuid = UUID.randomUUID().toString().replaceAll("-", "");
 			uuid = uuid.substring(0, 6);
-			// 判断数据库中是否存在该索引
+			
+			// 判断数据库中是否存在 uuid == issue_no
+			// 如果存在则 row > 0 , 则继续循环
 			row = issueService.getRowByIssueNo(uuid);
+			
 			System.out.println("insertIssue==>生成issueNo冲突，查询row:" + row);
 
-		} while (row != 0);
-
+		}while (row != 0);
 		issue.setIssueNo(uuid);
-		issue.setStatus(0);
+		
+		issue.setStatus(0); // 状态为 0 代表待解决
 
 		System.out.println("insertIssue==>待插入" + issue.toString());
+		
+		///////////////////////////////////////////////////////////////////////////////////////
 
 		/*-----------------------------------------------------------------------------------------
 		 * 开始
@@ -124,13 +141,17 @@ public class IssueController {
 
 		// 1.查看是否有自己的报表行记录
 		IssueReport report = null;
+		
 		report = iRepService.getReportByLoginID(usersByLoginID.getLoginID());
 
 		System.out.println("insertIssue==>loginID:" + usersByLoginID.getLoginID() + ", 报表行：" + report);
-		if (report == null) {
+		if (report == null) 
+		{
 			// 2.若无，则插入一条，创建数为1
 			iRepService.insertReport(new IssueReport(usersByLoginID.getLoginID(), usersByLoginID.getUsername(), 1, 0, 0, 0));
-		} else {
+		}
+		else 
+		{
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
 		}
@@ -186,9 +207,10 @@ public class IssueController {
 		return result;
 	}
 
-	// 删除Issue
+	// 删除Issue (暂时没有用到)
 	@DeleteMapping("")
-	public CommonResult delete(@RequestParam("id") Integer id) {
+	public CommonResult delete(@RequestParam("id") Integer id) 
+	{
 
 		System.out.println("待删除ID：" + id);
 
@@ -196,14 +218,18 @@ public class IssueController {
 		String msg = "删除成功";
 
 		int result;
-		try {
+		try 
+		{
 			result = issueService.deleteById(id);
-			if (result != 1) {
+			
+			if (result != 1)
+			{
 				status = 500;
 				msg = "删除失败";
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			status = 500;
 			msg = "服务器异常，请稍后再试";
@@ -214,43 +240,45 @@ public class IssueController {
 
 	// 查询全部Issue
 	@GetMapping("/all")
-	public CommonResult<List<Issue>> getAllIssues() {
-
+	public CommonResult<List<Issue>> getAllIssues() 
+	{
 		List<Issue> list = issueService.findAll();
 		return new CommonResult<List<Issue>>(200, "全部数据查询成功", list);
 	}
-
+	
+	// 点击详情按钮使用到该函数
 	@RequestMapping("/getIssueByIssueNo")
 	public Issue getIssueByIssueNo(@RequestParam(value = "issueNo", required = false) String issueNo,
-			@RequestParam(value = "status", required = false) String status) {
-
+								   @RequestParam(value = "status", required = false) String status)
+	{
 		System.out.println("获取到的issueNo为： " + issueNo);
 		System.out.println("获取到的status为： " + status);
 		Issue issue = issueService.getIssueByIssueNo(issueNo);
-		
 		return issue;
-		
 	}
 
-	// 条件查询
+
+	// 普通用户的条件查询(六个字段的查询)
 	@PostMapping("/query")
-	public CommonResult query(HttpSession session, IssueVo issue) {
+	public CommonResult query(HttpSession session, IssueVo issue) 
+	{
 
 		System.out.println("待查询条件：" + issue);
 
 		int status = 200;
-		
 		String msg = "查询成功";
 
 		List<Issue> list = issueService.queryByCondition(issue);
 
-		if (list == null) {
+		if (list == null) 
+		{
 			list = new ArrayList<Issue>();
 		}
 
 		System.out.println("查询结果：");
 
-		for (Issue issue2 : list) {
+		for (Issue issue2 : list) 
+		{
 			System.out.println(issue2);
 		}
 
@@ -258,44 +286,44 @@ public class IssueController {
 	}
 
 	// 根据登陆id查询
+	// 普通用户登录系统后页面默认显示出修改人和创建人都是登录用户的 Issue信息
 	@PostMapping("/queryIssueByID")
-	public CommonResult queryIssueByID(HttpSession session, IssueVo issue) {
-
-		System.out.println("2222222222222222222222222222222222");
-//		System.out.println("查询后的sessionID为：" + session.getId());
-
+	public CommonResult queryIssueByID(HttpSession session, IssueVo issue)
+	{
 		int status = 200;
 		String msg = "查询成功";
 
 		List<Issue> list = issueService.queryByID(issue);
 
-		if (list == null) {
+		if (list == null) 
+		{
 			list = new ArrayList<Issue>();
 		}
-
-
 
 		return new CommonResult<List<Issue>>(status, msg, list);
 	}
 
-	// 修改解决方案&状态
+	// 修改解决方案的状态
 	@PutMapping("/update")
-	public CommonResult modify(Issue issue) {
+	public CommonResult modify(Issue issue) 
+	{
 		System.out.println("修改后的Issue：" + issue.toString());
 		int status = 200;
 		String msg = "提交成功";
-//
-//		issue.setStatus(1); // 状态置为待验证
 
-		if (issue.getStatus() == ConstantUtil.ISSUE_CLOSED) {
-			try {
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+		//表示已关闭
+		//需要设置完成时间
+		if (issue.getStatus() == ConstantUtil.ISSUE_CLOSED)  
+		{
+			try 
+			{
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = df.parse(df.format(new Date()));
 				issue.setActualComplteTime(parse);
-
 				System.out.println("实际完成时间：" + parse.toString());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
+			}
+			catch (ParseException e)
+			{
 				e.printStackTrace();
 			}
 
@@ -306,7 +334,8 @@ public class IssueController {
 			issue.setModifyPersonID(temp.getModifyPersonID());
 
 			IssueReport report = iRepService.getReportByLoginID(issue.getModifyPersonID());
-			if (report == null) {
+			if (report == null) 
+			{
 				// 若无，先查询目标用户的信息
 				User targetUser = userDao.findByLoginId(issue.getModifyPersonID());
 
@@ -314,14 +343,13 @@ public class IssueController {
 				report = new IssueReport(targetUser.getLoginID(), targetUser.getUsername(), 0, 1, 1, 1);
 				iRepService.insertReport(report);
 
-			} else {
+			} 
+			else 
+			{
 				// 计算完成率
 
 				report.setModifyCount(report.getModifyCount() + 1);
 				int finished = report.getModifyCount(); // 修改数即为issue的已关闭数，即是完成数
-
-//				report.setReceiveCount(report.getReceiveCount() + 1);
-
 				int receive = report.getReceiveCount();
 				float finishedPer = finished * 1.0f / receive;
 				System.out.println("完成：" + finished);
@@ -335,7 +363,9 @@ public class IssueController {
 		}
 
 		int result = issueService.updateIssue(issue);
-		if (result != 1) {
+		
+		if (result != 1)
+		{
 			status = 500;
 			msg = "提交失败";
 		}

@@ -28,32 +28,11 @@ public class IssueReportController {
 	@Resource
 	IssueReportDao iRepDao;
 
-	/**
-	 * 
-	 * @author :chf
-	 * @date :2020-11-20 16:28:05
-	 * @description : 面向角色：经理（代码：1） 1.不带参数时，默认返回所有Issue报表记录；2.带参数时，执行模糊查询
-	 * @param loginId
-	 * @param username
-	 * @return
-	 */
-
 	// Issue报表-------统计报表
 	@RequestMapping("")
 	public CommonResult getAll(@RequestParam(value = "loginID", required = false) String loginId,
-			@RequestParam(value = "username", required = false) String username, HttpSession session) {
-
-//		User user = (User) session.getAttribute("user");
-
-//		System.out.println(user);
-
-//		User user = new User(in)
-//
-//		if (user.getRole() != 1) {
-//
-//			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
-//
-//		}
+							   @RequestParam(value = "username", required = false) String username,
+							   HttpSession session) {
 
 		System.out.println("loginId:" + loginId);
 		System.out.println("username:" + username);
@@ -61,21 +40,25 @@ public class IssueReportController {
 		int status = 200;
 		String msg = "查询成功";
 
-		if (username == "") {
+		if (username == "") 
+		{
 			username = null;
 		}
-		if (loginId == "") {
+		if (loginId == "")
+		{
 			loginId = null;
 		}
 
 		List<IssueReport> list = iService.findAll(loginId, username);
 
-		if (list == null) {
+		if (list == null)
+		{
 			list = new ArrayList<IssueReport>();
 			System.out.println("list为null");
 		}
 
-		for (IssueReport issueReport : list) {
+		for (IssueReport issueReport : list)
+		{
 			System.out.println(issueReport);
 		}
 
@@ -83,7 +66,8 @@ public class IssueReportController {
 	}
 
 	@GetMapping("formatter")
-	public String Formatter() {
+	public String Formatter()
+	{
 		iRepDao.deleteAll();
 		iRepDao.staticsFromIssueTable();
 		return "数据统计成功";

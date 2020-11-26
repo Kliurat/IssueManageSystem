@@ -57,7 +57,7 @@ public class FileDownLoad
 			try 
 			{
 				
-			    String path[] = {"F:\\JMPX\\1606204571676error.jpg","F:\\JMPX\\1606209689721Tiger.jpg"};
+			    String path[] = {"F:\\JMPX\\1606204571676error.jpg","F:\\JMPX\\1606288448533彭于晏2.jpg"};
 			    OutputStream out = null;
 			    BufferedInputStream fis = null;
 			    byte[][] buffer = new byte[2][2];
