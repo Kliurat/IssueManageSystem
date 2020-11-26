@@ -342,17 +342,5 @@ public class Issue implements Serializable {
 				+ ", modifyPersonName=" + modifyPersonName + ", title=" + title + ", status=" + status + ", solution="
 				+ solution + ", issuePictures=" + issuePictures + ", reason=" + reason + "]";
 	}
-	
-	
-
-	
-
-	
-
-	
-	
-	
-	
-	
 
 }

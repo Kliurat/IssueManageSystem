@@ -26,6 +26,7 @@
 					and username like #{_user_name}
 				</if>
 			</where>
+			order by login_id
 	</select>
 	
 	<!--IssueReport selectByUserId(Integer userId); -->

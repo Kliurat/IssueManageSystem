@@ -32,9 +32,6 @@ public class FileUploadController {
 			String filePath = FileDownLoad.fileUpload(multipartFile,fileRootPath);
 			issuePictureService.insert(new IssuePicture(issueNo,filePath));
 		}
-		
-		
-
     }
 	
 	// 从本地读取文件并进行回显

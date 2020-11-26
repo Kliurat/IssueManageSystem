@@ -280,6 +280,7 @@ public class IssueController {
 
 		int status = 200;
 		String msg = "查询成功";
+		
 
 		List<Issue> list = issueService.queryByCondition(issue);
 
@@ -328,9 +329,8 @@ public class IssueController {
 				int updateResult = issueRefuseReasonService.update(new IssueRefuseReason(issue.getIssueNo(),  issue.getReason()));
 			}
 		}
-//
-//		issue.setStatus(1); // 状态置为待验证
-
+		
+		
 		// 表示已关闭
 		// 需要设置完成时间
 		if (issue.getStatus() == ConstantUtil.ISSUE_CLOSED) {
