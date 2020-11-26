@@ -1,7 +1,6 @@
 server:
   port: 8888
  
-    
 spring:
   datasource:    url: jdbc:mysql://127.0.0.1:3306/ibm_issue2?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver

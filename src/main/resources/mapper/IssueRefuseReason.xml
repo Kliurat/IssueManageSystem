@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibm.springboot.dao.IssueRefuseReasonDao">
+
+	<select id="getIssueRefuseReason" resultType="com.ibm.springboot.entity.IssueRefuseReason">
+		select * from issue_refuse_reason where issue_no = #{issueNo}
+	</select>
+	
+	<update id="update">
+		update issue_refuse_reason set reason = #{reason} where issue_no = #{issueNo}
+	</update>
+	
+	<insert id="insert">
+		insert into issue_refuse_reason values(#{issueNo},#{reason})
+	</insert>
+
+</mapper>

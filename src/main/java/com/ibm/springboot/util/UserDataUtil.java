@@ -21,6 +21,7 @@ import com.ibm.springboot.entity.User;
 
 public class UserDataUtil {
 
+	// 从本地文件中导入用户表
 	public static List<User> excelToUsers(InputStream is) {
 		try {
 			Workbook workbook = new HSSFWorkbook(is);
@@ -70,14 +71,10 @@ public class UserDataUtil {
 						user.setPassword(s1);
 						break;
 
-					case 4:
-						user.setRole(Integer.valueOf(currentCell.getStringCellValue()));
-						break;
-
 					default:
 						break;
 					}
-					user.setStatus(1);
+
 					DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 					Date date = new Date();
 					try {
@@ -87,9 +84,12 @@ public class UserDataUtil {
 //						e.printStackTrace();
 					}
 					user.setRegisteDate(date);
+
 					cellIdx++;
 				}
+
 				System.out.println("读取到的User:" + user.toString());
+
 				users.add(user);
 			}
 			workbook.close();

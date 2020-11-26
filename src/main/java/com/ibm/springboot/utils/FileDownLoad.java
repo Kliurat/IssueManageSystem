@@ -18,14 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileDownLoad
 {
 		// 前端传文件给后端
-	    public static String fileUpload(MultipartFile[] files,String fileRootPath)
+	    public static String fileUpload(MultipartFile file,String fileRootPath)
 		{
 			
 	        String filePath = "";
 	        
+//	        System.out.println("收到的issueNo为" + issueNo);
+	        
 	        // 多文件上传
-	        for (MultipartFile file : files)
-	        {
+	        
 	            // 上传简单文件名
 	            String originalFilename = file.getOriginalFilename();
 	            
@@ -43,7 +44,7 @@ public class FileDownLoad
 	            {
 	                e.printStackTrace();
 	            }
-	        }
+	        
 	        
 	        System.out.println("filePath: "+filePath);
 	        System.out.println("fileRootPath: "+fileRootPath);
@@ -52,12 +53,13 @@ public class FileDownLoad
 	    }
 	 
 		// 文件传给前端
-		public static void fileDown(HttpServletResponse response)
+		public static void fileDown(HttpServletResponse response,String url)
 		{
 			try 
 			{
 				
-			    String path[] = {"F:\\JMPX\\1606204571676error.jpg","F:\\JMPX\\1606288448533彭于晏2.jpg"};
+			    String path[] = {url};
+
 			    OutputStream out = null;
 			    BufferedInputStream fis = null;
 			    byte[][] buffer = new byte[2][2];
