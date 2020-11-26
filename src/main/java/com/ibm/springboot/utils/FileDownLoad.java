@@ -59,6 +59,7 @@ public class FileDownLoad
 			{
 				
 			    String path[] = {url};
+
 			    OutputStream out = null;
 			    BufferedInputStream fis = null;
 			    byte[][] buffer = new byte[2][2];

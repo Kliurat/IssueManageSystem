@@ -184,9 +184,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> selectAllBesideLoginID(String loginID) {
-		// TODO Auto-generated method stub
 		List<User> list = userDao.selectAllBesideLoginID(loginID);
-
 		return list;
 	}
 

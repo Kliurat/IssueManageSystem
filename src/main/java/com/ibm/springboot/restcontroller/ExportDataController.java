@@ -20,12 +20,6 @@ public class ExportDataController {
 	@Autowired
 	ExportDataService exportDataService;
 
-	/**
-	 * @api: /apios/exportdata/excel/
-	 * @method: GET
-	 * @desc: 导出数据，生成xlsx文件
-	 * @param response   返回对象
-	 */
 	@GetMapping(value = "/excel")
 	public void getUserInfoEx(HttpServletResponse response/*,@RequestParam String date_start,@RequestParam String date_end*/) 
 	{

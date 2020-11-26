@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.ibm.springboot.dao.UserDao;
 import com.ibm.springboot.entity.CommonResult;
 import com.ibm.springboot.entity.Issue;
@@ -52,42 +55,48 @@ public class IssueController {
 	UserDao userDao;
 
 	// 创建Issue
+	// timeStr 前端传过来的计划修改时间
 	@PostMapping("")
-	public CommonResult insertIssue(Issue issue, HttpSession session,String timeStr) 
-	{
-		
+	public CommonResult insertIssue(Issue issue, HttpSession session, String timeStr) {
+
+		// timeStr: 2020-11-29T17:34
+		// timePlanString: 2020-11-29 17:34:00
+		// 为了将前端传过来的 timeStr
+		// 日期格式 转化为 timePlanString 的日期格式
+		// 以便插入数据库
 		String timeStr1 = timeStr;
 		String timeStr2 = timeStr;
-		
+
 		int index = timeStr.indexOf("T");
-		String left = timeStr.substring(0,index);
-		
+
+		String left = timeStr.substring(0, index);
 		System.out.println("left:" + left);
-		
-		String right = timeStr1.substring(index+1,timeStr2.length());
-		
+
+		String right = timeStr1.substring(index + 1, timeStr2.length());
 		System.out.println("right:" + right);
-		
+
 		String timePlanString = left + " " + right + ":00";
-		
-		System.out.println("timeStr: "+timeStr);
-		System.out.println("timePlanString: "+timePlanString);
-		
+
+		System.out.println("timeStr: " + timeStr);
+		System.out.println("timePlanString: " + timePlanString);
+
 		timeStr = timePlanString;
 		
 		////////////////////////////////////////////////////////////////////////////////////
 		System.out.println("str为：" + timeStr);
 
-		User user = new User();
-		
-		String createPersonID = issue.getCreatePersonID();
-		
-		System.out.println("1111111111111111111111111111111111111111 :"+createPersonID);
-		
-		User usersByLoginID = userDao.getUsersByLoginID(createPersonID);	
-		
-		System.out.println("1111111111111111111111111111111111111111 :"+usersByLoginID);
 
+		User user = new User();
+
+		String createPersonID = issue.getCreatePersonID();
+
+		System.out.println("createPersonID :" + createPersonID);
+
+		User usersByLoginID = userDao.getUsersByLoginID(createPersonID);
+
+		System.out.println("createPerson :" + usersByLoginID);
+
+		// 经理没有创建 Issue 的权利
 		if (usersByLoginID.getRole() != ConstantUtil.ROLE_ORDINARY_USER) {
 			return new CommonResult<String>(403, ConstantUtil.NO_PRIVILEGE, null);
 		}
@@ -95,35 +104,43 @@ public class IssueController {
 		// 设置创建时间
 		SimpleDateFormat df = new SimpleDateFormat(ConstantUtil.DATE_FORMAT_TWO_STRING);
 		Date createDate = null;
+
 		try {
+			// 设置创建时间
 			createDate = df.parse(df.format(new Date()));
-			
+			issue.setCreateDate(createDate);
+
+			// 设置计划修改时间
 			Date parse = df.parse(timeStr);
-			
 			issue.setPlanModifyTime(parse);
-			
+
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		issue.setCreateDate(createDate);
 
 		// 给每一个Issue创建一个唯一的uuid
 		String uuid = null;
+
 		int row = 0;
+
 		do {
 			uuid = UUID.randomUUID().toString().replaceAll("-", "");
 			uuid = uuid.substring(0, 6);
-			// 判断数据库中是否存在该索引
+
+			// 判断数据库中是否存在 uuid == issue_no
+			// 如果存在则 row > 0 , 则继续循环
 			row = issueService.getRowByIssueNo(uuid);
+
 			System.out.println("insertIssue==>生成issueNo冲突，查询row:" + row);
 
 		} while (row != 0);
-
 		issue.setIssueNo(uuid);
-		issue.setStatus(0);
+
+		issue.setStatus(0); // 状态为 0 代表待解决
 
 		System.out.println("insertIssue==>待插入" + issue.toString());
+
+		///////////////////////////////////////////////////////////////////////////////////////
 
 		/*-----------------------------------------------------------------------------------------
 		 * 开始
@@ -135,12 +152,14 @@ public class IssueController {
 
 		// 1.查看是否有自己的报表行记录
 		IssueReport report = null;
+
 		report = iRepService.getReportByLoginID(usersByLoginID.getLoginID());
 
 		System.out.println("insertIssue==>loginID:" + usersByLoginID.getLoginID() + ", 报表行：" + report);
 		if (report == null) {
 			// 2.若无，则插入一条，创建数为1
-			iRepService.insertReport(new IssueReport(usersByLoginID.getLoginID(), usersByLoginID.getUsername(), 1, 0, 0, 0));
+			iRepService.insertReport(
+					new IssueReport(usersByLoginID.getLoginID(), usersByLoginID.getUsername(), 1, 0, 0, 0));
 		} else {
 			report.setCreateCount(report.getCreateCount() + 1);
 			iRepService.updateReport(report);
@@ -197,7 +216,7 @@ public class IssueController {
 		return result;
 	}
 
-	// 删除Issue
+	// 删除Issue (暂时没有用到)
 	@DeleteMapping("")
 	public CommonResult delete(@RequestParam("id") Integer id) {
 
@@ -209,12 +228,12 @@ public class IssueController {
 		int result;
 		try {
 			result = issueService.deleteById(id);
+
 			if (result != 1) {
 				status = 500;
 				msg = "删除失败";
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			status = 500;
 			msg = "服务器异常，请稍后再试";
@@ -226,15 +245,14 @@ public class IssueController {
 	// 查询全部Issue
 	@GetMapping("/all")
 	public CommonResult<List<Issue>> getAllIssues() {
-
 		List<Issue> list = issueService.findAll();
 		return new CommonResult<List<Issue>>(200, "全部数据查询成功", list);
 	}
 
+	// 点击详情按钮使用到该函数
 	@RequestMapping("/getIssueByIssueNo")
 	public Issue getIssueByIssueNo(@RequestParam(value = "issueNo", required = false) String issueNo,
 			@RequestParam(value = "status", required = false) String status) {
-
 		System.out.println("获取到的issueNo为： " + issueNo);
 		System.out.println("获取到的status为： " + status);
 		Issue issue = issueService.getIssueByIssueNo(issueNo);
@@ -251,17 +269,16 @@ public class IssueController {
 		}
 		
 		return issue;
-			
+
 	}
 
-	// 条件查询
+	// 普通用户的条件查询(六个字段的查询)
 	@PostMapping("/query")
 	public CommonResult query(HttpSession session, IssueVo issue) {
 
 		System.out.println("待查询条件：" + issue);
 
 		int status = 200;
-		
 		String msg = "查询成功";
 
 		List<Issue> list = issueService.queryByCondition(issue);
@@ -280,12 +297,9 @@ public class IssueController {
 	}
 
 	// 根据登陆id查询
+	// 普通用户登录系统后页面默认显示出修改人和创建人都是登录用户的 Issue信息
 	@PostMapping("/queryIssueByID")
 	public CommonResult queryIssueByID(HttpSession session, IssueVo issue) {
-
-		System.out.println("2222222222222222222222222222222222");
-//		System.out.println("查询后的sessionID为：" + session.getId());
-
 		int status = 200;
 		String msg = "查询成功";
 
@@ -295,17 +309,16 @@ public class IssueController {
 			list = new ArrayList<Issue>();
 		}
 
-
-
 		return new CommonResult<List<Issue>>(status, msg, list);
 	}
 
-	// 修改解决方案&状态
+	// 修改解决方案的状态
 	@PutMapping("/update")
 	public CommonResult modify(Issue issue) {
 		System.out.println("修改后的Issue：" + issue.toString());
 		int status = 200;
 		String msg = "提交成功";
+
 		
 		if(issue.getStatus() == 0) {
 			IssueRefuseReason issueRefuseReason = issueRefuseReasonService.getIssueRefuseReason(issue.getIssueNo());
@@ -318,15 +331,15 @@ public class IssueController {
 //
 //		issue.setStatus(1); // 状态置为待验证
 
+		// 表示已关闭
+		// 需要设置完成时间
 		if (issue.getStatus() == ConstantUtil.ISSUE_CLOSED) {
 			try {
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = df.parse(df.format(new Date()));
 				issue.setActualComplteTime(parse);
-
 				System.out.println("实际完成时间：" + parse.toString());
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -350,9 +363,6 @@ public class IssueController {
 
 				report.setModifyCount(report.getModifyCount() + 1);
 				int finished = report.getModifyCount(); // 修改数即为issue的已关闭数，即是完成数
-
-//				report.setReceiveCount(report.getReceiveCount() + 1);
-
 				int receive = report.getReceiveCount();
 				float finishedPer = finished * 1.0f / receive;
 				System.out.println("完成：" + finished);
@@ -366,6 +376,7 @@ public class IssueController {
 		}
 
 		int result = issueService.updateIssue(issue);
+
 		if (result != 1) {
 			status = 500;
 			msg = "提交失败";

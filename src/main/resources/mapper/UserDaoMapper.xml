@@ -14,10 +14,9 @@
 	    select * from user
 	</select>
 	
-	<!-- List<User> selectAll(); -->
+	<!-- 查询出所有的用户，但是除了自己 (因为在创建issue,指派任务的时候不能够指派给自己) -->
 	<select id="selectAllBesideLoginID" parameterType="String" resultType="com.ibm.springboot.entity.User">
 	    select * from user where loginID != #{loginID}
-
 	</select>
 	
 	<!-- int update(User user); -->
@@ -32,7 +31,7 @@
 	  select * from user where username = #{name}
 	</select>
 	
-	<!-- List<User> selectUser(HashMap<String, Object> map); -->
+<!-- 	管理员用户模糊查询用户信息，将查询结果按照 loginID 降序排序 -->
 	<select id="selectUser" resultType="com.ibm.springboot.entity.User" parameterType="com.ibm.springboot.entity.User">
 	  select * from user 
 	  <where>
@@ -45,7 +44,7 @@
 	        <!-- and username = #{username} -->
 	     </if>
 	  </where>
-	  order by convert(loginID using gbk) asc
+	  order by convert(username using gbk) asc
 	</select>
 	
 	<select id="findByLoginId" resultType="com.ibm.springboot.entity.User">
@@ -55,7 +54,7 @@
 			where loginID = #{loginId}
 	</select>
 
-	<!-- int updateStatus(); -->
+	<!-- int updateStatus(); 注销用户 -->
 	<update id="updateStatus">
 	   update user set status = 0 WHERE loginID = #{loginID}
 	</update>
