@@ -31,23 +31,33 @@ public class IssuePictureServiceImpl implements IssuePictureService{
 	}
 
 	@Override
-	public int insert(IssuePicture issuePicture) {
-		// TODO Auto-generated method stub
+	public int insert(IssuePicture issuePicture) 
+	{
 		int result = -1;
-		try {
+		try
+		{
+//			imgUrl1: F:\JMPX\1606382371712彭于晏2.jpg
+//			replaceAll: F:/JMPX/1606382371712彭于晏2.jpg
 			String imgUrl1 = issuePicture.getImgUrl();
-			
 			String replaceAll = imgUrl1.replaceAll("\\\\", "/");
+			
 			issuePicture.setImgUrl(replaceAll);
+			
 			result = issuePictureDao.insert(issuePicture);
-		} catch (Exception e) {
+			
+		}
+		catch (Exception e) 
+		{
 			// TODO: handle exception
 		}
+		
 		return result;
+		
 	}
 
 	@Override
-	public int getCountByIssueNO(String issueNo) {
+	public int getCountByIssueNO(String issueNo)
+	{
 		// TODO Auto-generated method stub
 		return issuePictureDao.getCountByIssueNO(issueNo);
 	}

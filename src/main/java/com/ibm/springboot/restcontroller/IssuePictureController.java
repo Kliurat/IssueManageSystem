@@ -19,13 +19,16 @@ public class IssuePictureController {
 	@Autowired
 	private IssuePictureService issuePictureService;
 	
+	// 根据 issueNo 获取对应的记录数
 	@GetMapping("/getCount")
-	public int getPictureCountByIssueNo(String issueNo) {
+	public int getPictureCountByIssueNo(String issueNo)
+	{
 		return issuePictureService.getCountByIssueNO(issueNo);
 	}
 	
+	// 根据 issueNo 获取对应的集合，用于获取 url 
 	@PostMapping("/getList")
-	public List<IssuePicture> getPictureListByIssueNo(@RequestParam(value = "issueNo")String issueNo){
+	public List<IssuePicture> getPictureListByIssueNo(@RequestParam(value = "issueNo") String issueNo){
 		
 		System.out.println("picture中的issueNo为：" + issueNo);
 		

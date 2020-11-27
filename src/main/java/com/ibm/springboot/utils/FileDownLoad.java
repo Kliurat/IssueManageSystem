@@ -68,6 +68,7 @@ public class FileDownLoad
 			    {
 			    	
 			    	File file = new File(path[i]);
+			    	
 				    if(!file.exists()||file.isDirectory())
 				    {
 				    	throw new FileNotFoundException();
@@ -91,7 +92,8 @@ public class FileDownLoad
 			    fis.close();
 			    response.reset();
 			    
-			    for (int i = 0; i < buffer.length; i++) {
+			    for (int i = 0; i < buffer.length; i++) 
+			    {
 			    	out.write(buffer[i]);
 				}
 			    

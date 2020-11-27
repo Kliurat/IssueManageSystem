@@ -3,15 +3,17 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ibm.springboot.dao.IssuePictureDao">
 
+<!-- 	获取集合 -->
 	<select id="getIssuePicturesByIssueNo" resultType="com.ibm.springboot.entity.IssuePicture">
 		select * from issue_picture where issue_no = #{issueNo}
 	</select>
 	
+<!-- 	插入记录 -->
 	<insert id="insert">
 		insert into issue_picture(issue_no,img_url) values(#{issueNo},#{imgUrl})
 	</insert>
 	
-	
+<!-- 	获取数量 -->
 	<select id="getCountByIssueNO" >
 		select count(*) from issue_picture where issue_no = #{issueNo}
 	</select>

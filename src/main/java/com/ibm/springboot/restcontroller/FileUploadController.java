@@ -24,22 +24,26 @@ public class FileUploadController {
 	@Value("${handsomeboy.file.root.path}")  //不能放在方法中
 	private String fileRootPath;
 	
+	/**
+	 * 
+	 * @param files   前端上传过来的图片集合
+	 * @param issueNo 用户创建的 issue 的 issueNo
+	 */
 	@PostMapping("/file/upload")
     public void fileUpload(@RequestParam("files") MultipartFile[] files,@RequestParam("issueNo") String issueNo)
 	{
 		
-		for (MultipartFile multipartFile : files) {
-			String filePath = FileDownLoad.fileUpload(multipartFile,fileRootPath);
-			issuePictureService.insert(new IssuePicture(issueNo,filePath));
+		for (MultipartFile multipartFile : files) 
+		{
+			String filePath = FileDownLoad.fileUpload(multipartFile,fileRootPath);  // 文件保存在本地后返回的保存路径
+			issuePictureService.insert(new IssuePicture(issueNo,filePath)); // 将 issueNo 以及 filePath 插入到数据库中
 		}
 		
-		
-
     }
 	
 	// 从本地读取文件并进行回显
 	@GetMapping("/file/download")
-	public void fileDown(HttpServletResponse response,@RequestParam(value = "url")String url)
+	public void fileDown(HttpServletResponse response,@RequestParam(value = "url") String url)
 	{
 		System.out.println("获取到的url为：" + url);
 		FileDownLoad.fileDown(response,url);
