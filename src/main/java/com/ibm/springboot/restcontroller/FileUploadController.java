@@ -38,7 +38,7 @@ public class FileUploadController {
 			String filePath = FileDownLoad.fileUpload(multipartFile,fileRootPath);  // 文件保存在本地后返回的保存路径
 			issuePictureService.insert(new IssuePicture(issueNo,filePath)); // 将 issueNo 以及 filePath 插入到数据库中
 		}
-		
+
     }
 	
 	// 从本地读取文件并进行回显
