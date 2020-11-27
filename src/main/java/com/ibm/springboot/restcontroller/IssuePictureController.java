@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ibm.springboot.entity.IssuePicture;
 import com.ibm.springboot.service.IssuePictureService;
 
+/*
+ * 前端显示图片时，把图片传给前端
+ */
 @RequestMapping("/picture")
 @RestController
 public class IssuePictureController {
