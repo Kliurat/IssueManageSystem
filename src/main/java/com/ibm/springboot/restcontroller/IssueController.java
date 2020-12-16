@@ -260,7 +260,9 @@ public class IssueController {
 		List<IssuePicture> issuePictures = issuePictureService.getIssuePicturesByIssueNo(issueNo);
 		
 		//在前端点击详情的时候，把issuePicture加入到issue传过去渲染
-		issue.setIssuePictures(issuePictures);
+		if(issuePictures!=null) {
+			issue.setIssuePictures(issuePictures);
+		}
 		
 		IssueRefuseReason issueRefuseReason = issueRefuseReasonService.getIssueRefuseReason(issueNo);
 		

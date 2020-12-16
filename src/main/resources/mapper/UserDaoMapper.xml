@@ -11,7 +11,7 @@
    
 	<!-- List<User> selectAll(); -->
 	<select id="selectAll" resultType="com.ibm.springboot.entity.User">
-	    select * from user order by registeDate
+	    select * from user order by registeDate desc
 	</select>
 	
 	<!-- 查询出所有的用户，但是除了自己 (因为在创建issue,指派任务的时候不能够指派给自己) -->
